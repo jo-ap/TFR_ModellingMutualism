@@ -4,6 +4,7 @@ author: "Johannes Apelt"
 date: "2025-07-11"
 format:
   html:
+    self-contained: true
     code-fold: false
     toc: true 
     toc-depth: 2
