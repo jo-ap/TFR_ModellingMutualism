@@ -1,0 +1,184 @@
+---
+title: "Tikhonov-Fenichel Reductions and their Application to a Novel Modelling Approach for Mutualism"
+author: "Johannes Apelt"
+date: "2025-07-11"
+format:
+  html:
+    code-fold: false
+    toc: true 
+    toc-depth: 2
+  gfm: 
+    toc: true
+    toc-depth: 2
+    output-file: README.md
+engine: julia
+julia:
+  exeflags: ["--project=/home/johannes/Documents/Uni/Promotion/ModelReductions"]
+---
+
+This *Julia* script demonstrates how all time scale reductions for slow-fast
+separations of rates can be computed for the model 
+
+$$
+\begin{aligned}
+  \dot{H} &= - \delta_1 H - \eta SH + \mu_1C\left(1-\frac{H}{K_1}\right) \\
+  \dot{S} &= \beta_2 S \left(1-\frac{S}{K_2}\right) - \delta_2 S - \eta S H + \mu_2 C \left(1-\frac{S}{K_2}\right) \\
+  \dot{C} &= \beta_3 C \left(1-\frac{C}{K_3}\right) - \delta_3 C + \eta S H
+\end{aligned}
+$$
+
+## Problem Setup
+First, we need to load the packages (note that loading `Oscar.jl` is optional). 
+
+```{julia}
+using Oscar
+using TikhonovFenichelReductions
+```
+Then we define the state variables and parameters along with the RHS of the
+system.
+Here we want the carrying capacities to be fixed, i.e. these will not be
+considered as possible small parameters.
+Note that we also use the parameter substitutions $k_i = K_i^{-1}$ in order to
+have a polynomial RHS both in the state variables and parameters.
+Then we initialize the problem of finding all reductions for slow-fast
+separations of rates that yield a reduction onto a 2-dimensional system.
+
+```{julia} 
+# state variables and parameters 
+# here we substitute kᵢ := 1/Kᵢ
+x = ["H","S","C"]
+p = ["β₂","β₃","δ₁","δ₂","δ₃","μ₁","μ₂", "η", "k₁", "k₂", "k₃"]
+
+# index of parameters that are used for the slow-fast separations (others are fixed)
+idx_slow_fast = Bool[1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0]
+
+# Define ODE system f
+function f(x, p)
+  H, S, C = x
+  β₂, β₃, δ₁, δ₂, δ₃, μ₁, μ₂, η, k₁, k₂, k₃ = p
+  return [
+    -δ₁*H - η*S*H + μ₁*C*(1-H*k₁),
+    β₂*S*(1-S*k₂) - δ₂*S - η*S*H  + μ₂*C*(1-S*k₂),
+    β₃*C*(1-C*k₃) - δ₃*C + η*S*H
+  ]
+end
+
+# Dimension of reduced system
+s = 2
+
+# find TFPV candidates
+problem = ReductionProblem(f, x, p, s; idx_slow_fast=idx_slow_fast)
+```
+
+## Finding Slow-Fast Separations of Rates
+We can use the method `tfpvs_and_varieties` to find all slow-fast separations
+of rates that are TFPVs and the corresponding slow manifolds.
+Note that the latter are given implicitly as affine varieties
+$\mathcal{V}(f(\cdot,\pi^\star))$ for a TFPV candidate $\pi^\star$.
+The function `print_results` shows all slow-fast separations together with the
+irreducible components of the varieties and their dimension. 
+These correspond to the potential slow manifolds.
+```{julia} 
+tfpvs, varieties = tfpvs_and_varieties(problem);
+print_results(problem, tfpvs, varieties)
+```
+
+## Computing Reductions
+With the results above, we can find all slow manifolds with dimension 2 and
+compute the corresponding reductions. 
+Here, we can use the heuristic `get_explicit_manifold` to compute a
+parameterized description of the slow manifolds from the generators of the
+irreducible components of each variety $\mathcal{V}(f(\cdot,\pi^\star))$.
+```{julia}
+# make variables available in Main namespace
+H, S, C = system_components(problem)
+β₂, β₃, δ₁, δ₂, δ₃, μ₁, μ₂, η, k₁, k₂, k₃ = system_parameters(problem)
+
+# get all unique varieties
+all_varieties = unique_varieties(problem, varieties)
+
+# get explicit description of manifolds
+M_auto = [get_explicit_manifold(problem, V) for V in all_varieties]
+
+# make sure heuristic worked in all cases
+@assert all([m[2] for m in M_auto])
+
+# all slow manifolds with dimension s=2
+manifolds = [m[1] for m in M_auto];
+
+# choose a different parametrization for this manifold
+manifolds[7] = problem._F.([H, S, δ₁*H//(μ₁*(1 - k₁*H))])
+
+# compute all reductions
+reductions, idx_M = compute_all_reductions(problem, tfpvs, varieties, manifolds; print=true);
+```
+It is also possible to print the reductions as $\LaTeX$ code. 
+
+```{julia} 
+using Latexify, LaTeXStrings, Markdown
+for k in eachindex(idx_M)
+  display(Markdown.parse("### Slow Manfiold $(k)"))
+  display(latexstring("\$\$ \\mathcal{M}_0 = \\left(" * join(latexify.(string.(manifolds[k]); env=:raw, mult_symbol=""), ", ") * "\\right) \$\$"))
+  for (i,j) in idx_M[k]
+    if all(reductions[i][j].reduction_cached)
+      display(Markdown.parse("Reduction $(i).$(j)"))
+      io = IOBuffer()
+      print_reduced_system(io, reductions[i][j]; latex=true)
+      display(latexstring("\$\$" * String(take!(io)) * "\$\$"));
+      close(io)
+    end
+  end
+end
+```
+
+## General TFPVs 
+We can use `TikhonovFenichelReductions.jl` to find TFPVs that are not slow-fast
+separations of rates. 
+This is a computationally intensive task, because it relies on the computation
+of an elimination ideal based on the computation of a Gröbner basis.
+In this case, this is still feasible. 
+
+```{julia}
+G = tfpvs_groebner(problem)
+```
+Every TFPV $\pi^\star$ lies in $\mathcal{V}(G)$. 
+As $G$ is a relatively large generating set without simple polynomials,
+characterising general TFPVs is not trivial for this model.
+
+We can check whether $\langle G \rangle$ contains any monomial, which is the
+case if and only if 
+
+$$ 
+  \langle G \rangle : \langle \pi_1 \dots \pi_m \rangle ^\infty = \mathbb{R}[\pi_1, \cdots, \pi_m]. 
+$$
+
+To do so, we have to consider $\langle G \rangle$ in the ring
+$\mathbb{R}[\pi_1,\dots,\pi_m]$. 
+```{julia}
+# get polynomial ring ℝ[x,π]
+R = parent(β₂)
+# construct ℝ[π] and a ring homomorphism
+S, v = polynomial_ring(QQ, "_" .* p)
+h = hom(S, R, system_parameters(problem))
+```
+```{julia}
+# the ideal generated by G in the ring S
+I = preimage(h, ideal(G))
+# compute the saturation I:⟨π₁⋯πₘ⟩^∞
+I_sat = saturation(I, ideal(prod(v)))
+# check if I_sat = ℝ[π] = ⟨1⟩
+is_one(I_sat)
+```
+Thus, $G$ does not contain any monomials. 
+
+But we find for instance that $\tilde\pi=(\varepsilon\beta_2, \beta_3,
+\varepsilon\delta_1, \varepsilon\delta_2, \delta_3, \mu_1,
+\varepsilon(\mu_1-\mu_2), \varepsilon\eta)$ is a critical parameter.
+However, this is just a special case of reduction 21.1 with $\mu_1=\mu_2$.
+
+```{julia}
+# critical parameter
+p̃ = R.([0, β₃, 0, 0, δ₃, μ₁, μ₁, 0])
+# check if all g∈G vanish for π = p̃
+all([evaluate(g, problem.p_sf, p̃) for g in G] .== 0)
+```

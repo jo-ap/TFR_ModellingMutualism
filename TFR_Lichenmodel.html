@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Johannes Apelt">
+<meta name="dcterms.date" content="2025-07-11">
+
+<title>Tikhonov-Fenichel Reductions and their Application to a Novel Modelling Approach for Mutualism</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="test_files/libs/clipboard/clipboard.min.js"></script>
+<script src="test_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="test_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="test_files/libs/quarto-html/popper.min.js"></script>
+<script src="test_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="test_files/libs/quarto-html/anchor.min.js"></script>
+<link href="test_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="test_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="test_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="test_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="test_files/libs/bootstrap/bootstrap-c79e10c5c19b62def1497ea63a56c1fd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#problem-setup" id="toc-problem-setup" class="nav-link active" data-scroll-target="#problem-setup">Problem Setup</a></li>
+  <li><a href="#finding-slow-fast-separations-of-rates" id="toc-finding-slow-fast-separations-of-rates" class="nav-link" data-scroll-target="#finding-slow-fast-separations-of-rates">Finding Slow-Fast Separations of Rates</a></li>
+  <li><a href="#computing-reductions" id="toc-computing-reductions" class="nav-link" data-scroll-target="#computing-reductions">Computing Reductions</a></li>
+  <li><a href="#general-tfpvs" id="toc-general-tfpvs" class="nav-link" data-scroll-target="#general-tfpvs">General TFPVs</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="README.md"><i class="bi bi-file-code"></i>Github (GFM)</a></li></ul></div></nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Tikhonov-Fenichel Reductions and their Application to a Novel Modelling Approach for Mutualism</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Johannes Apelt </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">July 11, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>This <em>Julia</em> script demonstrates how all time scale reductions for slow-fast separations of rates can be computed for the model</p>
+<p><span class="math display">\[
+\begin{aligned}
+  \dot{H} &amp;= - \delta_1 H - \eta SH + \mu_1C\left(1-\frac{H}{K_1}\right) \\
+  \dot{S} &amp;= \beta_2 S \left(1-\frac{S}{K_2}\right) - \delta_2 S - \eta S H + \mu_2 C \left(1-\frac{S}{K_2}\right) \\
+  \dot{C} &amp;= \beta_3 C \left(1-\frac{C}{K_3}\right) - \delta_3 C + \eta S H
+\end{aligned}
+\]</span></p>
+<section id="problem-setup" class="level2">
+<h2 class="anchored" data-anchor-id="problem-setup">Problem Setup</h2>
+<p>First, we need to load the packages (note that loading <code>Oscar.jl</code> is optional).</p>
+<div id="2" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Oscar</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">TikhonovFenichelReductions</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then we define the state variables and parameters along with the RHS of the system. Here we want the carrying capacities to be fixed, i.e.&nbsp;these will not be considered as possible small parameters. Note that we also use the parameter substitutions <span class="math inline">\(k_i = K_i^{-1}\)</span> in order to have a polynomial RHS both in the state variables and parameters. Then we initialize the problem of finding all reductions for slow-fast separations of rates that yield a reduction onto a 2-dimensional system.</p>
+<div id="4" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># state variables and parameters </span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># here we substitute kᵢ := 1/Kᵢ</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> [<span class="st">"H"</span>,<span class="st">"S"</span>,<span class="st">"C"</span>]</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> [<span class="st">"β₂"</span>,<span class="st">"β₃"</span>,<span class="st">"δ₁"</span>,<span class="st">"δ₂"</span>,<span class="st">"δ₃"</span>,<span class="st">"μ₁"</span>,<span class="st">"μ₂"</span>, <span class="st">"η"</span>, <span class="st">"k₁"</span>, <span class="st">"k₂"</span>, <span class="st">"k₃"</span>]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># index of parameters that are used for the slow-fast separations (others are fixed)</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>idx_slow_fast <span class="op">=</span> <span class="dt">Bool</span>[<span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>]</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Define ODE system f</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">f</span>(x, p)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  H, S, C <span class="op">=</span> x</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  β₂, β₃, δ₁, δ₂, δ₃, μ₁, μ₂, η, k₁, k₂, k₃ <span class="op">=</span> p</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> [</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">-</span>δ₁<span class="op">*</span>H <span class="op">-</span> η<span class="op">*</span>S<span class="op">*</span>H <span class="op">+</span> <span class="fu">μ₁*C*</span>(<span class="fl">1</span><span class="op">-</span>H<span class="op">*</span>k₁),</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">β₂*S*</span>(<span class="fl">1</span><span class="op">-</span>S<span class="op">*</span>k₂) <span class="op">-</span> δ₂<span class="op">*</span>S <span class="op">-</span> η<span class="op">*</span>S<span class="op">*</span>H  <span class="op">+</span> <span class="fu">μ₂*C*</span>(<span class="fl">1</span><span class="op">-</span>S<span class="op">*</span>k₂),</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">β₃*C*</span>(<span class="fl">1</span><span class="op">-</span>C<span class="op">*</span>k₃) <span class="op">-</span> δ₃<span class="op">*</span>C <span class="op">+</span> η<span class="op">*</span>S<span class="op">*</span>H</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  ]</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Dimension of reduced system</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> <span class="fl">2</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co"># find TFPV candidates</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>problem <span class="op">=</span> <span class="fu">ReductionProblem</span>(f, x, p, s; idx_slow_fast<span class="op">=</span>idx_slow_fast)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>ReductionProblem for dimension s = 2
+ x    = [H, S, C]
+ p    = [β₂, β₃, δ₁, δ₂, δ₃, μ₁, μ₂, η, k₁, k₂, k₃]
+ p_sf = [β₂, β₃, δ₁, δ₂, δ₃, μ₁, μ₂, η]
+ ODE system:
+  dH/dt = -δ₁*H - μ₁*k₁*H*C + μ₁*C - η*H*S
+  dS/dt = -β₂*k₂*S^2 + β₂*S - δ₂*S - μ₂*k₂*S*C + μ₂*C - η*H*S
+  dC/dt = -β₃*k₃*C^2 + β₃*C - δ₃*C + η*H*S</code></pre>
+</div>
+</div>
+</section>
+<section id="finding-slow-fast-separations-of-rates" class="level2">
+<h2 class="anchored" data-anchor-id="finding-slow-fast-separations-of-rates">Finding Slow-Fast Separations of Rates</h2>
+<p>We can use the method <code>tfpvs_and_varieties</code> to find all slow-fast separations of rates that are TFPVs and the corresponding slow manifolds. Note that the latter are given implicitly as affine varieties <span class="math inline">\(\mathcal{V}(f(\cdot,\pi^\star))\)</span> for a TFPV candidate <span class="math inline">\(\pi^\star\)</span>. The function <code>print_results</code> shows all slow-fast separations together with the irreducible components of the varieties and their dimension. These correspond to the potential slow manifolds.</p>
+<div id="6" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tfpvs, varieties <span class="op">=</span> <span class="fu">tfpvs_and_varieties</span>(problem);</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print_results</span>(problem, tfpvs, varieties)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1
+ π̃: [0, 0, 0, 0, 0, 0, 0, η]
+ V: [S], 2
+    [H], 2
+
+2
+ π̃: [0, 0, 0, 0, 0, 0, μ₂, 0]
+ V: [C], 2
+    [k₂*S - 1], 2
+
+3
+ π̃: [0, 0, 0, 0, 0, μ₁, 0, 0]
+ V: [C], 2
+    [k₁*H - 1], 2
+
+4
+ π̃: [0, 0, 0, 0, δ₃, 0, 0, 0]
+ V: [C], 2
+
+5
+ π̃: [0, 0, 0, 0, δ₃, 0, μ₂, 0]
+ V: [C], 2
+
+6
+ π̃: [0, 0, 0, 0, δ₃, μ₁, 0, 0]
+ V: [C], 2
+
+7
+ π̃: [0, 0, 0, 0, δ₃, μ₁, μ₂, 0]
+ V: [C], 2
+
+8
+ π̃: [0, 0, 0, δ₂, 0, 0, 0, 0]
+ V: [S], 2
+
+9
+ π̃: [0, 0, 0, δ₂, 0, 0, 0, η]
+ V: [S], 2
+
+10
+ π̃: [0, 0, 0, δ₂, 0, 0, μ₂, 0]
+ V: [δ₂*S + μ₂*k₂*S*C - μ₂*C], 2
+
+11
+ π̃: [0, 0, δ₁, 0, 0, 0, 0, 0]
+ V: [H], 2
+
+12
+ π̃: [0, 0, δ₁, 0, 0, 0, 0, η]
+ V: [H], 2
+
+13
+ π̃: [0, 0, δ₁, 0, 0, μ₁, 0, 0]
+ V: [δ₁*H + μ₁*k₁*H*C - μ₁*C], 2
+
+14
+ π̃: [0, β₃, 0, 0, 0, 0, 0, 0]
+ V: [C], 2
+    [k₃*C - 1], 2
+
+15
+ π̃: [0, β₃, 0, 0, 0, 0, μ₂, 0]
+ V: [C], 2
+    [k₃*C - 1, k₂*S - 1], 1
+
+16
+ π̃: [0, β₃, 0, 0, 0, μ₁, 0, 0]
+ V: [C], 2
+    [k₃*C - 1, k₁*H - 1], 1
+
+17
+ π̃: [0, β₃, 0, 0, 0, μ₁, μ₂, 0]
+ V: [C], 2
+    [k₃*C - 1, k₂*S - 1, k₁*H - 1], 0
+
+18
+ π̃: [0, β₃, 0, 0, δ₃, 0, 0, 0]
+ V: [C], 2
+    [β₃*k₃*C - β₃ + δ₃], 2
+
+19
+ π̃: [0, β₃, 0, 0, δ₃, 0, μ₂, 0]
+ V: [C], 2
+    [β₃*k₃*C - β₃ + δ₃, k₂*S - 1], 1
+
+20
+ π̃: [0, β₃, 0, 0, δ₃, μ₁, 0, 0]
+ V: [C], 2
+    [β₃*k₃*C - β₃ + δ₃, k₁*H - 1], 1
+
+21
+ π̃: [0, β₃, 0, 0, δ₃, μ₁, μ₂, 0]
+ V: [C], 2
+    [β₃*k₃*C - β₃ + δ₃, k₂*S - 1, k₁*H - 1], 0
+
+22
+ π̃: [β₂, 0, 0, 0, 0, 0, 0, 0]
+ V: [S], 2
+    [k₂*S - 1], 2
+
+23
+ π̃: [β₂, 0, 0, 0, 0, 0, 0, η]
+ V: [S], 2
+    [k₂*S - 1, H], 1
+
+24
+ π̃: [β₂, 0, 0, 0, 0, 0, μ₂, 0]
+ V: [β₂*S + μ₂*C], 2
+    [k₂*S - 1], 2
+
+25
+ π̃: [β₂, 0, 0, δ₂, 0, 0, 0, 0]
+ V: [S], 2
+    [β₂*k₂*S - β₂ + δ₂], 2
+
+26
+ π̃: [β₂, 0, 0, δ₂, 0, 0, 0, η]
+ V: [S], 2
+    [β₂*k₂*S - β₂ + δ₂, H], 1
+
+27
+ π̃: [β₂, 0, 0, δ₂, 0, 0, μ₂, 0]
+ V: [β₂*k₂*S^2 - β₂*S + δ₂*S + μ₂*k₂*S*C - μ₂*C], 2
+</code></pre>
+</div>
+</div>
+</section>
+<section id="computing-reductions" class="level2">
+<h2 class="anchored" data-anchor-id="computing-reductions">Computing Reductions</h2>
+<p>With the results above, we can find all slow manifolds with dimension 2 and compute the corresponding reductions. Here, we can use the heuristic <code>get_explicit_manifold</code> to compute a parameterized description of the slow manifolds from the generators of the irreducible components of each variety <span class="math inline">\(\mathcal{V}(f(\cdot,\pi^\star))\)</span>.</p>
+<div id="8" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make variables available in Main namespace</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>H, S, C <span class="op">=</span> <span class="fu">system_components</span>(problem)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>β₂, β₃, δ₁, δ₂, δ₃, μ₁, μ₂, η, k₁, k₂, k₃ <span class="op">=</span> <span class="fu">system_parameters</span>(problem)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># get all unique varieties</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>all_varieties <span class="op">=</span> <span class="fu">unique_varieties</span>(problem, varieties)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># get explicit description of manifolds</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>M_auto <span class="op">=</span> [<span class="fu">get_explicit_manifold</span>(problem, V) for V <span class="kw">in</span> all_varieties]</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># make sure heuristic worked in all cases</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="pp">@assert</span> <span class="fu">all</span>([m[<span class="fl">2</span>] for m <span class="kw">in</span> M_auto])</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co"># all slow manifolds with dimension s=2</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>manifolds <span class="op">=</span> [m[<span class="fl">1</span>] for m <span class="kw">in</span> M_auto];</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co"># choose a different parametrization for this manifold</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>manifolds[<span class="fl">7</span>] <span class="op">=</span> problem.<span class="fu">_F</span>.([H, S, δ₁<span class="op">*</span>H<span class="op">//</span>(<span class="fu">μ₁*</span>(<span class="fl">1</span> <span class="op">-</span> k₁<span class="op">*</span>H))])</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co"># compute all reductions</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>reductions, idx_M <span class="op">=</span> <span class="fu">compute_all_reductions</span>(problem, tfpvs, varieties, manifolds; print<span class="op">=</span><span class="cn">true</span>);</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>M[1] = (H, 0, C)
+
+Reduction 1.1
+ slow: β₂, β₃, δ₁, δ₂, δ₃, μ₁, μ₂
+ fast: η
+ dH/dt = -δ₁*H - μ₁*k₁*H*C + μ₁*C - μ₂*C
+ dC/dt = -β₃*k₃*C^2 + β₃*C - δ₃*C + μ₂*C
+
+Reduction 8.1
+ slow: β₂, β₃, δ₁, δ₃, μ₁, μ₂, η
+ fast: δ₂
+ dH/dt = -δ₁*H - μ₁*k₁*H*C + μ₁*C
+ dC/dt = -β₃*k₃*C^2 + β₃*C - δ₃*C
+
+Reduction 9.1
+ slow: β₂, β₃, δ₁, δ₃, μ₁, μ₂
+ fast: δ₂, η
+ dH/dt = -δ₁*H - μ₁*k₁*H*C + μ₁*C + (-μ₂*η*H*C)//(δ₂ + η*H)
+ dC/dt = -β₃*k₃*C^2 + β₃*C - δ₃*C + (μ₂*η*H*C)//(δ₂ + η*H)
+
+Reduction 22.1
+ slow: β₃, δ₁, δ₂, δ₃, μ₁, μ₂, η
+ fast: β₂
+ dH/dt = -δ₁*H - μ₁*k₁*H*C + μ₁*C
+ dC/dt = -β₃*k₃*C^2 + β₃*C - δ₃*C
+
+Reduction 23.1
+ slow: β₃, δ₁, δ₂, δ₃, μ₁, μ₂
+ fast: β₂, η
+ dH/dt = -δ₁*H - μ₁*k₁*H*C + μ₁*C + (μ₂*η*H*C)//(β₂ - η*H)
+ dC/dt = -β₃*k₃*C^2 + β₃*C - δ₃*C + (-μ₂*η*H*C)//(β₂ - η*H)
+
+Reduction 25.1
+ slow: β₃, δ₁, δ₃, μ₁, μ₂, η
+ fast: β₂, δ₂
+ dH/dt = -δ₁*H - μ₁*k₁*H*C + μ₁*C
+ dC/dt = -β₃*k₃*C^2 + β₃*C - δ₃*C
+
+Reduction 26.1
+ slow: β₃, δ₁, δ₃, μ₁, μ₂
+ fast: β₂, δ₂, η
+ dH/dt = -δ₁*H - μ₁*k₁*H*C + μ₁*C + (μ₂*η*H*C)//(β₂ - δ₂ - η*H)
+ dC/dt = -β₃*k₃*C^2 + β₃*C - δ₃*C + (-μ₂*η*H*C)//(β₂ - δ₂ - η*H)
+
+M[2] = (0, S, C)
+
+Reduction 1.2
+ slow: β₂, β₃, δ₁, δ₂, δ₃, μ₁, μ₂
+ fast: η
+ dS/dt = -β₂*k₂*S^2 + β₂*S - δ₂*S - μ₁*C - μ₂*k₂*S*C + μ₂*C
+ dC/dt = -β₃*k₃*C^2 + β₃*C - δ₃*C + μ₁*C
+
+Reduction 11.1
+ slow: β₂, β₃, δ₂, δ₃, μ₁, μ₂, η
+ fast: δ₁
+ dS/dt = -β₂*k₂*S^2 + β₂*S - δ₂*S - μ₂*k₂*S*C + μ₂*C
+ dC/dt = -β₃*k₃*C^2 + β₃*C - δ₃*C
+
+Reduction 12.1
+ slow: β₂, β₃, δ₂, δ₃, μ₁, μ₂
+ fast: δ₁, η
+ dS/dt = -β₂*k₂*S^2 + β₂*S - δ₂*S - μ₂*k₂*S*C + μ₂*C + (-μ₁*η*S*C)//(δ₁ + η*S)
+ dC/dt = -β₃*k₃*C^2 + β₃*C - δ₃*C + (μ₁*η*S*C)//(δ₁ + η*S)
+
+M[3] = (H, S, 0)
+
+Reduction 2.1
+ slow: β₂, β₃, δ₁, δ₂, δ₃, μ₁, η
+ fast: μ₂
+
+Reduction 3.1
+ slow: β₂, β₃, δ₁, δ₂, δ₃, μ₂, η
+ fast: μ₁
+
+Reduction 4.1
+ slow: β₂, β₃, δ₁, δ₂, μ₁, μ₂, η
+ fast: δ₃
+ dH/dt = -δ₁*H - η*H*S
+ dS/dt = -β₂*k₂*S^2 + β₂*S - δ₂*S - η*H*S
+
+Reduction 5.1
+ slow: β₂, β₃, δ₁, δ₂, μ₁, η
+ fast: δ₃, μ₂
+ dH/dt = -δ₁*H - η*H*S
+ dS/dt = -β₂*k₂*S^2 + β₂*S - δ₂*S - η*H*S + (-μ₂*η*k₂*H*S^2 + μ₂*η*H*S)//(δ₃)
+
+Reduction 6.1
+ slow: β₂, β₃, δ₁, δ₂, μ₂, η
+ fast: δ₃, μ₁
+ dH/dt = -δ₁*H - η*H*S + (-μ₁*η*k₁*H^2*S + μ₁*η*H*S)//(δ₃)
+ dS/dt = -β₂*k₂*S^2 + β₂*S - δ₂*S - η*H*S
+
+Reduction 7.1
+ slow: β₂, β₃, δ₁, δ₂, η
+ fast: δ₃, μ₁, μ₂
+ dH/dt = -δ₁*H - η*H*S + (-μ₁*η*k₁*H^2*S + μ₁*η*H*S)//(δ₃)
+ dS/dt = -β₂*k₂*S^2 + β₂*S - δ₂*S - η*H*S + (-μ₂*η*k₂*H*S^2 + μ₂*η*H*S)//(δ₃)
+
+Reduction 14.1
+ slow: β₂, δ₁, δ₂, δ₃, μ₁, μ₂, η
+ fast: β₃
+ dH/dt = -δ₁*H - η*H*S
+ dS/dt = -β₂*k₂*S^2 + β₂*S - δ₂*S - η*H*S
+
+Reduction 15.1
+ slow: β₂, δ₁, δ₂, δ₃, μ₁, η
+ fast: β₃, μ₂
+ dH/dt = -δ₁*H - η*H*S
+ dS/dt = -β₂*k₂*S^2 + β₂*S - δ₂*S - η*H*S + (μ₂*η*k₂*H*S^2 - μ₂*η*H*S)//(β₃)
+
+Reduction 16.1
+ slow: β₂, δ₁, δ₂, δ₃, μ₂, η
+ fast: β₃, μ₁
+ dH/dt = -δ₁*H - η*H*S + (μ₁*η*k₁*H^2*S - μ₁*η*H*S)//(β₃)
+ dS/dt = -β₂*k₂*S^2 + β₂*S - δ₂*S - η*H*S
+
+Reduction 17.1
+ slow: β₂, δ₁, δ₂, δ₃, η
+ fast: β₃, μ₁, μ₂
+ dH/dt = -δ₁*H - η*H*S + (μ₁*η*k₁*H^2*S - μ₁*η*H*S)//(β₃)
+ dS/dt = -β₂*k₂*S^2 + β₂*S - δ₂*S - η*H*S + (μ₂*η*k₂*H*S^2 - μ₂*η*H*S)//(β₃)
+
+Reduction 18.1
+ slow: β₂, δ₁, δ₂, μ₁, μ₂, η
+ fast: β₃, δ₃
+ dH/dt = -δ₁*H - η*H*S
+ dS/dt = -β₂*k₂*S^2 + β₂*S - δ₂*S - η*H*S
+
+Reduction 19.1
+ slow: β₂, δ₁, δ₂, μ₁, η
+ fast: β₃, δ₃, μ₂
+ dH/dt = -δ₁*H - η*H*S
+ dS/dt = -β₂*k₂*S^2 + β₂*S - δ₂*S - η*H*S + (μ₂*η*k₂*H*S^2 - μ₂*η*H*S)//(β₃ - δ₃)
+
+Reduction 20.1
+ slow: β₂, δ₁, δ₂, μ₂, η
+ fast: β₃, δ₃, μ₁
+ dH/dt = -δ₁*H - η*H*S + (μ₁*η*k₁*H^2*S - μ₁*η*H*S)//(β₃ - δ₃)
+ dS/dt = -β₂*k₂*S^2 + β₂*S - δ₂*S - η*H*S
+
+Reduction 21.1
+ slow: β₂, δ₁, δ₂, η
+ fast: β₃, δ₃, μ₁, μ₂
+ dH/dt = -δ₁*H - η*H*S + (μ₁*η*k₁*H^2*S - μ₁*η*H*S)//(β₃ - δ₃)
+ dS/dt = -β₂*k₂*S^2 + β₂*S - δ₂*S - η*H*S + (μ₂*η*k₂*H*S^2 - μ₂*η*H*S)//(β₃ - δ₃)
+
+M[4] = (H, 1//k₂, C)
+
+Reduction 2.2
+ slow: β₂, β₃, δ₁, δ₂, δ₃, μ₁, η
+ fast: μ₂
+ dH/dt = -δ₁*H - μ₁*k₁*H*C + μ₁*C + (-η*H)//(k₂)
+ dC/dt = -β₃*k₃*C^2 + β₃*C - δ₃*C + (η*H)//(k₂)
+
+Reduction 22.2
+ slow: β₃, δ₁, δ₂, δ₃, μ₁, μ₂, η
+ fast: β₂
+ dH/dt = -δ₁*H - μ₁*k₁*H*C + μ₁*C + (-η*H)//(k₂)
+ dC/dt = -β₃*k₃*C^2 + β₃*C - δ₃*C + (η*H)//(k₂)
+
+Reduction 24.2
+ slow: β₃, δ₁, δ₂, δ₃, μ₁, η
+ fast: β₂, μ₂
+ dH/dt = -δ₁*H - μ₁*k₁*H*C + μ₁*C + (-η*H)//(k₂)
+ dC/dt = -β₃*k₃*C^2 + β₃*C - δ₃*C + (η*H)//(k₂)
+
+M[5] = (1//k₁, S, C)
+
+Reduction 3.2
+ slow: β₂, β₃, δ₁, δ₂, δ₃, μ₂, η
+ fast: μ₁
+ dS/dt = -β₂*k₂*S^2 + β₂*S - δ₂*S - μ₂*k₂*S*C + μ₂*C + (-η*S)//(k₁)
+ dC/dt = -β₃*k₃*C^2 + β₃*C - δ₃*C + (η*S)//(k₁)
+
+M[6] = (H, (μ₂*C)//(δ₂ + μ₂*k₂*C), C)
+
+Reduction 10.1
+ slow: β₂, β₃, δ₁, δ₃, μ₁, η
+ fast: δ₂, μ₂
+ dH/dt = -δ₁*H - μ₁*k₁*H*C + μ₁*C + (-μ₂*η*H*C)//(δ₂ + μ₂*k₂*C)
+ dC/dt = -β₃*k₃*C^2 + β₃*C - δ₃*C + (μ₂*η*H*C)//(δ₂ + μ₂*k₂*C)
+
+M[7] = (H, S, (-δ₁*H)//(μ₁*k₁*H - μ₁))
+
+Reduction 13.1
+ slow: β₂, β₃, δ₂, δ₃, μ₂, η
+ fast: δ₁, μ₁
+ dH/dt = -β₃*k₁*H^2 + β₃*H + δ₃*k₁*H^2 - δ₃*H + (-β₃*δ₁^2*k₃*H^2 + μ₁^2*η*k₁^2*H^3*S - 2*μ₁^2*η*k₁*H^2*S + μ₁^2*η*H*S)//(δ₁*μ₁)
+ dS/dt = -β₂*k₂*S^2 + β₂*S - δ₂*S - η*H*S + (δ₁*μ₂*k₂*H*S - δ₁*μ₂*H)//(μ₁*k₁*H - μ₁)
+
+M[8] = (H, S, 1//k₃)
+
+Reduction 14.2
+ slow: β₂, δ₁, δ₂, δ₃, μ₁, μ₂, η
+ fast: β₃
+ dH/dt = -δ₁*H - η*H*S + (-μ₁*k₁*H + μ₁)//(k₃)
+ dS/dt = -β₂*k₂*S^2 + β₂*S - δ₂*S - η*H*S + (-μ₂*k₂*S + μ₂)//(k₃)
+
+M[9] = (H, S, (β₃ - δ₃)//(β₃*k₃))
+
+Reduction 18.2
+ slow: β₂, δ₁, δ₂, μ₁, μ₂, η
+ fast: β₃, δ₃
+ dH/dt = -δ₁*H - η*H*S + (-β₃*μ₁*k₁*H + β₃*μ₁ + δ₃*μ₁*k₁*H - δ₃*μ₁)//(β₃*k₃)
+ dS/dt = -β₂*k₂*S^2 + β₂*S - δ₂*S - η*H*S + (-β₃*μ₂*k₂*S + β₃*μ₂ + δ₃*μ₂*k₂*S - δ₃*μ₂)//(β₃*k₃)
+
+M[10] = (H, (-μ₂*C)//β₂, C)
+
+Reduction 24.1
+ slow: β₃, δ₁, δ₂, δ₃, μ₁, η
+ fast: β₂, μ₂
+ dH/dt = -δ₁*H - μ₁*k₁*H*C + μ₁*C + (μ₂*η*H*C)//(β₂)
+ dC/dt = -β₃*k₃*C^2 + β₃*C - δ₃*C + (-μ₂*η*H*C)//(β₂)
+
+M[11] = (H, (β₂ - δ₂)//(β₂*k₂), C)
+
+Reduction 25.2
+ slow: β₃, δ₁, δ₃, μ₁, μ₂, η
+ fast: β₂, δ₂
+ dH/dt = -δ₁*H - μ₁*k₁*H*C + μ₁*C + (-β₂*η*H + δ₂*η*H)//(β₂*k₂)
+ dC/dt = -β₃*k₃*C^2 + β₃*C - δ₃*C + (β₂*η*H - δ₂*η*H)//(β₂*k₂)
+
+M[12] = (H, S, (-β₂*k₂*S^2 + β₂*S - δ₂*S)//(μ₂*k₂*S - μ₂))
+
+Reduction 27.1
+ slow: β₃, δ₁, δ₃, μ₁, η
+ fast: β₂, δ₂, μ₂
+ dH/dt = -δ₁*H - η*H*S + (β₂*μ₁*k₁*k₂*H*S^2 - β₂*μ₁*k₁*H*S - β₂*μ₁*k₂*S^2 + β₂*μ₁*S + δ₂*μ₁*k₁*H*S - δ₂*μ₁*S)//(μ₂*k₂*S - μ₂)
+ dS/dt = β₃*S - δ₃*S + (β₂^2*β₃*k₂^2*k₃*S^4 - 2*β₂^2*β₃*k₂*k₃*S^3 + β₂^2*β₃*k₃*S^2 + 2*β₂*β₃*δ₂*k₂*k₃*S^3 - 2*β₂*β₃*δ₂*k₃*S^2 + β₃*δ₂^2*k₃*S^2 + β₃*δ₂*μ₂*k₂*S^2 - δ₂*δ₃*μ₂*k₂*S^2 - μ₂^2*η*k₂^2*H*S^3 + 2*μ₂^2*η*k₂*H*S^2 - μ₂^2*η*H*S)//(β₂*μ₂*k₂^2*S^2 - 2*β₂*μ₂*k₂*S + β₂*μ₂ - δ₂*μ₂)
+</code></pre>
+</div>
+</div>
+<p>It is also possible to print the reductions as <span class="math inline">\(\LaTeX\)</span> code.</p>
+<div id="10" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Latexify</span>, <span class="bu">LaTeXStrings</span>, <span class="bu">Markdown</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="fu">eachindex</span>(idx_M)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>(Markdown.<span class="fu">parse</span>(<span class="st">"### Slow Manfiold </span><span class="sc">$</span>(k)<span class="st">"</span>))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>(<span class="fu">latexstring</span>(<span class="st">"\$\$ </span><span class="sc">\\</span><span class="st">mathcal{M}_0 = </span><span class="sc">\\</span><span class="st">left("</span> <span class="op">*</span> <span class="fu">join</span>(<span class="fu">latexify</span>.(<span class="fu">string</span>.(manifolds[k]); env<span class="op">=:</span>raw, mult_symbol<span class="op">=</span><span class="st">""</span>), <span class="st">", "</span>) <span class="op">*</span> <span class="st">"</span><span class="sc">\\</span><span class="st">right) \$\$"</span>))</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i,j) <span class="kw">in</span> idx_M[k]</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="fu">all</span>(reductions[i][j].reduction_cached)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">display</span>(Markdown.<span class="fu">parse</span>(<span class="st">"Reduction </span><span class="sc">$</span>(i)<span class="st">.</span><span class="sc">$</span>(j)<span class="st">"</span>))</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>      io <span class="op">=</span> <span class="fu">IOBuffer</span>()</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">print_reduced_system</span>(io, reductions[i][j]; latex<span class="op">=</span><span class="cn">true</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">display</span>(<span class="fu">latexstring</span>(<span class="st">"\$\$"</span> <span class="op">*</span> <span class="fu">String</span>(<span class="fu">take!</span>(io)) <span class="op">*</span> <span class="st">"\$\$"</span>));</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">close</span>(io)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">end</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><h3 class="anchored">Slow Manfiold 1</h3>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[ \mathcal{M}_0 = \left(H, 0, C\right) \]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 1.1</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \mu_1 k_1 H C + \mu_1 C - \mu_2 C\\
+\frac{dC}{dt} &amp;=  - \beta_3 k_3 C^{2} + \beta_3 C - \delta_3 C + \mu_2 C\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 8.1</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \mu_1 k_1 H C + \mu_1 C\\
+\frac{dC}{dt} &amp;=  - \beta_3 k_3 C^{2} + \beta_3 C - \delta_3 C\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 9.1</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \mu_1 k_1 H C + \mu_1 C + \frac{ - \mu_2 \eta H C}{\delta_2 + \eta H}\\
+\frac{dC}{dt} &amp;=  - \beta_3 k_3 C^{2} + \beta_3 C - \delta_3 C + \frac{\mu_2 \eta H C}{\delta_2 + \eta H}\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 22.1</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \mu_1 k_1 H C + \mu_1 C\\
+\frac{dC}{dt} &amp;=  - \beta_3 k_3 C^{2} + \beta_3 C - \delta_3 C\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 23.1</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \mu_1 k_1 H C + \mu_1 C + \frac{\mu_2 \eta H C}{\beta_2 - \eta H}\\
+\frac{dC}{dt} &amp;=  - \beta_3 k_3 C^{2} + \beta_3 C - \delta_3 C + \frac{ - \mu_2 \eta H C}{\beta_2 - \eta H}\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 25.1</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \mu_1 k_1 H C + \mu_1 C\\
+\frac{dC}{dt} &amp;=  - \beta_3 k_3 C^{2} + \beta_3 C - \delta_3 C\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 26.1</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \mu_1 k_1 H C + \mu_1 C + \frac{\mu_2 \eta H C}{\beta_2 - \delta_2 - \eta H}\\
+\frac{dC}{dt} &amp;=  - \beta_3 k_3 C^{2} + \beta_3 C - \delta_3 C + \frac{ - \mu_2 \eta H C}{\beta_2 - \delta_2 - \eta H}\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><h3 class="anchored">Slow Manfiold 2</h3>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[ \mathcal{M}_0 = \left(0, S, C\right) \]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 1.2</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dS}{dt} &amp;=  - \beta_2 k_2 S^{2} + \beta_2 S - \delta_2 S - \mu_1 C - \mu_2 k_2 S C + \mu_2 C\\
+\frac{dC}{dt} &amp;=  - \beta_3 k_3 C^{2} + \beta_3 C - \delta_3 C + \mu_1 C\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 11.1</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dS}{dt} &amp;=  - \beta_2 k_2 S^{2} + \beta_2 S - \delta_2 S - \mu_2 k_2 S C + \mu_2 C\\
+\frac{dC}{dt} &amp;=  - \beta_3 k_3 C^{2} + \beta_3 C - \delta_3 C\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 12.1</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dS}{dt} &amp;=  - \beta_2 k_2 S^{2} + \beta_2 S - \delta_2 S - \mu_2 k_2 S C + \mu_2 C + \frac{ - \mu_1 \eta S C}{\delta_1 + \eta S}\\
+\frac{dC}{dt} &amp;=  - \beta_3 k_3 C^{2} + \beta_3 C - \delta_3 C + \frac{\mu_1 \eta S C}{\delta_1 + \eta S}\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><h3 class="anchored">Slow Manfiold 3</h3>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[ \mathcal{M}_0 = \left(H, S, 0\right) \]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 4.1</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \eta H S\\
+\frac{dS}{dt} &amp;=  - \beta_2 k_2 S^{2} + \beta_2 S - \delta_2 S - \eta H S\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 5.1</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \eta H S\\
+\frac{dS}{dt} &amp;=  - \beta_2 k_2 S^{2} + \beta_2 S - \delta_2 S - \eta H S + \frac{ - \mu_2 \eta k_2 H S^{2} + \mu_2 \eta H S}{\delta_3}\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 6.1</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \eta H S + \frac{ - \mu_1 \eta k_1 H^{2} S + \mu_1 \eta H S}{\delta_3}\\
+\frac{dS}{dt} &amp;=  - \beta_2 k_2 S^{2} + \beta_2 S - \delta_2 S - \eta H S\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 7.1</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \eta H S + \frac{ - \mu_1 \eta k_1 H^{2} S + \mu_1 \eta H S}{\delta_3}\\
+\frac{dS}{dt} &amp;=  - \beta_2 k_2 S^{2} + \beta_2 S - \delta_2 S - \eta H S + \frac{ - \mu_2 \eta k_2 H S^{2} + \mu_2 \eta H S}{\delta_3}\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 14.1</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \eta H S\\
+\frac{dS}{dt} &amp;=  - \beta_2 k_2 S^{2} + \beta_2 S - \delta_2 S - \eta H S\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 15.1</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \eta H S\\
+\frac{dS}{dt} &amp;=  - \beta_2 k_2 S^{2} + \beta_2 S - \delta_2 S - \eta H S + \frac{\mu_2 \eta k_2 H S^{2} - \mu_2 \eta H S}{\beta_3}\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 16.1</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \eta H S + \frac{\mu_1 \eta k_1 H^{2} S - \mu_1 \eta H S}{\beta_3}\\
+\frac{dS}{dt} &amp;=  - \beta_2 k_2 S^{2} + \beta_2 S - \delta_2 S - \eta H S\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 17.1</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \eta H S + \frac{\mu_1 \eta k_1 H^{2} S - \mu_1 \eta H S}{\beta_3}\\
+\frac{dS}{dt} &amp;=  - \beta_2 k_2 S^{2} + \beta_2 S - \delta_2 S - \eta H S + \frac{\mu_2 \eta k_2 H S^{2} - \mu_2 \eta H S}{\beta_3}\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 18.1</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \eta H S\\
+\frac{dS}{dt} &amp;=  - \beta_2 k_2 S^{2} + \beta_2 S - \delta_2 S - \eta H S\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 19.1</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \eta H S\\
+\frac{dS}{dt} &amp;=  - \beta_2 k_2 S^{2} + \beta_2 S - \delta_2 S - \eta H S + \frac{\mu_2 \eta k_2 H S^{2} - \mu_2 \eta H S}{\beta_3 - \delta_3}\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 20.1</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \eta H S + \frac{\mu_1 \eta k_1 H^{2} S - \mu_1 \eta H S}{\beta_3 - \delta_3}\\
+\frac{dS}{dt} &amp;=  - \beta_2 k_2 S^{2} + \beta_2 S - \delta_2 S - \eta H S\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 21.1</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \eta H S + \frac{\mu_1 \eta k_1 H^{2} S - \mu_1 \eta H S}{\beta_3 - \delta_3}\\
+\frac{dS}{dt} &amp;=  - \beta_2 k_2 S^{2} + \beta_2 S - \delta_2 S - \eta H S + \frac{\mu_2 \eta k_2 H S^{2} - \mu_2 \eta H S}{\beta_3 - \delta_3}\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><h3 class="anchored">Slow Manfiold 4</h3>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[ \mathcal{M}_0 = \left(H, \frac{1}{k_2}, C\right) \]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 2.2</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \mu_1 k_1 H C + \mu_1 C + \frac{ - \eta H}{k_2}\\
+\frac{dC}{dt} &amp;=  - \beta_3 k_3 C^{2} + \beta_3 C - \delta_3 C + \frac{\eta H}{k_2}\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 22.2</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \mu_1 k_1 H C + \mu_1 C + \frac{ - \eta H}{k_2}\\
+\frac{dC}{dt} &amp;=  - \beta_3 k_3 C^{2} + \beta_3 C - \delta_3 C + \frac{\eta H}{k_2}\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 24.2</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \mu_1 k_1 H C + \mu_1 C + \frac{ - \eta H}{k_2}\\
+\frac{dC}{dt} &amp;=  - \beta_3 k_3 C^{2} + \beta_3 C - \delta_3 C + \frac{\eta H}{k_2}\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><h3 class="anchored">Slow Manfiold 5</h3>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[ \mathcal{M}_0 = \left(\frac{1}{k_1}, S, C\right) \]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 3.2</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dS}{dt} &amp;=  - \beta_2 k_2 S^{2} + \beta_2 S - \delta_2 S - \mu_2 k_2 S C + \mu_2 C + \frac{ - \eta S}{k_1}\\
+\frac{dC}{dt} &amp;=  - \beta_3 k_3 C^{2} + \beta_3 C - \delta_3 C + \frac{\eta S}{k_1}\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><h3 class="anchored">Slow Manfiold 6</h3>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[ \mathcal{M}_0 = \left(H, \frac{\mu_2 C}{\delta_2 + \mu_2 k_2 C}, C\right) \]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 10.1</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \mu_1 k_1 H C + \mu_1 C + \frac{ - \mu_2 \eta H C}{\delta_2 + \mu_2 k_2 C}\\
+\frac{dC}{dt} &amp;=  - \beta_3 k_3 C^{2} + \beta_3 C - \delta_3 C + \frac{\mu_2 \eta H C}{\delta_2 + \mu_2 k_2 C}\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><h3 class="anchored">Slow Manfiold 7</h3>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[ \mathcal{M}_0 = \left(H, S, \frac{ - \delta_1 H}{\mu_1 k_1 H - \mu_1}\right) \]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 13.1</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \beta_3 k_1 H^{2} + \beta_3 H + \delta_3 k_1 H^{2} - \delta_3 H + \frac{ - \beta_3 \delta_1^{2} k_3 H^{2} + \mu_1^{2} \eta k_1^{2} H^{3} S - 2 \mu_1^{2} \eta k_1 H^{2} S + \mu_1^{2} \eta H S}{\delta_1 \mu_1}\\
+\frac{dS}{dt} &amp;=  - \beta_2 k_2 S^{2} + \beta_2 S - \delta_2 S - \eta H S + \frac{\delta_1 \mu_2 k_2 H S - \delta_1 \mu_2 H}{\mu_1 k_1 H - \mu_1}\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><h3 class="anchored">Slow Manfiold 8</h3>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[ \mathcal{M}_0 = \left(H, S, \frac{1}{k_3}\right) \]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 14.2</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \eta H S + \frac{ - \mu_1 k_1 H + \mu_1}{k_3}\\
+\frac{dS}{dt} &amp;=  - \beta_2 k_2 S^{2} + \beta_2 S - \delta_2 S - \eta H S + \frac{ - \mu_2 k_2 S + \mu_2}{k_3}\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><h3 class="anchored">Slow Manfiold 9</h3>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[ \mathcal{M}_0 = \left(H, S, \frac{\beta_3 - \delta_3}{\beta_3 k_3}\right) \]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 18.2</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \eta H S + \frac{ - \beta_3 \mu_1 k_1 H + \beta_3 \mu_1 + \delta_3 \mu_1 k_1 H - \delta_3 \mu_1}{\beta_3 k_3}\\
+\frac{dS}{dt} &amp;=  - \beta_2 k_2 S^{2} + \beta_2 S - \delta_2 S - \eta H S + \frac{ - \beta_3 \mu_2 k_2 S + \beta_3 \mu_2 + \delta_3 \mu_2 k_2 S - \delta_3 \mu_2}{\beta_3 k_3}\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><h3 class="anchored">Slow Manfiold 10</h3>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[ \mathcal{M}_0 = \left(H, \frac{ - \mu_2 C}{\beta_2}, C\right) \]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 24.1</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \mu_1 k_1 H C + \mu_1 C + \frac{\mu_2 \eta H C}{\beta_2}\\
+\frac{dC}{dt} &amp;=  - \beta_3 k_3 C^{2} + \beta_3 C - \delta_3 C + \frac{ - \mu_2 \eta H C}{\beta_2}\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><h3 class="anchored">Slow Manfiold 11</h3>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[ \mathcal{M}_0 = \left(H, \frac{\beta_2 - \delta_2}{\beta_2 k_2}, C\right) \]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 25.2</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \mu_1 k_1 H C + \mu_1 C + \frac{ - \beta_2 \eta H + \delta_2 \eta H}{\beta_2 k_2}\\
+\frac{dC}{dt} &amp;=  - \beta_3 k_3 C^{2} + \beta_3 C - \delta_3 C + \frac{\beta_2 \eta H - \delta_2 \eta H}{\beta_2 k_2}\end{aligned}
+\]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><h3 class="anchored">Slow Manfiold 12</h3>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[ \mathcal{M}_0 = \left(H, S, \frac{ - \beta_2 k_2 S^{2} + \beta_2 S - \delta_2 S}{\mu_2 k_2 S - \mu_2}\right) \]</span></p>
+</div>
+<div class="cell-output cell-output-display">
+<div class="markdown"><p>Reduction 27.1</p>
+</div>
+</div>
+<div class="cell-output cell-output-display cell-output-markdown">
+<p><span class="math display">\[\begin{aligned}\frac{dH}{dt} &amp;=  - \delta_1 H - \eta H S + \frac{\beta_2 \mu_1 k_1 k_2 H S^{2} - \beta_2 \mu_1 k_1 H S - \beta_2 \mu_1 k_2 S^{2} + \beta_2 \mu_1 S + \delta_2 \mu_1 k_1 H S - \delta_2 \mu_1 S}{\mu_2 k_2 S - \mu_2}\\
+\frac{dS}{dt} &amp;= \beta_3 S - \delta_3 S + \frac{\beta_2^{2} \beta_3 k_2^{2} k_3 S^{4} - 2 \beta_2^{2} \beta_3 k_2 k_3 S^{3} + \beta_2^{2} \beta_3 k_3 S^{2} + 2 \beta_2 \beta_3 \delta_2 k_2 k_3 S^{3} - 2 \beta_2 \beta_3 \delta_2 k_3 S^{2} + \beta_3 \delta_2^{2} k_3 S^{2} + \beta_3 \delta_2 \mu_2 k_2 S^{2} - \delta_2 \delta_3 \mu_2 k_2 S^{2} - \mu_2^{2} \eta k_2^{2} H S^{3} + 2 \mu_2^{2} \eta k_2 H S^{2} - \mu_2^{2} \eta H S}{\beta_2 \mu_2 k_2^{2} S^{2} - 2 \beta_2 \mu_2 k_2 S + \beta_2 \mu_2 - \delta_2 \mu_2}\end{aligned}
+\]</span></p>
+</div>
+</div>
+</section>
+<section id="general-tfpvs" class="level2">
+<h2 class="anchored" data-anchor-id="general-tfpvs">General TFPVs</h2>
+<p>We can use <code>TikhonovFenichelReductions.jl</code> to find TFPVs that are not slow-fast separations of rates. This is a computationally intensive task, because it relies on the computation of an elimination ideal based on the computation of a Gröbner basis. In this case, this is still feasible.</p>
+<div id="12" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>G <span class="op">=</span> <span class="fu">tfpvs_groebner</span>(problem)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>289-element Vector{QQMPolyRingElem}:
+ β₂^2*β₃*δ₁*k₃ + β₂*β₃^2*δ₁*k₂ - 2*β₂*β₃*δ₁*δ₂*k₃ - 2*β₂*β₃*δ₁*δ₃*k₂ + β₂*β₃*δ₁*μ₂*k₂ + β₂*δ₁*δ₃^2*k₂ - β₂*δ₁*δ₃*μ₂*k₂ + β₃*δ₁*δ₂^2*k₃ + β₃*δ₁*δ₂*μ₂*k₂ - δ₁*δ₂*δ₃*μ₂*k₂ + δ₁*δ₂*μ₂^2*k₂
+ 3*β₂^2*β₃*δ₁*k₃ + β₂^2*β₃*μ₁*k₁ - β₂^2*δ₃*μ₁*k₁ - β₂*β₃^2*η - 6*β₂*β₃*δ₁*δ₂*k₃ + 2*β₂*β₃*δ₁*μ₂*k₂ - 2*β₂*β₃*δ₂*μ₁*k₁ + 2*β₂*β₃*δ₃*η - β₂*β₃*μ₁*η - β₂*β₃*μ₂*η - 2*β₂*δ₁*δ₃*μ₂*k₂ + 2*β₂*δ₂*δ₃*μ₁*k₁ - β₂*δ₃^2*η + β₂*δ₃*μ₁*η + β₂*δ₃*μ₂*η - β₂*μ₁*μ₂*η + β₃^2*δ₂*η + 3*β₃*δ₁*δ₂^2*k₃ + 2*β₃*δ₁*δ₂*μ₂*k₂ + β₃*δ₂^2*μ₁*k₁ - 2*β₃*δ₂*δ₃*η + β₃*δ₂*μ₁*η + β₃*δ₂*μ₂*η - 2*δ₁*δ₂*δ₃*μ₂*k₂ + 4*δ₁*δ₂*μ₂^2*k₂ - δ₂^2*δ₃*μ₁*k₁ + δ₂*δ₃^2*η - δ₂*δ₃*μ₁*η - δ₂*δ₃*μ₂*η + δ₂*μ₁*μ₂*η
+ β₂*β₃^2*δ₁*η - 2*β₂*β₃*δ₁*δ₃*η + 2*β₂*β₃*δ₁*μ₁*η + β₂*δ₁*δ₃^2*η - 2*β₂*δ₁*δ₃*μ₁*η + β₂*δ₁*μ₁*μ₂*η + δ₁*δ₂*μ₁*μ₂*η - δ₁*δ₂*μ₂^2*η
+ β₂*β₃^3*δ₁ - 3*β₂*β₃^2*δ₁*δ₃ + 2*β₂*β₃^2*δ₁*μ₁ + 3*β₂*β₃*δ₁*δ₃^2 - 4*β₂*β₃*δ₁*δ₃*μ₁ + β₂*β₃*δ₁*μ₁*μ₂ - β₂*δ₁*δ₃^3 + 2*β₂*δ₁*δ₃^2*μ₁ - β₂*δ₁*δ₃*μ₁*μ₂ + β₃*δ₁*δ₂*μ₁*μ₂ - β₃*δ₁*δ₂*μ₂^2 - δ₁*δ₂*δ₃*μ₁*μ₂ + δ₁*δ₂*δ₃*μ₂^2
+ -β₂^2*β₃*δ₁*η*k₃ + 2*β₂*β₃*δ₁*δ₂*η*k₃ + 2*β₂*β₃*δ₁*μ₁*η*k₂ - β₂*β₃*δ₁*μ₂*η*k₂ - 2*β₂*δ₁*δ₃*μ₁*η*k₂ + β₂*δ₁*δ₃*μ₂*η*k₂ + β₂*δ₁*μ₁*μ₂*η*k₂ - β₃*δ₁*δ₂^2*η*k₃ - β₃*δ₁*δ₂*μ₂*η*k₂ + δ₁*δ₂*δ₃*μ₂*η*k₂ + δ₁*δ₂*μ₁*μ₂*η*k₂ - 2*δ₁*δ₂*μ₂^2*η*k₂
+ β₂^2*β₃^2*δ₁*k₃ - β₂^2*β₃*δ₁*δ₃*k₃ + 2*β₂^2*β₃*δ₁*μ₁*k₃ - β₂^2*β₃*δ₁*μ₂*k₃ - 2*β₂*β₃^2*δ₁*δ₂*k₃ + 2*β₂*β₃*δ₁*δ₂*δ₃*k₃ - 4*β₂*β₃*δ₁*δ₂*μ₁*k₃ + 2*β₂*β₃*δ₁*δ₂*μ₂*k₃ + β₂*β₃*δ₁*μ₁*μ₂*k₂ - β₂*β₃*δ₁*μ₂^2*k₂ - β₂*δ₁*δ₃*μ₁*μ₂*k₂ + β₂*δ₁*δ₃*μ₂^2*k₂ + β₃^2*δ₁*δ₂^2*k₃ + β₃^2*δ₁*δ₂*μ₂*k₂ - β₃*δ₁*δ₂^2*δ₃*k₃ + 2*β₃*δ₁*δ₂^2*μ₁*k₃ - β₃*δ₁*δ₂^2*μ₂*k₃ - 2*β₃*δ₁*δ₂*δ₃*μ₂*k₂ + β₃*δ₁*δ₂*μ₁*μ₂*k₂ + β₃*δ₁*δ₂*μ₂^2*k₂ + δ₁*δ₂*δ₃^2*μ₂*k₂ - δ₁*δ₂*δ₃*μ₁*μ₂*k₂ - δ₁*δ₂*δ₃*μ₂^2*k₂ + 2*δ₁*δ₂*μ₁*μ₂^2*k₂ - δ₁*δ₂*μ₂^3*k₂
+ β₂*β₃^2*δ₁*δ₂*μ₂ - 2*β₂*β₃*δ₁*δ₂*δ₃*μ₂ + 2*β₂*β₃*δ₁*δ₂*μ₁*μ₂ + β₂*δ₁*δ₂*δ₃^2*μ₂ - 2*β₂*δ₁*δ₂*δ₃*μ₁*μ₂ + β₂*δ₁*δ₂*μ₁*μ₂^2 + δ₁*δ₂^2*μ₁*μ₂^2 - δ₁*δ₂^2*μ₂^3
+ -3*β₂^2*β₃*δ₁^2*k₃^2 + β₂^2*δ₁*δ₃*μ₁*k₁*k₃ + 6*β₂*β₃*δ₁^2*δ₂*k₃^2 + 2*β₂*β₃*δ₁*μ₁*μ₂*k₁*k₂ - 3*β₂*β₃*δ₁*μ₁*η*k₃ + 3*β₂*β₃*δ₁*μ₂*η*k₃ + 2*β₂*δ₁^2*δ₃*μ₂*k₂*k₃ - 2*β₂*δ₁*δ₂*δ₃*μ₁*k₁*k₃ - 2*β₂*δ₁*δ₃*μ₁*μ₂*k₁*k₂ + β₂*δ₁*δ₃*μ₁*η*k₃ - β₂*δ₁*δ₃*μ₂*η*k₃ - β₃^2*δ₁*δ₂*η*k₃ + β₃^2*δ₁*μ₂*η*k₂ - 3*β₃*δ₁^2*δ₂^2*k₃^2 + β₃*δ₁^2*μ₂^2*k₂^2 + 2*β₃*δ₁*δ₂*δ₃*η*k₃ + 2*β₃*δ₁*δ₂*μ₁*μ₂*k₁*k₂ + β₃*δ₁*δ₂*μ₁*η*k₃ - 3*β₃*δ₁*δ₂*μ₂*η*k₃ - 2*β₃*δ₁*δ₃*μ₂*η*k₂ + β₃*δ₁*μ₁*μ₂*η*k₂ + β₃*δ₁*μ₂^2*η*k₂ + 2*δ₁^2*δ₂*δ₃*μ₂*k₂*k₃ - 4*δ₁^2*δ₂*μ₂^2*k₂*k₃ - δ₁^2*δ₃*μ₂^2*k₂^2 + δ₁*δ₂^2*δ₃*μ₁*k₁*k₃ - δ₁*δ₂*δ₃^2*η*k₃ - 2*δ₁*δ₂*δ₃*μ₁*μ₂*k₁*k₂ + δ₁*δ₂*δ₃*μ₁*η*k₃ + δ₁*δ₂*δ₃*μ₂*η*k₃ + 4*δ₁*δ₂*μ₁*μ₂^2*k₁*k₂ - 2*δ₁*δ₂*μ₁*μ₂*η*k₃ + δ₁*δ₂*μ₂^2*η*k₃ + δ₁*δ₃^2*μ₂*η*k₂ - δ₁*δ₃*μ₁*μ₂*η*k₂ - δ₁*δ₃*μ₂^2*η*k₂ + δ₁*μ₁*μ₂^2*η*k₂
+ β₂^2*β₃^2*δ₁*μ₂*k₃ - β₂^2*β₃*δ₁*δ₃*μ₂*k₃ + 2*β₂^2*β₃*δ₁*μ₁*μ₂*k₃ - β₂^2*β₃*δ₁*μ₂^2*k₃ - β₂*β₃*δ₁*δ₂*δ₃*μ₂*k₃ + β₂*β₃*δ₁*δ₂*μ₂^2*k₃ + β₂*β₃*δ₁*μ₁*μ₂^2*k₂ - β₂*β₃*δ₁*μ₂^3*k₂ + β₂*δ₁*δ₂*δ₃^2*μ₂*k₃ - 2*β₂*δ₁*δ₂*δ₃*μ₁*μ₂*k₃ + β₂*δ₁*δ₂*μ₁*μ₂^2*k₃ - β₂*δ₁*δ₃*μ₁*μ₂^2*k₂ + β₂*δ₁*δ₃*μ₂^3*k₂ + δ₁*δ₂^2*μ₁*μ₂^2*k₃ - δ₁*δ₂^2*μ₂^3*k₃ + δ₁*δ₂*μ₁*μ₂^3*k₂ - δ₁*δ₂*μ₂^4*k₂
+ -β₂^2*β₃*δ₁*δ₂*μ₂*k₃ + 2*β₂*β₃*δ₁*δ₂^2*μ₂*k₃ + 2*β₂*β₃*δ₁*δ₂*μ₁*μ₂*k₂ - β₂*β₃*δ₁*δ₂*μ₂^2*k₂ - 2*β₂*δ₁*δ₂*δ₃*μ₁*μ₂*k₂ + β₂*δ₁*δ₂*δ₃*μ₂^2*k₂ + β₂*δ₁*δ₂*μ₁*μ₂^2*k₂ - β₃*δ₁*δ₂^3*μ₂*k₃ - β₃*δ₁*δ₂^2*μ₂^2*k₂ + δ₁*δ₂^2*δ₃*μ₂^2*k₂ + δ₁*δ₂^2*μ₁*μ₂^2*k₂ - 2*δ₁*δ₂^2*μ₂^3*k₂
+ ⋮
+ 2*β₂^2*β₃*δ₁^4*δ₃*μ₁*μ₂^2*k₃^3 + β₂^2*δ₁^4*δ₃^4*μ₂*k₃^3 - 4*β₂^2*δ₁^4*δ₃^2*μ₁^2*μ₂*k₃^3 + β₂^2*δ₁^4*δ₃^2*μ₁*μ₂^2*k₃^3 + 2*β₂^2*δ₁^4*δ₃*μ₁^2*μ₂^2*k₃^3 - 8*β₂*β₃*δ₁^4*δ₂*δ₃*μ₂^3*k₃^3 + β₂*β₃*δ₁^3*δ₃^3*μ₁*μ₂*η*k₃^2 - β₂*β₃*δ₁^3*δ₃^3*μ₂^2*η*k₃^2 + 2*β₂*β₃*δ₁^3*δ₃^2*μ₁^2*μ₂*η*k₃^2 + β₂*β₃*δ₁^3*δ₃^2*μ₁*μ₂^2*η*k₃^2 - 8*β₂*β₃*δ₁^3*δ₃*μ₁^2*μ₂^2*η*k₃^2 + β₂*β₃*δ₁^3*δ₃*μ₁*μ₂^3*η*k₃^2 + 21*β₂*β₃*δ₁^3*μ₁^2*μ₂^3*η*k₃^2 - β₂*β₃*δ₁^2*δ₃^2*μ₁*μ₂^3*η*k₁*k₃ - 3*β₂*β₃*δ₁^2*δ₃*μ₁*μ₂^4*η*k₁*k₃ - 3*β₂*β₃*δ₁^2*μ₁*μ₂^5*η*k₁*k₃ - β₂*δ₁^4*δ₂*δ₃^4*μ₂*k₃^3 + 4*β₂*δ₁^4*δ₂*δ₃^2*μ₁^2*μ₂*k₃^3 + 2*β₂*δ₁^4*δ₂*δ₃^2*μ₂^3*k₃^3 - 8*β₂*δ₁^4*δ₂*δ₃*μ₁*μ₂^3*k₃^3 + 3*β₂*δ₁^4*δ₂*μ₁*μ₂^4*k₃^3 - β₂*δ₁^3*δ₃^4*μ₁*μ₂*η*k₃^2 + β₂*δ₁^3*δ₃^4*μ₂^2*η*k₃^2 - 2*β₂*δ₁^3*δ₃^3*μ₁^2*μ₂*η*k₃^2 + 9*β₂*δ₁^3*δ₃^2*μ₁^2*μ₂^2*η*k₃^2 + 4*β₂*δ₁^3*δ₃^2*μ₁*μ₂^3*η*k₃^2 - 2*β₂*δ₁^3*δ₃*μ₁^3*μ₂^2*η*k₃^2 - 18*β₂*δ₁^3*δ₃*μ₁^2*μ₂^3*η*k₃^2 + 9*β₂*δ₁^3*μ₁^2*μ₂^4*η*k₃^2 + β₂*δ₁^2*δ₃^3*μ₁*μ₂^3*η*k₁*k₃ + β₂*δ₁^2*δ₃^2*μ₁^2*μ₂^3*η*k₁*k₃ + 3*β₂*δ₁^2*δ₃^2*μ₁*μ₂^4*η*k₁*k₃ + 4*β₂*δ₁^2*δ₃*μ₁^3*μ₂^3*η*k₁*k₃ + 3*β₂*δ₁^2*μ₁^4*μ₂^3*η*k₁*k₃ + 3*β₂*δ₁^2*μ₁^3*μ₂^4*η*k₁*k₃ - 15*β₂*δ₁^2*μ₁^2*μ₂^5*η*k₁*k₃ + β₂*δ₁*δ₃*μ₁^3*μ₂^4*η*k₁^2 - β₂*δ₁*δ₃*μ₁^2*μ₂^5*η*k₁^2 + 3*β₃^5*δ₁*μ₂^3*η^2*k₁ + 6*β₃^4*δ₁^2*δ₂*μ₂^3*η*k₁*k₃ + 2*β₃^4*δ₁^2*δ₃*μ₂^2*η^2*k₃ + 3*β₃^4*δ₁^2*μ₂^4*η*k₁*k₂ - 18*β₃^4*δ₁^2*μ₂^3*η^2*k₃ - 16*β₃^4*δ₁*δ₃*μ₂^3*η^2*k₁ + 3*β₃^4*δ₁*μ₁*μ₂^3*η^2*k₁ + 6*β₃^4*δ₁*μ₂^4*η^2*k₁ + 4*β₃^3*δ₁^3*δ₂*δ₃*μ₂^2*η*k₃^2 - 33*β₃^3*δ₁^3*δ₂*μ₂^3*η*k₃^2 + 2*β₃^3*δ₁^3*δ₃*μ₂^3*η*k₂*k₃ - 18*β₃^3*δ₁^3*μ₂^4*η*k₂*k₃ - 20*β₃^3*δ₁^2*δ₂*δ₃*μ₂^3*η*k₁*k₃ - 8*β₃^3*δ₁^2*δ₃^2*μ₂^2*η^2*k₃ + 2*β₃^3*δ₁^2*δ₃*μ₁*μ₂^2*η^2*k₃ - 13*β₃^3*δ₁^2*δ₃*μ₂^4*η*k₁*k₂ + 76*β₃^3*δ₁^2*δ₃*μ₂^3*η^2*k₃ - 18*β₃^3*δ₁^2*μ₁*μ₂^3*η^2*k₃ + 3*β₃^3*δ₁^2*μ₂^5*η*k₁*k₂ - 36*β₃^3*δ₁^2*μ₂^4*η^2*k₃ + 34*β₃^3*δ₁*δ₃^2*μ₂^3*η^2*k₁ - 13*β₃^3*δ₁*δ₃*μ₁*μ₂^3*η^2*k₁ - 26*β₃^3*δ₁*δ₃*μ₂^4*η^2*k₁ + 6*β₃^3*δ₁*μ₁*μ₂^4*η^2*k₁ + 3*β₃^3*δ₁*μ₂^5*η^2*k₁ + 3*β₃^2*δ₁^4*δ₂^2*μ₂^3*k₃^3 - 8*β₃^2*δ₁^3*δ₂*δ₃^2*μ₂^2*η*k₃^2 + 6*β₃^2*δ₁^3*δ₂*δ₃*μ₁*μ₂^2*η*k₃^2 + 68*β₃^2*δ₁^3*δ₂*δ₃*μ₂^3*η*k₃^2 - 12*β₃^2*δ₁^3*δ₂*μ₁*μ₂^3*η*k₃^2 + 3*β₃^2*δ₁^3*δ₂*μ₂^4*η*k₃^2 - 6*β₃^2*δ₁^3*δ₃^2*μ₂^3*η*k₂*k₃ + 56*β₃^2*δ₁^3*δ₃*μ₂^4*η*k₂*k₃ - 18*β₃^2*δ₁^3*μ₂^5*η*k₂*k₃ + β₃^2*δ₁^2*δ₂*δ₃^2*μ₁*μ₂^2*η*k₁*k₃ + 22*β₃^2*δ₁^2*δ₂*δ₃^2*μ₂^3*η*k₁*k₃ + 4*β₃^2*δ₁^2*δ₂*δ₃*μ₁*μ₂^3*η*k₁*k₃ + 3*β₃^2*δ₁^2*δ₂*μ₁*μ₂^4*η*k₁*k₃ - 6*β₃^2*δ₁^2*δ₂*μ₂^5*η*k₁*k₃ + 12*β₃^2*δ₁^2*δ₃^3*μ₂^2*η^2*k₃ - 6*β₃^2*δ₁^2*δ₃^2*μ₁*μ₂^2*η^2*k₃ + 21*β₃^2*δ₁^2*δ₃^2*μ₂^4*η*k₁*k₂ - 120*β₃^2*δ₁^2*δ₃^2*μ₂^3*η^2*k₃ + 58*β₃^2*δ₁^2*δ₃*μ₁*μ₂^3*η^2*k₃ - 10*β₃^2*δ₁^2*δ₃*μ₂^5*η*k₁*k₂ + 110*β₃^2*δ₁^2*δ₃*μ₂^4*η^2*k₃ - 36*β₃^2*δ₁^2*μ₁*μ₂^4*η^2*k₃ - 18*β₃^2*δ₁^2*μ₂^5*η^2*k₃ - 3*β₃^2*δ₁*δ₂*μ₁*μ₂^5*η*k₁^2 - 36*β₃^2*δ₁*δ₃^3*μ₂^3*η^2*k₁ + 21*β₃^2*δ₁*δ₃^2*μ₁*μ₂^3*η^2*k₁ + 42*β₃^2*δ₁*δ₃^2*μ₂^4*η^2*k₁ - 20*β₃^2*δ₁*δ₃*μ₁*μ₂^4*η^2*k₁ - 10*β₃^2*δ₁*δ₃*μ₂^5*η^2*k₁ + 3*β₃^2*δ₁*μ₁*μ₂^5*η^2*k₁ - 2*β₃*δ₁^4*δ₂^2*δ₃*μ₁*μ₂^2*k₃^3 + 2*β₃*δ₁^4*δ₂^2*δ₃*μ₂^3*k₃^3 + 6*β₃*δ₁^4*δ₂^2*μ₁*μ₂^3*k₃^3 + 4*β₃*δ₁^3*δ₂*δ₃^3*μ₂^2*η*k₃^2 - 12*β₃*δ₁^3*δ₂*δ₃^2*μ₁*μ₂^2*η*k₃^2 - 36*β₃*δ₁^3*δ₂*δ₃^2*μ₂^3*η*k₃^2 + 6*β₃*δ₁^3*δ₂*δ₃*μ₁^2*μ₂^2*η*k₃^2 + 20*β₃*δ₁^3*δ₂*δ₃*μ₁*μ₂^3*η*k₃^2 - 5*β₃*δ₁^3*δ₂*δ₃*μ₂^4*η*k₃^2 - 9*β₃*δ₁^3*δ₂*μ₁^2*μ₂^3*η*k₃^2 - 21*β₃*δ₁^3*δ₂*μ₁*μ₂^4*η*k₃^2 + 36*β₃*δ₁^3*δ₂*μ₂^5*η*k₃^2 + 6*β₃*δ₁^3*δ₃^3*μ₂^3*η*k₂*k₃ - 58*β₃*δ₁^3*δ₃^2*μ₂^4*η*k₂*k₃ + 36*β₃*δ₁^3*δ₃*μ₂^5*η*k₂*k₃ - 2*β₃*δ₁^2*δ₂*δ₃^3*μ₁*μ₂^2*η*k₁*k₃ - 8*β₃*δ₁^2*δ₂*δ₃^3*μ₂^3*η*k₁*k₃ + β₃*δ₁^2*δ₂*δ₃^2*μ₁^2*μ₂^2*η*k₁*k₃ - 9*β₃*δ₁^2*δ₂*δ₃^2*μ₁*μ₂^3*η*k₁*k₃ - 2*β₃*δ₁^2*δ₂*δ₃*μ₁^2*μ₂^3*η*k₁*k₃ - 5*β₃*δ₁^2*δ₂*δ₃*μ₁*μ₂^4*η*k₁*k₃ + 8*β₃*δ₁^2*δ₂*δ₃*μ₂^5*η*k₁*k₃ + 3*β₃*δ₁^2*δ₂*μ₁^2*μ₂^4*η*k₁*k₃ + 21*β₃*δ₁^2*δ₂*μ₁*μ₂^5*η*k₁*k₃ - 8*β₃*δ₁^2*δ₃^4*μ₂^2*η^2*k₃ + 6*β₃*δ₁^2*δ₃^3*μ₁*μ₂^2*η^2*k₃ - 15*β₃*δ₁^2*δ₃^3*μ₂^4*η*k₁*k₂ + 84*β₃*δ₁^2*δ₃^3*μ₂^3*η^2*k₃ - 62*β₃*δ₁^2*δ₃^2*μ₁*μ₂^3*η^2*k₃ + 11*β₃*δ₁^2*δ₃^2*μ₂^5*η*k₁*k₂ - 112*β₃*δ₁^2*δ₃^2*μ₂^4*η^2*k₃ + 74*β₃*δ₁^2*δ₃*μ₁*μ₂^4*η^2*k₃ + 36*β₃*δ₁^2*δ₃*μ₂^5*η^2*k₃ - 18*β₃*δ₁^2*μ₁*μ₂^5*η^2*k₃ - β₃*δ₁*δ₂*δ₃*μ₁^2*μ₂^4*η*k₁^2 + 7*β₃*δ₁*δ₂*δ₃*μ₁*μ₂^5*η*k₁^2 - 3*β₃*δ₁*δ₂*μ₁^2*μ₂^5*η*k₁^2 - 3*β₃*δ₁*δ₂*μ₁*μ₂^6*η*k₁^2 + 19*β₃*δ₁*δ₃^4*μ₂^3*η^2*k₁ - 15*β₃*δ₁*δ₃^3*μ₁*μ₂^3*η^2*k₁ - 30*β₃*δ₁*δ₃^3*μ₂^4*η^2*k₁ + 22*β₃*δ₁*δ₃^2*μ₁*μ₂^4*η^2*k₁ + 11*β₃*δ₁*δ₃^2*μ₂^5*η^2*k₁ - 7*β₃*δ₁*δ₃*μ₁*μ₂^5*η^2*k₁ - δ₁^4*δ₂^2*δ₃^2*μ₁*μ₂^2*k₃^3 + δ₁^4*δ₂^2*δ₃^2*μ₂^3*k₃^3 - 2*δ₁^4*δ₂^2*δ₃*μ₁^2*μ₂^2*k₃^3 + 2*δ₁^4*δ₂^2*δ₃*μ₁*μ₂^3*k₃^3 + 3*δ₁^4*δ₂^2*μ₁*μ₂^4*k₃^3 - 3*δ₁^4*δ₂^2*μ₂^5*k₃^3 + 6*δ₁^3*δ₂*δ₃^3*μ₁*μ₂^2*η*k₃^2 - 5*δ₁^3*δ₂*δ₃^2*μ₁^2*μ₂^2*η*k₃^2 - 12*δ₁^3*δ₂*δ₃^2*μ₁*μ₂^3*η*k₃^2 - δ₁^3*δ₂*δ₃^2*μ₂^4*η*k₃^2 + 2*δ₁^3*δ₂*δ₃*μ₁^3*μ₂^2*η*k₃^2 + 4*δ₁^3*δ₂*δ₃*μ₁^2*μ₂^3*η*k₃^2 + 12*δ₁^3*δ₂*δ₃*μ₁*μ₂^4*η*k₃^2 + 3*δ₁^3*δ₂*μ₁^2*μ₂^4*η*k₃^2 - 9*δ₁^3*δ₂*μ₁*μ₂^5*η*k₃^2 - 2*δ₁^3*δ₃^4*μ₂^3*η*k₂*k₃ + 20*δ₁^3*δ₃^3*μ₂^4*η*k₂*k₃ - 18*δ₁^3*δ₃^2*μ₂^5*η*k₂*k₃ + δ₁^2*δ₂*δ₃^4*μ₁*μ₂^2*η*k₁*k₃ - δ₁^2*δ₂*δ₃^3*μ₁^2*μ₂^2*η*k₁*k₃ + 5*δ₁^2*δ₂*δ₃^3*μ₁*μ₂^3*η*k₁*k₃ + 2*δ₁^2*δ₂*δ₃^2*μ₁^2*μ₂^3*η*k₁*k₃ - δ₁^2*δ₂*δ₃^2*μ₁*μ₂^4*η*k₁*k₃ - 4*δ₁^2*δ₂*δ₃*μ₁^3*μ₂^3*η*k₁*k₃ - 5*δ₁^2*δ₂*δ₃*μ₁^2*μ₂^4*η*k₁*k₃ - 24*δ₁^2*δ₂*δ₃*μ₁*μ₂^5*η*k₁*k₃ - 3*δ₁^2*δ₂*μ₁^4*μ₂^3*η*k₁*k₃ - 3*δ₁^2*δ₂*μ₁^3*μ₂^4*η*k₁*k₃ + 18*δ₁^2*δ₂*μ₁^2*μ₂^5*η*k₁*k₃ + 15*δ₁^2*δ₂*μ₁*μ₂^6*η*k₁*k₃ + 2*δ₁^2*δ₃^5*μ₂^2*η^2*k₃ - 2*δ₁^2*δ₃^4*μ₁*μ₂^2*η^2*k₃ + 4*δ₁^2*δ₃^4*μ₂^4*η*k₁*k₂ - 22*δ₁^2*δ₃^4*μ₂^3*η^2*k₃ + 22*δ₁^2*δ₃^3*μ₁*μ₂^3*η^2*k₃ - 4*δ₁^2*δ₃^3*μ₂^5*η*k₁*k₂ + 38*δ₁^2*δ₃^3*μ₂^4*η^2*k₃ - 38*δ₁^2*δ₃^2*μ₁*μ₂^4*η^2*k₃ - 18*δ₁^2*δ₃^2*μ₂^5*η^2*k₃ + 18*δ₁^2*δ₃*μ₁*μ₂^5*η^2*k₃ + δ₁*δ₂*δ₃^2*μ₁^2*μ₂^4*η*k₁^2 - 4*δ₁*δ₂*δ₃^2*μ₁*μ₂^5*η*k₁^2 - δ₁*δ₂*δ₃*μ₁^3*μ₂^4*η*k₁^2 + 3*δ₁*δ₂*δ₃*μ₁^2*μ₂^5*η*k₁^2 + 4*δ₁*δ₂*δ₃*μ₁*μ₂^6*η*k₁^2 - 3*δ₁*δ₂*μ₁^2*μ₂^6*η*k₁^2 - 4*δ₁*δ₃^5*μ₂^3*η^2*k₁ + 4*δ₁*δ₃^4*μ₁*μ₂^3*η^2*k₁ + 8*δ₁*δ₃^4*μ₂^4*η^2*k₁ - 8*δ₁*δ₃^3*μ₁*μ₂^4*η^2*k₁ - 4*δ₁*δ₃^3*μ₂^5*η^2*k₁ + 4*δ₁*δ₃^2*μ₁*μ₂^5*η^2*k₁
+ 4*β₂^3*β₃*δ₁^4*δ₃*μ₁*μ₂*k₃^3 + 2*β₂^3*δ₁^4*δ₃^4*k₃^3 - 8*β₂^3*δ₁^4*δ₃^2*μ₁^2*k₃^3 + 2*β₂^3*δ₁^4*δ₃^2*μ₁*μ₂*k₃^3 + 4*β₂^3*δ₁^4*δ₃*μ₁^2*μ₂*k₃^3 - 16*β₂^2*β₃*δ₁^4*δ₂*δ₃*μ₂^2*k₃^3 - 4*β₂^2*β₃*δ₁^3*δ₃^3*μ₂*η*k₃^2 + 6*β₂^2*β₃*δ₁^3*δ₃^2*μ₂^2*η*k₃^2 - 4*β₂^2*β₃*δ₁^3*μ₁*μ₂^3*η*k₃^2 - 4*β₂^2*δ₁^4*δ₂*δ₃^4*k₃^3 + 16*β₂^2*δ₁^4*δ₂*δ₃^2*μ₁^2*k₃^3 - 4*β₂^2*δ₁^4*δ₂*δ₃^2*μ₁*μ₂*k₃^3 + 4*β₂^2*δ₁^4*δ₂*δ₃^2*μ₂^2*k₃^3 - 16*β₂^2*δ₁^4*δ₂*δ₃*μ₁*μ₂^2*k₃^3 - 2*β₂^2*δ₁^4*δ₂*μ₁^2*μ₂^2*k₃^3 + 6*β₂^2*δ₁^4*δ₂*μ₁*μ₂^3*k₃^3 + 4*β₂^2*δ₁^3*δ₃^4*μ₂*η*k₃^2 - 8*β₂^2*δ₁^3*δ₃^3*μ₂^2*η*k₃^2 + 21*β₂^2*δ₁^3*δ₃^2*μ₁*μ₂^2*η*k₃^2 - 32*β₂^2*δ₁^3*δ₃*μ₁^4*η*k₃^2 + 28*β₂^2*δ₁^3*δ₃*μ₁^3*μ₂*η*k₃^2 - 22*β₂^2*δ₁^3*δ₃*μ₁^2*μ₂^2*η*k₃^2 - 8*β₂^2*δ₁^3*δ₃*μ₁*μ₂^3*η*k₃^2 + 16*β₂^2*δ₁^3*μ₁^4*μ₂*η*k₃^2 - 12*β₂^2*δ₁^3*μ₁^3*μ₂^2*η*k₃^2 + 13*β₂^2*δ₁^3*μ₁^2*μ₂^3*η*k₃^2 - 8*β₂*β₃*δ₁^4*δ₂^2*δ₃*μ₁*μ₂*k₃^3 + 32*β₂*β₃*δ₁^4*δ₂^2*δ₃*μ₂^2*k₃^3 + 2*β₂*β₃*δ₁^3*δ₂*δ₃^3*μ₂*η*k₃^2 - 22*β₂*β₃*δ₁^3*δ₂*δ₃^2*μ₁*μ₂*η*k₃^2 - 8*β₂*β₃*δ₁^3*δ₂*δ₃^2*μ₂^2*η*k₃^2 - 22*β₂*β₃*δ₁^3*δ₂*δ₃*μ₁*μ₂^2*η*k₃^2 - 16*β₂*β₃*δ₁^3*δ₂*δ₃*μ₂^3*η*k₃^2 + 32*β₂*β₃*δ₁^3*δ₂*μ₁^4*η*k₃^2 + 76*β₂*β₃*δ₁^3*δ₂*μ₁*μ₂^3*η*k₃^2 + 6*β₂*β₃*δ₁^3*δ₂*μ₂^4*η*k₃^2 - 2*β₂*β₃*δ₁^2*δ₂*δ₃^2*μ₂^3*η*k₁*k₃ + 4*β₂*β₃*δ₁^2*δ₃^2*μ₁^3*η^2*k₃ + 28*β₂*β₃*δ₁^2*δ₃^2*μ₁^2*μ₂*η^2*k₃ - 16*β₂*β₃*δ₁^2*δ₃^2*μ₁*μ₂^2*η^2*k₃ + 2*β₂*β₃*δ₁^2*δ₃^2*μ₂^3*η^2*k₃ + 16*β₂*β₃*δ₁^2*δ₃*μ₁^4*η^2*k₃ - 100*β₂*β₃*δ₁^2*δ₃*μ₁^3*μ₂*η^2*k₃ + 49*β₂*β₃*δ₁^2*δ₃*μ₁^2*μ₂^2*η^2*k₃ + 77*β₂*β₃*δ₁^2*δ₃*μ₁*μ₂^3*η^2*k₃ - 16*β₂*β₃*δ₁^2*μ₁^4*μ₂*η^2*k₃ + 102*β₂*β₃*δ₁^2*μ₁^3*μ₂^2*η^2*k₃ - 213*β₂*β₃*δ₁^2*μ₁^2*μ₂^3*η^2*k₃ + 3*β₂*β₃*δ₁^2*μ₁*μ₂^4*η^2*k₃ + 2*β₂*δ₁^4*δ₂^2*δ₃^4*k₃^3 - 8*β₂*δ₁^4*δ₂^2*δ₃^2*μ₁^2*k₃^3 - 8*β₂*δ₁^4*δ₂^2*δ₃^2*μ₂^2*k₃^3 - 8*β₂*δ₁^4*δ₂^2*δ₃*μ₁^2*μ₂*k₃^3 + 32*β₂*δ₁^4*δ₂^2*δ₃*μ₁*μ₂^2*k₃^3 - 4*β₂*δ₁^4*δ₂^2*μ₁*μ₂^3*k₃^3 - 6*β₂*δ₁^4*δ₂^2*μ₂^4*k₃^3 - 2*β₂*δ₁^3*δ₂*δ₃^4*μ₂*η*k₃^2 + 16*β₂*δ₁^3*δ₂*δ₃^3*μ₁*μ₂*η*k₃^2 + 4*β₂*δ₁^3*δ₂*δ₃^3*μ₂^2*η*k₃^2 - 26*β₂*δ₁^3*δ₂*δ₃^2*μ₁^2*μ₂*η*k₃^2 - 31*β₂*δ₁^3*δ₂*δ₃^2*μ₁*μ₂^2*η*k₃^2 + 28*β₂*δ₁^3*δ₂*δ₃^2*μ₂^3*η*k₃^2 + 32*β₂*δ₁^3*δ₂*δ₃*μ₁^4*η*k₃^2 - 16*β₂*δ₁^3*δ₂*δ₃*μ₁^3*μ₂*η*k₃^2 + 30*β₂*δ₁^3*δ₂*δ₃*μ₁^2*μ₂^2*η*k₃^2 - 48*β₂*δ₁^3*δ₂*δ₃*μ₁*μ₂^3*η*k₃^2 + 8*β₂*δ₁^3*δ₂*δ₃*μ₂^4*η*k₃^2 - 14*β₂*δ₁^3*δ₂*μ₁^3*μ₂^2*η*k₃^2 + 19*β₂*δ₁^3*δ₂*μ₁*μ₂^4*η*k₃^2 + 2*β₂*δ₁^2*δ₂*δ₃^3*μ₂^3*η*k₁*k₃ - 4*β₂*δ₁^2*δ₃^3*μ₁^3*η^2*k₃ - 28*β₂*δ₁^2*δ₃^3*μ₁^2*μ₂*η^2*k₃ + 16*β₂*δ₁^2*δ₃^3*μ₁*μ₂^2*η^2*k₃ - 2*β₂*δ₁^2*δ₃^3*μ₂^3*η^2*k₃ - 16*β₂*δ₁^2*δ₃^2*μ₁^4*η^2*k₃ + 102*β₂*δ₁^2*δ₃^2*μ₁^3*μ₂*η^2*k₃ - 33*β₂*δ₁^2*δ₃^2*μ₁^2*μ₂^2*η^2*k₃ - 69*β₂*δ₁^2*δ₃^2*μ₁*μ₂^3*η^2*k₃ + 24*β₂*δ₁^2*δ₃*μ₁^4*μ₂*η^2*k₃ - 144*β₂*δ₁^2*δ₃*μ₁^3*μ₂^2*η^2*k₃ + 232*β₂*δ₁^2*δ₃*μ₁^2*μ₂^3*η^2*k₃ - 26*β₂*δ₁^2*δ₃*μ₁*μ₂^4*η^2*k₃ - 16*β₂*δ₁^2*μ₁^5*μ₂*η^2*k₃ + 28*β₂*δ₁^2*μ₁^4*μ₂^2*η^2*k₃ + 9*β₂*δ₁^2*μ₁^3*μ₂^3*η^2*k₃ - 73*β₂*δ₁^2*μ₁^2*μ₂^4*η^2*k₃ + 2*β₂*δ₁*δ₃*μ₁^4*μ₂^2*η^2*k₁ + 10*β₂*δ₁*δ₃*μ₁^3*μ₂^3*η^2*k₁ - 12*β₂*δ₁*δ₃*μ₁^2*μ₂^4*η^2*k₁ + 6*β₂*δ₁*μ₁^5*μ₂^2*η^2*k₁ - 6*β₂*δ₁*μ₁^4*μ₂^3*η^2*k₁ - 42*β₂*δ₁*μ₁^3*μ₂^4*η^2*k₁ + 42*β₂*δ₁*μ₁^2*μ₂^5*η^2*k₁ - 6*β₃^5*δ₁*δ₂*μ₂^2*η^2*k₁ - 8*β₃^5*δ₁*δ₃*μ₂*η^3 + 10*β₃^5*δ₁*μ₂^2*η^3 - 6*β₃^4*δ₁^2*δ₂^2*μ₂^2*η*k₁*k₃ - 20*β₃^4*δ₁^2*δ₂*δ₃*μ₂*η^2*k₃ + 50*β₃^4*δ₁^2*δ₂*μ₂^2*η^2*k₃ - 8*β₃^4*δ₁^2*δ₃*μ₂^2*η^2*k₂ + 10*β₃^4*δ₁^2*μ₂^3*η^2*k₂ + 32*β₃^4*δ₁*δ₂*δ₃*μ₂^2*η^2*k₁ - 12*β₃^4*δ₁*δ₂*μ₂^3*η^2*k₁ + 40*β₃^4*δ₁*δ₃^2*μ₂*η^3 - 8*β₃^4*δ₁*δ₃*μ₁*μ₂*η^3 - 78*β₃^4*δ₁*δ₃*μ₂^2*η^3 + 10*β₃^4*δ₁*μ₁*μ₂^2*η^3 + 66*β₃^4*δ₁*μ₂^3*η^3 - 4*β₃^3*δ₁^3*δ₂^2*δ₃*μ₂*η*k₃^2 + 24*β₃^3*δ₁^3*δ₂^2*μ₂^2*η*k₃^2 + 20*β₃^3*δ₁^2*δ₂^2*δ₃*μ₂^2*η*k₁*k₃ - 6*β₃^3*δ₁^2*δ₂^2*μ₂^3*η*k₁*k₃ + 66*β₃^3*δ₁^2*δ₂*δ₃^2*μ₂*η^2*k₃ - 54*β₃^3*δ₁^2*δ₂*δ₃*μ₁*μ₂*η^2*k₃ - 208*β₃^3*δ₁^2*δ₂*δ₃*μ₂^2*η^2*k₃ + 32*β₃^3*δ₁^2*δ₂*μ₁^3*η^2*k₃ + 56*β₃^3*δ₁^2*δ₂*μ₁*μ₂^2*η^2*k₃ + 160*β₃^3*δ₁^2*δ₂*μ₂^3*η^2*k₃ + 32*β₃^3*δ₁^2*δ₃^2*μ₂^2*η^2*k₂ - 60*β₃^3*δ₁^2*δ₃*μ₂^3*η^2*k₂ + 56*β₃^3*δ₁^2*μ₂^4*η^2*k₂ - 68*β₃^3*δ₁*δ₂*δ₃^2*μ₂^2*η^2*k₁ + 52*β₃^3*δ₁*δ₂*δ₃*μ₂^3*η^2*k₁ - 6*β₃^3*δ₁*δ₂*μ₂^4*η^2*k₁ - 80*β₃^3*δ₁*δ₃^3*μ₂*η^3 + 32*β₃^3*δ₁*δ₃^2*μ₁*μ₂*η^3 + 212*β₃^3*δ₁*δ₃^2*μ₂^2*η^3 - 68*β₃^3*δ₁*δ₃*μ₁*μ₂^2*η^3 - 296*β₃^3*δ₁*δ₃*μ₂^3*η^3 + 66*β₃^3*δ₁*μ₁*μ₂^3*η^3 + 102*β₃^3*δ₁*μ₂^4*η^3 - 6*β₃^2*δ₁^4*δ₂^3*μ₂^2*k₃^3 + 10*β₃^2*δ₁^3*δ₂^2*δ₃^2*μ₂*η*k₃^2 - 52*β₃^2*δ₁^3*δ₂^2*δ₃*μ₂^2*η*k₃^2 + 32*β₃^2*δ₁^3*δ₂^2*μ₂^3*η*k₃^2 - 22*β₃^2*δ₁^2*δ₂^2*δ₃^2*μ₂^2*η*k₁*k₃ + 14*β₃^2*δ₁^2*δ₂^2*δ₃*μ₂^3*η*k₁*k₃ + 6*β₃^2*δ₁^2*δ₂^2*μ₂^4*η*k₁*k₃ - 78*β₃^2*δ₁^2*δ₂*δ₃^3*μ₂*η^2*k₃ + 152*β₃^2*δ₁^2*δ₂*δ₃^2*μ₁*μ₂*η^2*k₃ + 306*β₃^2*δ₁^2*δ₂*δ₃^2*μ₂^2*η^2*k₃ - 96*β₃^2*δ₁^2*δ₂*δ₃*μ₁^3*η^2*k₃ - 64*β₃^2*δ₁^2*δ₂*δ₃*μ₁^2*μ₂*η^2*k₃ - 282*β₃^2*δ₁^2*δ₂*δ₃*μ₁*μ₂^2*η^2*k₃ - 384*β₃^2*δ₁^2*δ₂*δ₃*μ₂^3*η^2*k₃ + 64*β₃^2*δ₁^2*δ₂*μ₁^4*η^2*k₃ + 48*β₃^2*δ₁^2*δ₂*μ₁^3*μ₂*η^2*k₃ + 18*β₃^2*δ₁^2*δ₂*μ₁^2*μ₂^2*η^2*k₃ + 197*β₃^2*δ₁^2*δ₂*μ₁*μ₂^3*η^2*k₃ + 12*β₃^2*δ₁^2*δ₂*μ₂^4*η^2*k₃ - 48*β₃^2*δ₁^2*δ₃^3*μ₂^2*η^2*k₂ + 120*β₃^2*δ₁^2*δ₃^2*μ₂^3*η^2*k₂ - 180*β₃^2*δ₁^2*δ₃*μ₂^4*η^2*k₂ + 46*β₃^2*δ₁^2*μ₂^5*η^2*k₂ + 72*β₃^2*δ₁*δ₂*δ₃^3*μ₂^2*η^2*k₁ - 84*β₃^2*δ₁*δ₂*δ₃^2*μ₂^3*η^2*k₁ + 14*β₃^2*δ₁*δ₂*δ₃*μ₁*μ₂^3*η^2*k₁ + 20*β₃^2*δ₁*δ₂*δ₃*μ₂^4*η^2*k₁ - 35*β₃^2*δ₁*δ₂*μ₁*μ₂^4*η^2*k₁ + 80*β₃^2*δ₁*δ₃^4*μ₂*η^3 - 48*β₃^2*δ₁*δ₃^3*μ₁*μ₂*η^3 - 268*β₃^2*δ₁*δ₃^3*μ₂^2*η^3 + 144*β₃^2*δ₁*δ₃^2*μ₁*μ₂^2*η^3 + 492*β₃^2*δ₁*δ₃^2*μ₂^3*η^3 - 230*β₃^2*δ₁*δ₃*μ₁*μ₂^3*η^3 - 318*β₃^2*δ₁*δ₃*μ₂^4*η^3 + 102*β₃^2*δ₁*μ₁*μ₂^4*η^3 + 46*β₃^2*δ₁*μ₂^5*η^3 + 4*β₃*δ₁^4*δ₂^3*δ₃*μ₁*μ₂*k₃^3 - 4*β₃*δ₁^4*δ₂^3*δ₃*μ₂^2*k₃^3 - 12*β₃*δ₁^4*δ₂^3*μ₁*μ₂^2*k₃^3 - 6*β₃*δ₁^3*δ₂^2*δ₃^3*μ₂*η*k₃^2 + 18*β₃*δ₁^3*δ₂^2*δ₃^2*μ₁*μ₂*η*k₃^2 + 34*β₃*δ₁^3*δ₂^2*δ₃^2*μ₂^2*η*k₃^2 + 18*β₃*δ₁^3*δ₂^2*δ₃*μ₁^2*μ₂*η*k₃^2 + 2*β₃*δ₁^3*δ₂^2*δ₃*μ₁*μ₂^2*η*k₃^2 - 44*β₃*δ₁^3*δ₂^2*δ₃*μ₂^3*η*k₃^2 - 32*β₃*δ₁^3*δ₂^2*μ₁^4*η*k₃^2 + 2*β₃*δ₁^3*δ₂^2*μ₁^2*μ₂^2*η*k₃^2 - 8*β₃*δ₁^3*δ₂^2*μ₁*μ₂^3*η*k₃^2 - 30*β₃*δ₁^3*δ₂^2*μ₂^4*η*k₃^2 + 8*β₃*δ₁^2*δ₂^2*δ₃^3*μ₂^2*η*k₁*k₃ + 4*β₃*δ₁^2*δ₂^2*δ₃^2*μ₁*μ₂^2*η*k₁*k₃ - 8*β₃*δ₁^2*δ₂^2*δ₃^2*μ₂^3*η*k₁*k₃ + 16*β₃*δ₁^2*δ₂^2*δ₃*μ₁^2*μ₂^2*η*k₁*k₃ - 16*β₃*δ₁^2*δ₂^2*δ₃*μ₁*μ₂^3*η*k₁*k₃ - 8*β₃*δ₁^2*δ₂^2*δ₃*μ₂^4*η*k₁*k₃ + 26*β₃*δ₁^2*δ₂^2*μ₁^2*μ₂^3*η*k₁*k₃ - 26*β₃*δ₁^2*δ₂^2*μ₁*μ₂^4*η*k₁*k₃ + 6*β₃*δ₁^2*δ₂^2*μ₂^5*η*k₁*k₃ + 38*β₃*δ₁^2*δ₂*δ₃^4*μ₂*η^2*k₃ - 142*β₃*δ₁^2*δ₂*δ₃^3*μ₁*μ₂*η^2*k₃ - 188*β₃*δ₁^2*δ₂*δ₃^3*μ₂^2*η^2*k₃ + 96*β₃*δ₁^2*δ₂*δ₃^2*μ₁^3*η^2*k₃ + 122*β₃*δ₁^2*δ₂*δ₃^2*μ₁^2*μ₂*η^2*k₃ + 378*β₃*δ₁^2*δ₂*δ₃^2*μ₁*μ₂^2*η^2*k₃ + 310*β₃*δ₁^2*δ₂*δ₃^2*μ₂^3*η^2*k₃ - 128*β₃*δ₁^2*δ₂*δ₃*μ₁^4*η^2*k₃ - 126*β₃*δ₁^2*δ₂*δ₃*μ₁^3*μ₂*η^2*k₃ - 102*β₃*δ₁^2*δ₂*δ₃*μ₁^2*μ₂^2*η^2*k₃ - 477*β₃*δ₁^2*δ₂*δ₃*μ₁*μ₂^3*η^2*k₃ - 40*β₃*δ₁^2*δ₂*δ₃*μ₂^4*η^2*k₃ + 32*β₃*δ₁^2*δ₂*μ₁^5*η^2*k₃ + 96*β₃*δ₁^2*δ₂*μ₁^4*μ₂*η^2*k₃ - 40*β₃*δ₁^2*δ₂*μ₁^3*μ₂^2*η^2*k₃ + 94*β₃*δ₁^2*δ₂*μ₁^2*μ₂^3*η^2*k₃ + 239*β₃*δ₁^2*δ₂*μ₁*μ₂^4*η^2*k₃ - 98*β₃*δ₁^2*δ₂*μ₂^5*η^2*k₃ + 32*β₃*δ₁^2*δ₃^4*μ₂^2*η^2*k₂ - 100*β₃*δ₁^2*δ₃^3*μ₂^3*η^2*k₂ + 192*β₃*δ₁^2*δ₃^2*μ₂^4*η^2*k₂ - 92*β₃*δ₁^2*δ₃*μ₂^5*η^2*k₂ - 38*β₃*δ₁*δ₂*δ₃^4*μ₂^2*η^2*k₁ + 60*β₃*δ₁*δ₂*δ₃^3*μ₂^3*η^2*k₁ - 28*β₃*δ₁*δ₂*δ₃^2*μ₁*μ₂^3*η^2*k₁ - 22*β₃*δ₁*δ₂*δ₃^2*μ₂^4*η^2*k₁ + 2*β₃*δ₁*δ₂*δ₃*μ₁^2*μ₂^3*η^2*k₁ + 96*β₃*δ₁*δ₂*δ₃*μ₁*μ₂^4*η^2*k₁ + 7*β₃*δ₁*δ₂*μ₁^2*μ₂^4*η^2*k₁ - 77*β₃*δ₁*δ₂*μ₁*μ₂^5*η^2*k₁ - 40*β₃*δ₁*δ₃^5*μ₂*η^3 + 32*β₃*δ₁*δ₃^4*μ₁*μ₂*η^3 + 162*β₃*δ₁*δ₃^4*μ₂^2*η^3 - 124*β₃*δ₁*δ₃^3*μ₁*μ₂^2*η^3 - 360*β₃*δ₁*δ₃^3*μ₂^3*η^3 + 262*β₃*δ₁*δ₃^2*μ₁*μ₂^3*η^3 + 330*β₃*δ₁*δ₃^2*μ₂^4*η^3 - 216*β₃*δ₁*δ₃*μ₁*μ₂^4*η^3 - 92*β₃*δ₁*δ₃*μ₂^5*η^3 + 46*β₃*δ₁*μ₁*μ₂^5*η^3 + 2*δ₁^4*δ₂^3*δ₃^2*μ₁*μ₂*k₃^3 - 2*δ₁^4*δ₂^3*δ₃^2*μ₂^2*k₃^3 + 4*δ₁^4*δ₂^3*δ₃*μ₁^2*μ₂*k₃^3 - 4*δ₁^4*δ₂^3*δ₃*μ₁*μ₂^2*k₃^3 + 2*δ₁^4*δ₂^3*μ₁^2*μ₂^2*k₃^3 - 14*δ₁^4*δ₂^3*μ₁*μ₂^3*k₃^3 + 12*δ₁^4*δ₂^3*μ₂^4*k₃^3 - 12*δ₁^3*δ₂^2*δ₃^3*μ₁*μ₂*η*k₃^2 + 8*δ₁^3*δ₂^2*δ₃^2*μ₁^2*μ₂*η*k₃^2 + 26*δ₁^3*δ₂^2*δ₃^2*μ₁*μ₂^2*η*k₃^2 + 2*δ₁^3*δ₂^2*δ₃^2*μ₂^3*η*k₃^2 - 12*δ₁^3*δ₂^2*δ₃*μ₁^3*μ₂*η*k₃^2 + 8*δ₁^3*δ₂^2*δ₃*μ₁^2*μ₂^2*η*k₃^2 - 28*δ₁^3*δ₂^2*δ₃*μ₁*μ₂^3*η*k₃^2 - 4*δ₁^3*δ₂^2*δ₃*μ₂^4*η*k₃^2 - 16*δ₁^3*δ₂^2*μ₁^4*μ₂*η*k₃^2 + 26*δ₁^3*δ₂^2*μ₁^3*μ₂^2*η*k₃^2 - 11*δ₁^3*δ₂^2*μ₁^2*μ₂^3*η*k₃^2 + 45*δ₁^3*δ₂^2*μ₁*μ₂^4*η*k₃^2 - 32*δ₁^3*δ₂^2*μ₂^5*η*k₃^2 - 4*δ₁^2*δ₂^2*δ₃^3*μ₁*μ₂^2*η*k₁*k₃ - 16*δ₁^2*δ₂^2*δ₃^2*μ₁^2*μ₂^2*η*k₁*k₃ + 20*δ₁^2*δ₂^2*δ₃^2*μ₁*μ₂^3*η*k₁*k₃ - 10*δ₁^2*δ₂^2*δ₃*μ₁^2*μ₂^3*η*k₁*k₃ + 10*δ₁^2*δ₂^2*δ₃*μ₁*μ₂^4*η*k₁*k₃ - 2*δ₁^2*δ₂^2*δ₃*μ₂^5*η*k₁*k₃ + 26*δ₁^2*δ₂^2*μ₁^2*μ₂^4*η*k₁*k₃ - 26*δ₁^2*δ₂^2*μ₁*μ₂^5*η*k₁*k₃ - 6*δ₁^2*δ₂*δ₃^5*μ₂*η^2*k₃ + 44*δ₁^2*δ₂*δ₃^4*μ₁*μ₂*η^2*k₃ + 40*δ₁^2*δ₂*δ₃^4*μ₂^2*η^2*k₃ - 32*δ₁^2*δ₂*δ₃^3*μ₁^3*η^2*k₃ - 58*δ₁^2*δ₂*δ₃^3*μ₁^2*μ₂*η^2*k₃ - 152*δ₁^2*δ₂*δ₃^3*μ₁*μ₂^2*η^2*k₃ - 86*δ₁^2*δ₂*δ₃^3*μ₂^3*η^2*k₃ + 64*δ₁^2*δ₂*δ₃^2*μ₁^4*η^2*k₃ + 80*δ₁^2*δ₂*δ₃^2*μ₁^3*μ₂*η^2*k₃ + 90*δ₁^2*δ₂*δ₃^2*μ₁^2*μ₂^2*η^2*k₃ + 248*δ₁^2*δ₂*δ₃^2*μ₁*μ₂^3*η^2*k₃ + 56*δ₁^2*δ₂*δ₃^2*μ₂^4*η^2*k₃ - 32*δ₁^2*δ₂*δ₃*μ₁^5*η^2*k₃ - 88*δ₁^2*δ₂*δ₃*μ₁^4*μ₂*η^2*k₃ - 48*δ₁^2*δ₂*δ₃*μ₁^3*μ₂^2*η^2*k₃ - 66*δ₁^2*δ₂*δ₃*μ₁^2*μ₂^3*η^2*k₃ - 162*δ₁^2*δ₂*δ₃*μ₁*μ₂^4*η^2*k₃ - 2*δ₁^2*δ₂*δ₃*μ₂^5*η^2*k₃ + 48*δ₁^2*δ₂*μ₁^5*μ₂*η^2*k₃ - 12*δ₁^2*δ₂*μ₁^4*μ₂^2*η^2*k₃ + 37*δ₁^2*δ₂*μ₁^3*μ₂^3*η^2*k₃ - 64*δ₁^2*δ₂*μ₁^2*μ₂^4*η^2*k₃ + 101*δ₁^2*δ₂*μ₁*μ₂^5*η^2*k₃ - 8*δ₁^2*δ₃^5*μ₂^2*η^2*k₂ + 30*δ₁^2*δ₃^4*μ₂^3*η^2*k₂ - 68*δ₁^2*δ₃^3*μ₂^4*η^2*k₂ + 46*δ₁^2*δ₃^2*μ₂^5*η^2*k₂ + 8*δ₁*δ₂*δ₃^5*μ₂^2*η^2*k₁ - 16*δ₁*δ₂*δ₃^4*μ₂^3*η^2*k₁ + 14*δ₁*δ₂*δ₃^3*μ₁*μ₂^3*η^2*k₁ + 8*δ₁*δ₂*δ₃^3*μ₂^4*η^2*k₁ - 2*δ₁*δ₂*δ₃^2*μ₁^2*μ₂^3*η^2*k₁ - 61*δ₁*δ₂*δ₃^2*μ₁*μ₂^4*η^2*k₁ - 2*δ₁*δ₂*δ₃*μ₁^4*μ₂^2*η^2*k₁ - 10*δ₁*δ₂*δ₃*μ₁^3*μ₂^3*η^2*k₁ + 7*δ₁*δ₂*δ₃*μ₁^2*μ₂^4*η^2*k₁ + 89*δ₁*δ₂*δ₃*μ₁*μ₂^5*η^2*k₁ - 6*δ₁*δ₂*μ₁^5*μ₂^2*η^2*k₁ + 6*δ₁*δ₂*μ₁^4*μ₂^3*η^2*k₁ + 42*δ₁*δ₂*μ₁^3*μ₂^4*η^2*k₁ - 35*δ₁*δ₂*μ₁^2*μ₂^5*η^2*k₁ - 42*δ₁*δ₂*μ₁*μ₂^6*η^2*k₁ + 8*δ₁*δ₃^6*μ₂*η^3 - 8*δ₁*δ₃^5*μ₁*μ₂*η^3 - 38*δ₁*δ₃^5*μ₂^2*η^3 + 38*δ₁*δ₃^4*μ₁*μ₂^2*η^3 + 98*δ₁*δ₃^4*μ₂^3*η^3 - 98*δ₁*δ₃^3*μ₁*μ₂^3*η^3 - 114*δ₁*δ₃^3*μ₂^4*η^3 + 114*δ₁*δ₃^2*μ₁*μ₂^4*η^3 + 46*δ₁*δ₃^2*μ₂^5*η^3 - 46*δ₁*δ₃*μ₁*μ₂^5*η^3
+ 6*β₂^2*β₃^2*δ₁^5*δ₂*k₃^4 + 8*β₂^2*β₃*δ₁^5*δ₂*δ₃*k₃^4 - 8*β₂^2*β₃*δ₁^5*δ₂*μ₁*k₃^4 - 16*β₂^2*β₃*δ₁^4*δ₃^2*η*k₃^3 + 38*β₂^2*β₃*δ₁^4*δ₃*μ₁*η*k₃^3 - 4*β₂^2*β₃*δ₁^4*δ₃*μ₂*η*k₃^3 - 4*β₂^2*β₃*δ₁^4*μ₁*μ₂*η*k₃^3 + 8*β₂^2*β₃*δ₁^4*μ₂^2*η*k₃^3 + 4*β₂^2*β₃*δ₁^3*δ₃^2*μ₂*η*k₁*k₃^2 - 4*β₂^2*β₃*δ₁^3*δ₃*μ₂^2*η*k₁*k₃^2 + 16*β₂^2*δ₁^4*δ₃^3*η*k₃^3 - 66*β₂^2*δ₁^4*δ₃^2*μ₁*η*k₃^3 + 12*β₂^2*δ₁^4*δ₃^2*μ₂*η*k₃^3 + 68*β₂^2*δ₁^4*δ₃*μ₁^2*η*k₃^3 - 8*β₂^2*δ₁^4*δ₃*μ₁*μ₂*η*k₃^3 - 34*β₂^2*δ₁^4*μ₁^2*μ₂*η*k₃^3 + 12*β₂^2*δ₁^4*μ₁*μ₂^2*η*k₃^3 - 4*β₂^2*δ₁^3*δ₃^3*μ₂*η*k₁*k₃^2 + 4*β₂^2*δ₁^3*δ₃^2*μ₂^2*η*k₁*k₃^2 - 20*β₂^2*δ₁^3*δ₃*μ₁*μ₂^2*η*k₁*k₃^2 + 4*β₂^2*δ₁^3*μ₁*μ₂^3*η*k₁*k₃^2 - 12*β₂*β₃^2*δ₁^5*δ₂^2*k₃^4 - 16*β₂*β₃*δ₁^5*δ₂^2*δ₃*k₃^4 + 16*β₂*β₃*δ₁^5*δ₂^2*μ₁*k₃^4 + 32*β₂*β₃*δ₁^4*δ₂*δ₃^2*η*k₃^3 + 22*β₂*β₃*δ₁^4*δ₂*δ₃*μ₁*η*k₃^3 + 36*β₂*β₃*δ₁^4*δ₂*δ₃*μ₂*η*k₃^3 - 172*β₂*β₃*δ₁^4*δ₂*μ₁^2*η*k₃^3 + 10*β₂*β₃*δ₁^4*δ₂*μ₁*μ₂*η*k₃^3 - 2*β₂*β₃*δ₁^4*δ₂*μ₂^2*η*k₃^3 + 2*β₂*β₃*δ₁^3*δ₂*δ₃^2*μ₂*η*k₁*k₃^2 - 12*β₂*β₃*δ₁^3*δ₂*δ₃*μ₂^2*η*k₁*k₃^2 + 8*β₂*β₃*δ₁^3*δ₂*μ₂^3*η*k₁*k₃^2 - 10*β₂*β₃*δ₁^3*δ₃^2*μ₁*η^2*k₃^2 - 11*β₂*β₃*δ₁^3*δ₃*μ₁^2*η^2*k₃^2 - 106*β₂*β₃*δ₁^3*δ₃*μ₁*μ₂*η^2*k₃^2 - 8*β₂*β₃*δ₁^3*δ₃*μ₂^2*η^2*k₃^2 + 64*β₂*β₃*δ₁^3*μ₁^3*η^2*k₃^2 + 97*β₂*β₃*δ₁^3*μ₁^2*μ₂*η^2*k₃^2 + 15*β₂*β₃*δ₁^3*μ₁*μ₂^2*η^2*k₃^2 - 8*β₂*β₃*δ₁^3*μ₂^3*η^2*k₃^2 + 28*β₂*β₃*δ₁^2*δ₃*μ₁*μ₂^2*η^2*k₁*k₃ + 13*β₂*β₃*δ₁^2*μ₁*μ₂^3*η^2*k₁*k₃ - 8*β₂*δ₁^5*δ₂*δ₃^2*μ₂*k₂*k₃^3 - 32*β₂*δ₁^4*δ₂*δ₃^3*η*k₃^3 + 42*β₂*δ₁^4*δ₂*δ₃^2*μ₁*η*k₃^3 - 8*β₂*δ₁^4*δ₂*δ₃^2*μ₂*η*k₃^3 + 36*β₂*δ₁^4*δ₂*δ₃*μ₁^2*η*k₃^3 + 8*β₂*δ₁^4*δ₂*δ₃*μ₁*μ₂*η*k₃^3 - 16*β₂*δ₁^4*δ₂*δ₃*μ₂^2*η*k₃^3 - 56*β₂*δ₁^4*δ₂*μ₁^2*μ₂*η*k₃^3 + 38*β₂*δ₁^4*δ₂*μ₁*μ₂^2*η*k₃^3 - 12*β₂*δ₁^4*δ₂*μ₂^3*η*k₃^3 + 28*β₂*δ₁^4*μ₁*μ₂^3*η*k₂*k₃^2 - 2*β₂*δ₁^3*δ₂*δ₃^3*μ₂*η*k₁*k₃^2 + 4*β₂*δ₁^3*δ₂*δ₃^2*μ₂^2*η*k₁*k₃^2 + 4*β₂*δ₁^3*δ₂*δ₃*μ₂^3*η*k₁*k₃^2 - 4*β₂*δ₁^3*δ₂*μ₂^4*η*k₁*k₃^2 + 10*β₂*δ₁^3*δ₃^3*μ₁*η^2*k₃^2 + 8*β₂*δ₁^3*δ₃^2*μ₁^2*η^2*k₃^2 + 70*β₂*δ₁^3*δ₃^2*μ₁*μ₂*η^2*k₃^2 + 8*β₂*δ₁^3*δ₃^2*μ₂^2*η^2*k₃^2 - 64*β₂*δ₁^3*δ₃*μ₁^3*η^2*k₃^2 - 116*β₂*δ₁^3*δ₃*μ₁^2*μ₂*η^2*k₃^2 - 30*β₂*δ₁^3*δ₃*μ₁*μ₂^2*η^2*k₃^2 + 8*β₂*δ₁^3*δ₃*μ₂^3*η^2*k₃^2 + 66*β₂*δ₁^3*μ₁^3*μ₂*η^2*k₃^2 + 48*β₂*δ₁^3*μ₁^2*μ₂^2*η^2*k₃^2 + 4*β₂*δ₁^3*μ₁*μ₂^4*η*k₁*k₂*k₃ - 8*β₂*δ₁^3*μ₁*μ₂^3*η^2*k₃^2 - 28*β₂*δ₁^2*δ₃^2*μ₁*μ₂^2*η^2*k₁*k₃ - 36*β₂*δ₁^2*δ₃*μ₁^3*μ₂*η^2*k₁*k₃ + 9*β₂*δ₁^2*δ₃*μ₁^2*μ₂^2*η^2*k₁*k₃ + 4*β₂*δ₁^2*δ₃*μ₁*μ₂^3*η^2*k₁*k₃ - 16*β₂*δ₁^2*μ₁^4*μ₂*η^2*k₁*k₃ + 25*β₂*δ₁^2*μ₁^3*μ₂^2*η^2*k₁*k₃ + 42*β₂*δ₁^2*μ₁^2*μ₂^3*η^2*k₁*k₃ + 2*β₂*δ₁*μ₁^3*μ₂^3*η^2*k₁^2 - 2*β₂*δ₁*μ₁^2*μ₂^4*η^2*k₁^2 + 4*β₃^6*δ₁*η^3*k₁ + 14*β₃^5*δ₁^2*δ₂*η^2*k₁*k₃ + 4*β₃^5*δ₁^2*μ₂*η^2*k₁*k₂ - 8*β₃^5*δ₁^2*η^3*k₃ - 24*β₃^5*δ₁*δ₃*η^3*k₁ + 4*β₃^5*δ₁*μ₁*η^3*k₁ - 2*β₃^5*δ₁*μ₂*η^3*k₁ + 6*β₃^4*δ₁^3*δ₂^2*η*k₁*k₃^2 - 22*β₃^4*δ₁^3*δ₂*η^2*k₃^2 - 8*β₃^4*δ₁^3*μ₂*η^2*k₂*k₃ - 60*β₃^4*δ₁^2*δ₂*δ₃*η^2*k₁*k₃ - 16*β₃^4*δ₁^2*δ₂*μ₂*η^2*k₁*k₃ - 20*β₃^4*δ₁^2*δ₃*μ₂*η^2*k₁*k₂ + 20*β₃^4*δ₁^2*δ₃*η^3*k₃ - 8*β₃^4*δ₁^2*μ₁*η^3*k₃ - 6*β₃^4*δ₁^2*μ₂^2*η^2*k₁*k₂ + 10*β₃^4*δ₁^2*μ₂*η^3*k₃ + 60*β₃^4*δ₁*δ₃^2*η^3*k₁ - 20*β₃^4*δ₁*δ₃*μ₁*η^3*k₁ + 10*β₃^4*δ₁*δ₃*μ₂*η^3*k₁ - 2*β₃^4*δ₁*μ₁*μ₂*η^3*k₁ - 16*β₃^4*δ₁*μ₂^2*η^3*k₁ - 16*β₃^3*δ₁^3*δ₂^2*δ₃*η*k₁*k₃^2 - 2*β₃^3*δ₁^3*δ₂^2*μ₂*η*k₁*k₃^2 + 8*β₃^3*δ₁^3*δ₂*δ₃*η^2*k₃^2 - 42*β₃^3*δ₁^3*δ₂*μ₁*η^2*k₃^2 + 52*β₃^3*δ₁^3*δ₂*μ₂*η^2*k₃^2 + 12*β₃^3*δ₁^3*δ₃*μ₂*η^2*k₂*k₃ + 18*β₃^3*δ₁^3*μ₂^2*η^2*k₂*k₃ + 100*β₃^3*δ₁^2*δ₂*δ₃^2*η^2*k₁*k₃ + 40*β₃^3*δ₁^2*δ₂*δ₃*μ₂*η^2*k₁*k₃ - 2*β₃^3*δ₁^2*δ₂*μ₂^2*η^2*k₁*k₃ + 40*β₃^3*δ₁^2*δ₃^2*μ₂*η^2*k₁*k₂ + 12*β₃^3*δ₁^2*δ₃*μ₁*η^3*k₃ + 24*β₃^3*δ₁^2*δ₃*μ₂^2*η^2*k₁*k₂ - 86*β₃^3*δ₁^2*δ₃*μ₂*η^3*k₃ + 10*β₃^3*δ₁^2*μ₁*μ₂*η^3*k₃ - 10*β₃^3*δ₁^2*μ₂^3*η^2*k₁*k₂ + 48*β₃^3*δ₁^2*μ₂^2*η^3*k₃ - 80*β₃^3*δ₁*δ₃^3*η^3*k₁ + 40*β₃^3*δ₁*δ₃^2*μ₁*η^3*k₁ - 20*β₃^3*δ₁*δ₃^2*μ₂*η^3*k₁ + 8*β₃^3*δ₁*δ₃*μ₁*μ₂*η^3*k₁ + 64*β₃^3*δ₁*δ₃*μ₂^2*η^3*k₁ - 16*β₃^3*δ₁*μ₁*μ₂^2*η^3*k₁ - 8*β₃^3*δ₁*μ₂^3*η^3*k₁ + 6*β₃^2*δ₁^5*δ₂^3*k₃^4 - 16*β₃^2*δ₁^4*δ₂^2*δ₃*η*k₃^3 + 4*β₃^2*δ₁^4*δ₂^2*μ₂*η*k₃^3 + 14*β₃^2*δ₁^3*δ₂^2*δ₃^2*η*k₁*k₃^2 - 2*β₃^2*δ₁^3*δ₂^2*δ₃*μ₂*η*k₁*k₃^2 + 2*β₃^2*δ₁^3*δ₂^2*μ₂^2*η*k₁*k₃^2 + 66*β₃^2*δ₁^3*δ₂*δ₃^2*η^2*k₃^2 + 142*β₃^2*δ₁^3*δ₂*δ₃*μ₁*η^2*k₃^2 - 136*β₃^2*δ₁^3*δ₂*δ₃*μ₂*η^2*k₃^2 - 136*β₃^2*δ₁^3*δ₂*μ₁^2*η^2*k₃^2 - 72*β₃^2*δ₁^3*δ₂*μ₁*μ₂*η^2*k₃^2 + 16*β₃^2*δ₁^3*δ₂*μ₂^2*η^2*k₃^2 + 12*β₃^2*δ₁^3*δ₃^2*μ₂*η^2*k₂*k₃ - 80*β₃^2*δ₁^3*δ₃*μ₂^2*η^2*k₂*k₃ + 30*β₃^2*δ₁^3*μ₂^3*η^2*k₂*k₃ - 80*β₃^2*δ₁^2*δ₂*δ₃^3*η^2*k₁*k₃ - 24*β₃^2*δ₁^2*δ₂*δ₃^2*μ₂*η^2*k₁*k₃ - 16*β₃^2*δ₁^2*δ₂*δ₃*μ₁*μ₂*η^2*k₁*k₃ - 10*β₃^2*δ₁^2*δ₂*μ₁*μ₂^2*η^2*k₁*k₃ + 24*β₃^2*δ₁^2*δ₂*μ₂^3*η^2*k₁*k₃ - 40*β₃^2*δ₁^2*δ₃^3*μ₂*η^2*k₁*k₂ - 40*β₃^2*δ₁^2*δ₃^3*η^3*k₃ + 12*β₃^2*δ₁^2*δ₃^2*μ₁*η^3*k₃ - 36*β₃^2*δ₁^2*δ₃^2*μ₂^2*η^2*k₁*k₂ + 198*β₃^2*δ₁^2*δ₃^2*μ₂*η^3*k₃ - β₃^2*δ₁^2*δ₃*μ₁^2*η^3*k₃ - 74*β₃^2*δ₁^2*δ₃*μ₁*μ₂*η^3*k₃ + 30*β₃^2*δ₁^2*δ₃*μ₂^3*η^2*k₁*k₂ - 170*β₃^2*δ₁^2*δ₃*μ₂^2*η^3*k₃ + 5*β₃^2*δ₁^2*μ₁^2*μ₂*η^3*k₃ + 40*β₃^2*δ₁^2*μ₁*μ₂^2*η^3*k₃ + 2*β₃^2*δ₁^2*μ₂^4*η^2*k₁*k₂ + 30*β₃^2*δ₁^2*μ₂^3*η^3*k₃ + 16*β₃^2*δ₁*δ₂*μ₁*μ₂^3*η^2*k₁^2 + 60*β₃^2*δ₁*δ₃^4*η^3*k₁ - 40*β₃^2*δ₁*δ₃^3*μ₁*η^3*k₁ + 20*β₃^2*δ₁*δ₃^3*μ₂*η^3*k₁ - 12*β₃^2*δ₁*δ₃^2*μ₁*μ₂*η^3*k₁ - 96*β₃^2*δ₁*δ₃^2*μ₂^2*η^3*k₁ + 48*β₃^2*δ₁*δ₃*μ₁*μ₂^2*η^3*k₁ + 24*β₃^2*δ₁*δ₃*μ₂^3*η^3*k₁ + 5*β₃^2*δ₁*μ₁^2*μ₂^2*η^3*k₁ - 11*β₃^2*δ₁*μ₁*μ₂^3*η^3*k₁ + 2*β₃^2*δ₁*μ₂^4*η^3*k₁ + 8*β₃*δ₁^5*δ₂^3*δ₃*k₃^4 - 8*β₃*δ₁^5*δ₂^3*μ₁*k₃^4 + 8*β₃*δ₁^5*δ₂^2*μ₂^2*k₂*k₃^3 + 16*β₃*δ₁^4*δ₂^2*δ₃^2*η*k₃^3 - 44*β₃*δ₁^4*δ₂^2*δ₃*μ₁*η*k₃^3 - 40*β₃*δ₁^4*δ₂^2*δ₃*μ₂*η*k₃^3 + 76*β₃*δ₁^4*δ₂^2*μ₁^2*η*k₃^3 + 50*β₃*δ₁^4*δ₂^2*μ₁*μ₂*η*k₃^3 - 6*β₃*δ₁^4*δ₂^2*μ₂^2*η*k₃^3 - 32*β₃*δ₁^4*δ₂*δ₃*μ₂^2*η*k₂*k₃^2 - 4*β₃*δ₁^3*δ₂^2*δ₃^3*η*k₁*k₃^2 + 4*β₃*δ₁^3*δ₂^2*δ₃^2*μ₁*η*k₁*k₃^2 + 4*β₃*δ₁^3*δ₂^2*δ₃^2*μ₂*η*k₁*k₃^2 - 32*β₃*δ₁^3*δ₂^2*δ₃*μ₁^2*η*k₁*k₃^2 + 4*β₃*δ₁^3*δ₂^2*δ₃*μ₂^2*η*k₁*k₃^2 + 8*β₃*δ₁^3*δ₂^2*μ₁^2*μ₂*η*k₁*k₃^2 + 24*β₃*δ₁^3*δ₂^2*μ₁*μ₂^2*η*k₁*k₃^2 - 6*β₃*δ₁^3*δ₂^2*μ₂^3*η*k₁*k₃^2 - 68*β₃*δ₁^3*δ₂*δ₃^3*η^2*k₃^2 - 158*β₃*δ₁^3*δ₂*δ₃^2*μ₁*η^2*k₃^2 + 116*β₃*δ₁^3*δ₂*δ₃^2*μ₂*η^2*k₃^2 + 281*β₃*δ₁^3*δ₂*δ₃*μ₁^2*η^2*k₃^2 + 166*β₃*δ₁^3*δ₂*δ₃*μ₁*μ₂*η^2*k₃^2 + 4*β₃*δ₁^3*δ₂*δ₃*μ₂^2*η^2*k₃^2 - 68*β₃*δ₁^3*δ₂*μ₁^3*η^2*k₃^2 - 199*β₃*δ₁^3*δ₂*μ₁^2*μ₂*η^2*k₃^2 - 57*β₃*δ₁^3*δ₂*μ₁*μ₂^2*η^2*k₃^2 - 50*β₃*δ₁^3*δ₂*μ₂^3*η^2*k₃^2 - 28*β₃*δ₁^3*δ₃^3*μ₂*η^2*k₂*k₃ + 106*β₃*δ₁^3*δ₃^2*μ₂^2*η^2*k₂*k₃ - β₃*δ₁^3*δ₃*μ₁^2*μ₂*η^2*k₂*k₃ + 2*β₃*δ₁^3*δ₃*μ₁*μ₂^2*η^2*k₂*k₃ - 60*β₃*δ₁^3*δ₃*μ₂^3*η^2*k₂*k₃ + 5*β₃*δ₁^3*μ₁^2*μ₂^2*η^2*k₂*k₃ - 8*β₃*δ₁^3*μ₁*μ₂^3*η^2*k₂*k₃ + 30*β₃*δ₁^2*δ₂*δ₃^4*η^2*k₁*k₃ - 8*β₃*δ₁^2*δ₂*δ₃^3*μ₂*η^2*k₁*k₃ + 32*β₃*δ₁^2*δ₂*δ₃^2*μ₁*μ₂*η^2*k₁*k₃ + 6*β₃*δ₁^2*δ₂*δ₃^2*μ₂^2*η^2*k₁*k₃ + 6*β₃*δ₁^2*δ₂*δ₃*μ₁^3*η^2*k₁*k₃ + 40*β₃*δ₁^2*δ₂*δ₃*μ₁^2*μ₂*η^2*k₁*k₃ + 8*β₃*δ₁^2*δ₂*δ₃*μ₁*μ₂^2*η^2*k₁*k₃ - 24*β₃*δ₁^2*δ₂*δ₃*μ₂^3*η^2*k₁*k₃ - 10*β₃*δ₁^2*δ₂*μ₁^4*η^2*k₁*k₃ - 48*β₃*δ₁^2*δ₂*μ₁^2*μ₂^2*η^2*k₁*k₃ - 69*β₃*δ₁^2*δ₂*μ₁*μ₂^3*η^2*k₁*k₃ - 4*β₃*δ₁^2*δ₂*μ₂^4*η^2*k₁*k₃ + 20*β₃*δ₁^2*δ₃^4*μ₂*η^2*k₁*k₂ + 40*β₃*δ₁^2*δ₃^4*η^3*k₃ - 28*β₃*δ₁^2*δ₃^3*μ₁*η^3*k₃ + 24*β₃*δ₁^2*δ₃^3*μ₂^2*η^2*k₁*k₂ - 178*β₃*δ₁^2*δ₃^3*μ₂*η^3*k₃ + 2*β₃*δ₁^2*δ₃^2*μ₁^2*η^3*k₃ + 118*β₃*δ₁^2*δ₃^2*μ₁*μ₂*η^3*k₃ - 30*β₃*δ₁^2*δ₃^2*μ₂^3*η^2*k₁*k₂ + 196*β₃*δ₁^2*δ₃^2*μ₂^2*η^3*k₃ - β₃*δ₁^2*δ₃*μ₁^3*η^3*k₃ - 9*β₃*δ₁^2*δ₃*μ₁^2*μ₂*η^3*k₃ - 104*β₃*δ₁^2*δ₃*μ₁*μ₂^2*η^3*k₃ - 4*β₃*δ₁^2*δ₃*μ₂^4*η^2*k₁*k₂ - 60*β₃*δ₁^2*δ₃*μ₂^3*η^3*k₃ + 5*β₃*δ₁^2*μ₁^3*μ₂*η^3*k₃ + 5*β₃*δ₁^2*μ₁^2*μ₂^3*η^2*k₁*k₂ - 3*β₃*δ₁^2*μ₁^2*μ₂^2*η^3*k₃ - 3*β₃*δ₁^2*μ₁*μ₂^4*η^2*k₁*k₂ + 22*β₃*δ₁^2*μ₁*μ₂^3*η^3*k₃ - 32*β₃*δ₁*δ₂*δ₃*μ₁*μ₂^3*η^2*k₁^2 + 14*β₃*δ₁*δ₂*μ₁^2*μ₂^3*η^2*k₁^2 + 18*β₃*δ₁*δ₂*μ₁*μ₂^4*η^2*k₁^2 - 24*β₃*δ₁*δ₃^5*η^3*k₁ + 20*β₃*δ₁*δ₃^4*μ₁*η^3*k₁ - 10*β₃*δ₁*δ₃^4*μ₂*η^3*k₁ + 8*β₃*δ₁*δ₃^3*μ₁*μ₂*η^3*k₁ + 64*β₃*δ₁*δ₃^3*μ₂^2*η^3*k₁ - 48*β₃*δ₁*δ₃^2*μ₁*μ₂^2*η^3*k₁ - 24*β₃*δ₁*δ₃^2*μ₂^3*η^3*k₁ - 10*β₃*δ₁*δ₃*μ₁^2*μ₂^2*η^3*k₁ + 22*β₃*δ₁*δ₃*μ₁*μ₂^3*η^3*k₁ - 4*β₃*δ₁*δ₃*μ₂^4*η^3*k₁ + 5*β₃*δ₁*μ₁^3*μ₂^2*η^3*k₁ + 2*β₃*δ₁*μ₁^2*μ₂^3*η^3*k₁ - β₃*δ₁*μ₁*μ₂^4*η^3*k₁ - 8*δ₁^5*δ₂^2*δ₃^2*μ₂*k₂*k₃^3 + 16*δ₁^5*δ₂^2*δ₃*μ₂^2*k₂*k₃^3 + 2*δ₁^5*δ₂*δ₃^2*μ₂^2*k₂^2*k₃^2 + 8*δ₁^4*δ₂^2*δ₃^2*μ₁*η*k₃^3 - 8*δ₁^4*δ₂^2*δ₃*μ₁^2*η*k₃^3 - 40*δ₁^4*δ₂^2*δ₃*μ₁*μ₂*η*k₃^3 + 32*δ₁^4*δ₂^2*δ₃*μ₂^2*η*k₃^3 - 6*δ₁^4*δ₂^2*μ₁^2*μ₂*η*k₃^3 + 6*δ₁^4*δ₂^2*μ₁*μ₂^2*η*k₃^3 + 8*δ₁^4*δ₂^2*μ₂^3*η*k₃^3 + 6*δ₁^4*δ₂*δ₃^2*μ₁*μ₂*η*k₂*k₃^2 + 24*δ₁^4*δ₂*δ₃^2*μ₂^2*η*k₂*k₃^2 - 20*δ₁^4*δ₂*δ₃*μ₁*μ₂^2*η*k₂*k₃^2 - 20*δ₁^4*δ₂*δ₃*μ₂^3*η*k₂*k₃^2 - 14*δ₁^4*δ₂*μ₁*μ₂^3*η*k₂*k₃^2 - 4*δ₁^4*δ₂*μ₂^4*η*k₂*k₃^2 - 4*δ₁^3*δ₂^2*δ₃^3*μ₁*η*k₁*k₃^2 + 32*δ₁^3*δ₂^2*δ₃^2*μ₁^2*η*k₁*k₃^2 + 4*δ₁^3*δ₂^2*δ₃^2*μ₁*μ₂*η*k₁*k₃^2 - 40*δ₁^3*δ₂^2*δ₃*μ₁^2*μ₂*η*k₁*k₃^2 - 4*δ₁^3*δ₂^2*δ₃*μ₁*μ₂^2*η*k₁*k₃^2 + 2*δ₁^3*δ₂^2*δ₃*μ₂^3*η*k₁*k₃^2 + 8*δ₁^3*δ₂^2*μ₁^2*μ₂^2*η*k₁*k₃^2 + 20*δ₁^3*δ₂^2*μ₁*μ₂^3*η*k₁*k₃^2 - 4*δ₁^3*δ₂^2*μ₂^4*η*k₁*k₃^2 + 16*δ₁^3*δ₂*δ₃^4*η^2*k₃^2 + 58*δ₁^3*δ₂*δ₃^3*μ₁*η^2*k₃^2 - 32*δ₁^3*δ₂*δ₃^3*μ₂*η^2*k₃^2 - 142*δ₁^3*δ₂*δ₃^2*μ₁^2*η^2*k₃^2 - 68*δ₁^3*δ₂*δ₃^2*μ₁*μ₂*η^2*k₃^2 + 22*δ₁^3*δ₂*δ₃^2*μ₂^2*η^2*k₃^2 + 68*δ₁^3*δ₂*δ₃*μ₁^3*η^2*k₃^2 + 216*δ₁^3*δ₂*δ₃*μ₁^2*μ₂*η^2*k₃^2 - 28*δ₁^3*δ₂*δ₃*μ₁*μ₂^2*η^2*k₃^2 + 4*δ₁^3*δ₂*δ₃*μ₂^4*η*k₁*k₂*k₃ - 22*δ₁^3*δ₂*δ₃*μ₂^3*η^2*k₃^2 - 70*δ₁^3*δ₂*μ₁^3*μ₂*η^2*k₃^2 - 14*δ₁^3*δ₂*μ₁^2*μ₂^2*η^2*k₃^2 - 4*δ₁^3*δ₂*μ₁*μ₂^3*η^2*k₃^2 - 4*δ₁^3*δ₂*μ₂^5*η*k₁*k₂*k₃ + 12*δ₁^3*δ₃^4*μ₂*η^2*k₂*k₃ - 44*δ₁^3*δ₃^3*μ₂^2*η^2*k₂*k₃ + δ₁^3*δ₃^2*μ₁^2*μ₂*η^2*k₂*k₃ - 2*δ₁^3*δ₃^2*μ₁*μ₂^2*η^2*k₂*k₃ + 30*δ₁^3*δ₃^2*μ₂^3*η^2*k₂*k₃ - 5*δ₁^3*δ₃*μ₁^2*μ₂^2*η^2*k₂*k₃ + 8*δ₁^3*δ₃*μ₁*μ₂^3*η^2*k₂*k₃ - 4*δ₁^2*δ₂*δ₃^5*η^2*k₁*k₃ + 8*δ₁^2*δ₂*δ₃^4*μ₂*η^2*k₁*k₃ - 16*δ₁^2*δ₂*δ₃^3*μ₁*μ₂*η^2*k₁*k₃ - 4*δ₁^2*δ₂*δ₃^3*μ₂^2*η^2*k₁*k₃ - 6*δ₁^2*δ₂*δ₃^2*μ₁^3*η^2*k₁*k₃ - 40*δ₁^2*δ₂*δ₃^2*μ₁^2*μ₂*η^2*k₁*k₃ + 2*δ₁^2*δ₂*δ₃^2*μ₁*μ₂^2*η^2*k₁*k₃ + 10*δ₁^2*δ₂*δ₃*μ₁^4*η^2*k₁*k₃ + 42*δ₁^2*δ₂*δ₃*μ₁^3*μ₂*η^2*k₁*k₃ + 79*δ₁^2*δ₂*δ₃*μ₁^2*μ₂^2*η^2*k₁*k₃ + 84*δ₁^2*δ₂*δ₃*μ₁*μ₂^3*η^2*k₁*k₃ + 6*δ₁^2*δ₂*μ₁^4*μ₂*η^2*k₁*k₃ - 25*δ₁^2*δ₂*μ₁^3*μ₂^2*η^2*k₁*k₃ - 90*δ₁^2*δ₂*μ₁^2*μ₂^3*η^2*k₁*k₃ - 46*δ₁^2*δ₂*μ₁*μ₂^4*η^2*k₁*k₃ - 4*δ₁^2*δ₃^5*μ₂*η^2*k₁*k₂ - 12*δ₁^2*δ₃^5*η^3*k₃ + 12*δ₁^2*δ₃^4*μ₁*η^3*k₃ - 6*δ₁^2*δ₃^4*μ₂^2*η^2*k₁*k₂ + 56*δ₁^2*δ₃^4*μ₂*η^3*k₃ - δ₁^2*δ₃^3*μ₁^2*η^3*k₃ - 54*δ₁^2*δ₃^3*μ₁*μ₂*η^3*k₃ + 10*δ₁^2*δ₃^3*μ₂^3*η^2*k₁*k₂ - 74*δ₁^2*δ₃^3*μ₂^2*η^3*k₃ + δ₁^2*δ₃^2*μ₁^3*η^3*k₃ + 4*δ₁^2*δ₃^2*μ₁^2*μ₂*η^3*k₃ + 64*δ₁^2*δ₃^2*μ₁*μ₂^2*η^3*k₃ + 2*δ₁^2*δ₃^2*μ₂^4*η^2*k₁*k₂ + 30*δ₁^2*δ₃^2*μ₂^3*η^3*k₃ - 6*δ₁^2*δ₃*μ₁^3*μ₂*η^3*k₃ - 5*δ₁^2*δ₃*μ₁^2*μ₂^3*η^2*k₁*k₂ + 5*δ₁^2*δ₃*μ₁^2*μ₂^2*η^3*k₃ + 3*δ₁^2*δ₃*μ₁*μ₂^4*η^2*k₁*k₂ - 22*δ₁^2*δ₃*μ₁*μ₂^3*η^3*k₃ + 5*δ₁^2*μ₁^3*μ₂^2*η^3*k₃ - 8*δ₁^2*μ₁^2*μ₂^3*η^3*k₃ + 16*δ₁*δ₂*δ₃^2*μ₁*μ₂^3*η^2*k₁^2 - 14*δ₁*δ₂*δ₃*μ₁^2*μ₂^3*η^2*k₁^2 - 18*δ₁*δ₂*δ₃*μ₁*μ₂^4*η^2*k₁^2 - 2*δ₁*δ₂*μ₁^3*μ₂^3*η^2*k₁^2 + 16*δ₁*δ₂*μ₁^2*μ₂^4*η^2*k₁^2 + 2*δ₁*δ₂*μ₁*μ₂^5*η^2*k₁^2 + 4*δ₁*δ₃^6*η^3*k₁ - 4*δ₁*δ₃^5*μ₁*η^3*k₁ + 2*δ₁*δ₃^5*μ₂*η^3*k₁ - 2*δ₁*δ₃^4*μ₁*μ₂*η^3*k₁ - 16*δ₁*δ₃^4*μ₂^2*η^3*k₁ + 16*δ₁*δ₃^3*μ₁*μ₂^2*η^3*k₁ + 8*δ₁*δ₃^3*μ₂^3*η^3*k₁ + 5*δ₁*δ₃^2*μ₁^2*μ₂^2*η^3*k₁ - 11*δ₁*δ₃^2*μ₁*μ₂^3*η^3*k₁ + 2*δ₁*δ₃^2*μ₂^4*η^3*k₁ - 5*δ₁*δ₃*μ₁^3*μ₂^2*η^3*k₁ - 2*δ₁*δ₃*μ₁^2*μ₂^3*η^3*k₁ + δ₁*δ₃*μ₁*μ₂^4*η^3*k₁ + 5*δ₁*μ₁^3*μ₂^3*η^3*k₁ - 3*δ₁*μ₁^2*μ₂^4*η^3*k₁
+ 10*β₂^3*β₃*δ₁^5*δ₂*k₃^4 - 31*β₂^3*β₃*δ₁^4*δ₃*η*k₃^3 - 15*β₂^3*β₃*δ₁^4*μ₁*η*k₃^3 - 4*β₂^3*β₃*δ₁^4*μ₂*η*k₃^3 - 4*β₂^3*β₃*δ₁^3*δ₃^2*η*k₁*k₃^2 - 2*β₂^3*δ₁^4*δ₂*δ₃*μ₁*k₁*k₃^3 + 7*β₂^3*δ₁^4*δ₃^2*η*k₃^3 - 14*β₂^3*δ₁^4*δ₃*μ₁*η*k₃^3 + 7*β₂^3*δ₁^4*μ₁*μ₂*η*k₃^3 + 4*β₂^3*δ₁^3*δ₃^3*η*k₁*k₃^2 - 22*β₂^2*β₃*δ₁^5*δ₂^2*k₃^4 - 12*β₂^2*β₃*δ₁^5*δ₂*δ₃*k₂*k₃^3 + 4*β₂^2*β₃*δ₁^5*δ₂*μ₁*k₂*k₃^3 + 10*β₂^2*β₃*δ₁^5*δ₂*μ₂*k₂*k₃^3 + 57*β₂^2*β₃*δ₁^4*δ₂*δ₃*η*k₃^3 + 27*β₂^2*β₃*δ₁^4*δ₂*μ₁*η*k₃^3 - 12*β₂^2*β₃*δ₁^4*δ₂*μ₂*η*k₃^3 + 12*β₂^2*β₃*δ₁^4*δ₃^2*η*k₂*k₃^2 + 4*β₂^2*β₃*δ₁^3*δ₂*δ₃^2*η*k₁*k₃^2 + 4*β₂^2*β₃*δ₁^3*δ₂*δ₃*μ₂*η*k₁*k₃^2 + β₂^2*β₃*δ₁^3*δ₃^2*η^2*k₃^2 - 72*β₂^2*β₃*δ₁^3*δ₃*μ₁*η^2*k₃^2 + 44*β₂^2*β₃*δ₁^3*δ₃*μ₂*η^2*k₃^2 + 28*β₂^2*β₃*δ₁^3*μ₁*μ₂*η^2*k₃^2 + 4*β₂^2*β₃*δ₁^3*μ₂^2*η^2*k₃^2 + 4*β₂^2*β₃*δ₁^2*δ₃*μ₂^2*η^2*k₁*k₃ + 4*β₂^2*δ₁^5*δ₂*δ₃^2*k₂*k₃^3 - 8*β₂^2*δ₁^5*δ₂*δ₃*μ₂*k₂*k₃^3 + 2*β₂^2*δ₁^4*δ₂^2*δ₃*μ₁*k₁*k₃^3 - 7*β₂^2*δ₁^4*δ₂*δ₃^2*η*k₃^3 + 12*β₂^2*δ₁^4*δ₂*δ₃*μ₁*η*k₃^3 + 2*β₂^2*δ₁^4*δ₂*δ₃*μ₂*η*k₃^3 - 7*β₂^2*δ₁^4*δ₂*μ₂^2*η*k₃^3 - 12*β₂^2*δ₁^4*δ₃^3*η*k₂*k₃^2 + 2*β₂^2*δ₁^4*δ₃^2*μ₁*η*k₂*k₃^2 + 4*β₂^2*δ₁^4*δ₃*μ₁^2*η*k₂*k₃^2 + 8*β₂^2*δ₁^4*δ₃*μ₂^2*η*k₂*k₃^2 + 7*β₂^2*δ₁^4*μ₁*μ₂^2*η*k₂*k₃^2 - 4*β₂^2*δ₁^3*δ₂*δ₃^3*η*k₁*k₃^2 + 4*β₂^2*δ₁^3*δ₂*δ₃^2*μ₂*η*k₁*k₃^2 - 4*β₂^2*δ₁^3*δ₂*δ₃*μ₂^2*η*k₁*k₃^2 - β₂^2*δ₁^3*δ₃^3*η^2*k₃^2 + 29*β₂^2*δ₁^3*δ₃^2*μ₁*η^2*k₃^2 - 12*β₂^2*δ₁^3*δ₃^2*μ₂*η^2*k₃^2 - 45*β₂^2*δ₁^3*δ₃*μ₁^2*η^2*k₃^2 + 10*β₂^2*δ₁^3*δ₃*μ₁*μ₂*η^2*k₃^2 + 4*β₂^2*δ₁^3*δ₃*μ₂^2*η^2*k₃^2 + 4*β₂^2*δ₁^3*μ₁^3*η^2*k₃^2 + 19*β₂^2*δ₁^3*μ₁^2*μ₂*η^2*k₃^2 - 8*β₂^2*δ₁^3*μ₁*μ₂^2*η^2*k₃^2 - 4*β₂^2*δ₁^2*δ₃^2*μ₂^2*η^2*k₁*k₃ - 8*β₂^2*δ₁^2*δ₃*μ₁*μ₂^2*η^2*k₁*k₃ - 4*β₂^2*δ₁^2*μ₁*μ₂^3*η^2*k₁*k₃ + 14*β₂*β₃*δ₁^5*δ₂^3*k₃^4 + 24*β₂*β₃*δ₁^5*δ₂^2*δ₃*k₂*k₃^3 - 8*β₂*β₃*δ₁^5*δ₂^2*μ₁*k₂*k₃^3 + 16*β₂*β₃*δ₁^5*δ₂^2*μ₂*k₂*k₃^3 - 21*β₂*β₃*δ₁^4*δ₂^2*δ₃*η*k₃^3 - 13*β₂*β₃*δ₁^4*δ₂^2*μ₁*η*k₃^3 + 36*β₂*β₃*δ₁^4*δ₂^2*μ₂*η*k₃^3 - 24*β₂*β₃*δ₁^4*δ₂*δ₃^2*η*k₂*k₃^2 + 4*β₂*β₃*δ₁^3*δ₂^2*δ₃^2*η*k₁*k₃^2 - 4*β₂*β₃*δ₁^3*δ₂^2*δ₃*μ₂*η*k₁*k₃^2 - 2*β₂*β₃*δ₁^3*δ₂*δ₃^2*η^2*k₃^2 + 170*β₂*β₃*δ₁^3*δ₂*δ₃*μ₁*η^2*k₃^2 - 24*β₂*β₃*δ₁^3*δ₂*δ₃*μ₂*η^2*k₃^2 - 56*β₂*β₃*δ₁^3*δ₂*μ₁^2*η^2*k₃^2 + β₂*β₃*δ₁^3*δ₂*μ₁*μ₂*η^2*k₃^2 + 13*β₂*β₃*δ₁^3*δ₂*μ₂^2*η^2*k₃^2 + 12*β₂*β₃*δ₁^2*δ₂*δ₃*μ₂^2*η^2*k₁*k₃ + 8*β₂*β₃*δ₁^2*δ₂*μ₂^3*η^2*k₁*k₃ - 177*β₂*β₃*δ₁^2*δ₃*μ₁^2*η^3*k₃ - 80*β₂*β₃*δ₁^2*δ₃*μ₁*μ₂*η^3*k₃ - 32*β₂*β₃*δ₁^2*δ₃*μ₂^2*η^3*k₃ + 337*β₂*β₃*δ₁^2*μ₁^3*η^3*k₃ + 92*β₂*β₃*δ₁^2*μ₁^2*μ₂*η^3*k₃ + 12*β₂*β₃*δ₁^2*μ₁*μ₂^2*η^3*k₃ + 12*β₂*β₃*δ₁*μ₁*μ₂^3*η^3*k₁ - 8*β₂*δ₁^5*δ₂^2*δ₃^2*k₂*k₃^3 - 4*β₂*δ₁^5*δ₂^2*δ₃*μ₂*k₂*k₃^3 + 12*β₂*δ₁^5*δ₂^2*μ₂^2*k₂*k₃^3 + 2*β₂*δ₁^4*δ₂^3*δ₃*μ₁*k₁*k₃^3 - 7*β₂*δ₁^4*δ₂^2*δ₃^2*η*k₃^3 + 14*β₂*δ₁^4*δ₂^2*δ₃*μ₁*η*k₃^3 - 12*β₂*δ₁^4*δ₂^2*μ₁*μ₂*η*k₃^3 + 5*β₂*δ₁^4*δ₂^2*μ₂^2*η*k₃^3 + 24*β₂*δ₁^4*δ₂*δ₃^3*η*k₂*k₃^2 - 6*β₂*δ₁^4*δ₂*δ₃^2*μ₁*η*k₂*k₃^2 - 7*β₂*δ₁^4*δ₂*δ₃^2*μ₂*η*k₂*k₃^2 - 8*β₂*δ₁^4*δ₂*δ₃*μ₁^2*η*k₂*k₃^2 + 12*β₂*δ₁^4*δ₂*δ₃*μ₂^2*η*k₂*k₃^2 - 10*β₂*δ₁^4*δ₂*μ₁*μ₂^2*η*k₂*k₃^2 - 3*β₂*δ₁^4*δ₂*μ₂^3*η*k₂*k₃^2 - 4*β₂*δ₁^3*δ₂^2*δ₃^3*η*k₁*k₃^2 - 12*β₂*δ₁^3*δ₂^2*δ₃^2*μ₂*η*k₁*k₃^2 + 8*β₂*δ₁^3*δ₂^2*δ₃*μ₁*μ₂*η*k₁*k₃^2 + 4*β₂*δ₁^3*δ₂^2*δ₃*μ₂^2*η*k₁*k₃^2 - 16*β₂*δ₁^3*δ₂^2*μ₁^2*μ₂*η*k₁*k₃^2 - 4*β₂*δ₁^3*δ₂^2*μ₂^3*η*k₁*k₃^2 + 2*β₂*δ₁^3*δ₂*δ₃^3*η^2*k₃^2 - 76*β₂*δ₁^3*δ₂*δ₃^2*μ₁*η^2*k₃^2 - 20*β₂*δ₁^3*δ₂*δ₃^2*μ₂*η^2*k₃^2 + 146*β₂*δ₁^3*δ₂*δ₃*μ₁^2*η^2*k₃^2 + 41*β₂*δ₁^3*δ₂*δ₃*μ₁*μ₂*η^2*k₃^2 - 4*β₂*δ₁^3*δ₂*δ₃*μ₂^3*η*k₁*k₂*k₃ - β₂*δ₁^3*δ₂*δ₃*μ₂^2*η^2*k₃^2 - 8*β₂*δ₁^3*δ₂*μ₁^3*η^2*k₃^2 - 44*β₂*δ₁^3*δ₂*μ₁^2*μ₂*η^2*k₃^2 - 44*β₂*δ₁^3*δ₂*μ₁*μ₂^2*η^2*k₃^2 + 4*β₂*δ₁^3*δ₂*μ₂^3*η^2*k₃^2 + 2*β₂*δ₁^3*μ₁^3*μ₂*η^2*k₂*k₃ + 4*β₂*δ₁^3*μ₁*μ₂^3*η^2*k₂*k₃ - 12*β₂*δ₁^2*δ₂*δ₃^2*μ₂^2*η^2*k₁*k₃ + 4*β₂*δ₁^2*δ₂*μ₂^4*η^2*k₁*k₃ + 177*β₂*δ₁^2*δ₃^2*μ₁^2*η^3*k₃ + 80*β₂*δ₁^2*δ₃^2*μ₁*μ₂*η^3*k₃ + 32*β₂*δ₁^2*δ₃^2*μ₂^2*η^3*k₃ - 331*β₂*δ₁^2*δ₃*μ₁^3*η^3*k₃ - 185*β₂*δ₁^2*δ₃*μ₁^2*μ₂*η^3*k₃ - 62*β₂*δ₁^2*δ₃*μ₁*μ₂^2*η^3*k₃ + 146*β₂*δ₁^2*μ₁^3*μ₂*η^3*k₃ + 143*β₂*δ₁^2*μ₁^2*μ₂^2*η^3*k₃ - 12*β₂*δ₁*δ₃*μ₁*μ₂^3*η^3*k₁ + 2*β₂*δ₁*μ₁^5*η^3*k₁ + 15*β₂*δ₁*μ₁^4*μ₂*η^3*k₁ - 13*β₂*δ₁*μ₁^3*μ₂^2*η^3*k₁ + 4*β₂*δ₁*μ₁^2*μ₂^3*η^3*k₁ + 4*β₂*δ₁*μ₁*μ₂^4*η^3*k₁ - 4*β₃^5*δ₁^2*δ₂*η^2*k₁*k₂ - 4*β₃^5*δ₁^2*η^3*k₂ + β₃^5*δ₁*δ₂*η^3*k₁ + 41*β₃^5*δ₁*η^4 - 4*β₃^4*δ₁^3*δ₂^2*η*k₁*k₂*k₃ - 4*β₃^4*δ₁^3*μ₂*η^2*k₂^2 + 9*β₃^4*δ₁^2*δ₂^2*η^2*k₁*k₃ + 20*β₃^4*δ₁^2*δ₂*δ₃*η^2*k₁*k₂ + 88*β₃^4*δ₁^2*δ₂*η^3*k₃ + 20*β₃^4*δ₁^2*δ₃*η^3*k₂ - 4*β₃^4*δ₁^2*μ₁*η^3*k₂ + 37*β₃^4*δ₁^2*μ₂*η^3*k₂ - 5*β₃^4*δ₁*δ₂*δ₃*η^3*k₁ + 16*β₃^4*δ₁*δ₂*μ₂*η^3*k₁ - 205*β₃^4*δ₁*δ₃*η^4 + 45*β₃^4*δ₁*μ₁*η^4 + 45*β₃^4*δ₁*μ₂*η^4 + 4*β₃^3*δ₁^4*δ₂^2*η*k₂*k₃^2 + 4*β₃^3*δ₁^3*δ₂^3*η*k₁*k₃^2 + 12*β₃^3*δ₁^3*δ₂^2*δ₃*η*k₁*k₂*k₃ - 19*β₃^3*δ₁^3*δ₂^2*η^2*k₃^2 + 8*β₃^3*δ₁^3*δ₂*δ₃*η^2*k₂*k₃ - 16*β₃^3*δ₁^3*δ₂*μ₁*η^2*k₂*k₃ + 16*β₃^3*δ₁^3*δ₃*μ₂*η^2*k₂^2 - 35*β₃^3*δ₁^2*δ₂^2*δ₃*η^2*k₁*k₃ + 7*β₃^3*δ₁^2*δ₂^2*μ₂*η^2*k₁*k₃ - 40*β₃^3*δ₁^2*δ₂*δ₃^2*η^2*k₁*k₂ - 258*β₃^3*δ₁^2*δ₂*δ₃*η^3*k₃ + 182*β₃^3*δ₁^2*δ₂*μ₁*η^3*k₃ - 119*β₃^3*δ₁^2*δ₂*μ₂*η^3*k₃ - 40*β₃^3*δ₁^2*δ₃^2*η^3*k₂ + 16*β₃^3*δ₁^2*δ₃*μ₁*η^3*k₂ - 148*β₃^3*δ₁^2*δ₃*μ₂*η^3*k₂ + 4*β₃^3*δ₁^2*μ₂^2*η^3*k₂ + 10*β₃^3*δ₁*δ₂*δ₃^2*η^3*k₁ - 64*β₃^3*δ₁*δ₂*δ₃*μ₂*η^3*k₁ - β₃^3*δ₁*δ₂*μ₂^2*η^3*k₁ + 410*β₃^3*δ₁*δ₃^2*η^4 - 180*β₃^3*δ₁*δ₃*μ₁*η^4 - 180*β₃^3*δ₁*δ₃*μ₂*η^4 + 4*β₃^3*δ₁*μ₁^2*η^4 + 49*β₃^3*δ₁*μ₁*μ₂*η^4 - 33*β₃^3*δ₁*μ₂^2*η^4 - 4*β₃^2*δ₁^5*δ₂^3*k₂*k₃^3 - 5*β₃^2*δ₁^4*δ₂^3*η*k₃^3 + 4*β₃^2*δ₁^4*δ₂^2*δ₃*η*k₂*k₃^2 - 12*β₃^2*δ₁^3*δ₂^3*δ₃*η*k₁*k₃^2 - 8*β₃^2*δ₁^3*δ₂^3*μ₂*η*k₁*k₃^2 - 12*β₃^2*δ₁^3*δ₂^2*δ₃^2*η*k₁*k₂*k₃ + 37*β₃^2*δ₁^3*δ₂^2*δ₃*η^2*k₃^2 - 28*β₃^2*δ₁^3*δ₂^2*μ₂*η^2*k₃^2 - 24*β₃^2*δ₁^3*δ₂*δ₃^2*η^2*k₂*k₃ + 52*β₃^2*δ₁^3*δ₂*δ₃*μ₁*η^2*k₂*k₃ - 8*β₃^2*δ₁^3*δ₂*μ₁^2*η^2*k₂*k₃ - 24*β₃^2*δ₁^3*δ₃^2*μ₂*η^2*k₂^2 + 51*β₃^2*δ₁^2*δ₂^2*δ₃^2*η^2*k₁*k₃ - 6*β₃^2*δ₁^2*δ₂^2*δ₃*μ₂*η^2*k₁*k₃ - 25*β₃^2*δ₁^2*δ₂^2*μ₂^2*η^2*k₁*k₃ + 40*β₃^2*δ₁^2*δ₂*δ₃^3*η^2*k₁*k₂ + 246*β₃^2*δ₁^2*δ₂*δ₃^2*η^3*k₃ - 425*β₃^2*δ₁^2*δ₂*δ₃*μ₁*η^3*k₃ + 266*β₃^2*δ₁^2*δ₂*δ₃*μ₂*η^3*k₃ + 216*β₃^2*δ₁^2*δ₂*μ₁^2*η^3*k₃ + 174*β₃^2*δ₁^2*δ₂*μ₁*μ₂*η^3*k₃ - 112*β₃^2*δ₁^2*δ₂*μ₂^2*η^3*k₃ + 40*β₃^2*δ₁^2*δ₃^3*η^3*k₂ - 24*β₃^2*δ₁^2*δ₃^2*μ₁*η^3*k₂ + 222*β₃^2*δ₁^2*δ₃^2*μ₂*η^3*k₂ - 12*β₃^2*δ₁^2*δ₃*μ₂^2*η^3*k₂ - 37*β₃^2*δ₁^2*μ₂^3*η^3*k₂ - 10*β₃^2*δ₁*δ₂*δ₃^3*η^3*k₁ + 96*β₃^2*δ₁*δ₂*δ₃^2*μ₂*η^3*k₁ + 3*β₃^2*δ₁*δ₂*δ₃*μ₂^2*η^3*k₁ - 26*β₃^2*δ₁*δ₂*μ₁*μ₂^2*η^3*k₁ - 24*β₃^2*δ₁*δ₂*μ₂^3*η^3*k₁ - 410*β₃^2*δ₁*δ₃^3*η^4 + 270*β₃^2*δ₁*δ₃^2*μ₁*η^4 + 270*β₃^2*δ₁*δ₃^2*μ₂*η^4 - 12*β₃^2*δ₁*δ₃*μ₁^2*η^4 - 147*β₃^2*δ₁*δ₃*μ₁*μ₂*η^4 + 99*β₃^2*δ₁*δ₃*μ₂^2*η^4 + 2*β₃^2*δ₁*μ₁^3*η^4 - 35*β₃^2*δ₁*μ₁*μ₂^2*η^4 - 37*β₃^2*δ₁*μ₂^3*η^4 - 2*β₃*δ₁^5*δ₂^4*k₃^4 - 4*β₃*δ₁^5*δ₂^3*δ₃*k₂*k₃^3 + 4*β₃*δ₁^5*δ₂^3*μ₁*k₂*k₃^3 - 2*β₃*δ₁^5*δ₂^3*μ₂*k₂*k₃^3 + 5*β₃*δ₁^4*δ₂^3*δ₃*η*k₃^3 - 9*β₃*δ₁^4*δ₂^3*μ₁*η*k₃^3 - 20*β₃*δ₁^4*δ₂^3*μ₂*η*k₃^3 - 8*β₃*δ₁^4*δ₂^2*δ₃^2*η*k₂*k₃^2 + 8*β₃*δ₁^4*δ₂^2*δ₃*μ₁*η*k₂*k₃^2 - 20*β₃*δ₁^4*δ₂^2*μ₂^2*η*k₂*k₃^2 + 8*β₃*δ₁^3*δ₂^3*δ₃^2*η*k₁*k₃^2 + 16*β₃*δ₁^3*δ₂^3*δ₃*μ₂*η*k₁*k₃^2 - 16*β₃*δ₁^3*δ₂^3*μ₁^2*η*k₁*k₃^2 - 8*β₃*δ₁^3*δ₂^3*μ₁*μ₂*η*k₁*k₃^2 - 4*β₃*δ₁^3*δ₂^3*μ₂^2*η*k₁*k₃^2 + 4*β₃*δ₁^3*δ₂^2*δ₃^3*η*k₁*k₂*k₃ - 16*β₃*δ₁^3*δ₂^2*δ₃^2*η^2*k₃^2 - 66*β₃*δ₁^3*δ₂^2*δ₃*μ₁*η^2*k₃^2 + 36*β₃*δ₁^3*δ₂^2*δ₃*μ₂*η^2*k₃^2 - 28*β₃*δ₁^3*δ₂^2*μ₁^2*η^2*k₃^2 - 39*β₃*δ₁^3*δ₂^2*μ₁*μ₂*η^2*k₃^2 + 6*β₃*δ₁^3*δ₂^2*μ₂^2*η^2*k₃^2 + 24*β₃*δ₁^3*δ₂*δ₃^3*η^2*k₂*k₃ - 56*β₃*δ₁^3*δ₂*δ₃^2*μ₁*η^2*k₂*k₃ + 24*β₃*δ₁^3*δ₂*δ₃*μ₁^2*η^2*k₂*k₃ - 2*β₃*δ₁^3*δ₂*δ₃*μ₂^2*η^2*k₂*k₃ - 4*β₃*δ₁^3*δ₂*μ₁^3*η^2*k₂*k₃ + 16*β₃*δ₁^3*δ₃^3*μ₂*η^2*k₂^2 - 33*β₃*δ₁^2*δ₂^2*δ₃^3*η^2*k₁*k₃ - 9*β₃*δ₁^2*δ₂^2*δ₃^2*μ₂*η^2*k₁*k₃ - 4*β₃*δ₁^2*δ₂^2*δ₃*μ₁^2*η^2*k₁*k₃ + 32*β₃*δ₁^2*δ₂^2*δ₃*μ₁*μ₂*η^2*k₁*k₃ + 33*β₃*δ₁^2*δ₂^2*δ₃*μ₂^2*η^2*k₁*k₃ - 28*β₃*δ₁^2*δ₂^2*μ₁^2*μ₂*η^2*k₁*k₃ - 15*β₃*δ₁^2*δ₂^2*μ₂^3*η^2*k₁*k₃ - 20*β₃*δ₁^2*δ₂*δ₃^4*η^2*k₁*k₂ - 70*β₃*δ₁^2*δ₂*δ₃^3*η^3*k₃ + 304*β₃*δ₁^2*δ₂*δ₃^2*μ₁*η^3*k₃ - 175*β₃*δ₁^2*δ₂*δ₃^2*μ₂*η^3*k₃ - 378*β₃*δ₁^2*δ₂*δ₃*μ₁^2*η^3*k₃ - 187*β₃*δ₁^2*δ₂*δ₃*μ₁*μ₂*η^3*k₃ + 134*β₃*δ₁^2*δ₂*δ₃*μ₂^2*η^3*k₃ + 4*β₃*δ₁^2*δ₂*μ₁^4*η^2*k₁*k₂ + 89*β₃*δ₁^2*δ₂*μ₁^3*η^3*k₃ + 137*β₃*δ₁^2*δ₂*μ₁^2*μ₂*η^3*k₃ - 101*β₃*δ₁^2*δ₂*μ₁*μ₂^2*η^3*k₃ + 95*β₃*δ₁^2*δ₂*μ₂^3*η^3*k₃ - 20*β₃*δ₁^2*δ₃^4*η^3*k₂ + 16*β₃*δ₁^2*δ₃^3*μ₁*η^3*k₂ - 148*β₃*δ₁^2*δ₃^3*μ₂*η^3*k₂ + 12*β₃*δ₁^2*δ₃^2*μ₂^2*η^3*k₂ + 74*β₃*δ₁^2*δ₃*μ₂^3*η^3*k₂ + 2*β₃*δ₁^2*μ₁^3*μ₂*η^3*k₂ - 4*β₃*δ₁^2*μ₁^2*μ₂^2*η^3*k₂ - 2*β₃*δ₁^2*μ₁*μ₂^3*η^3*k₂ + 5*β₃*δ₁*δ₂*δ₃^4*η^3*k₁ - 64*β₃*δ₁*δ₂*δ₃^3*μ₂*η^3*k₁ - 3*β₃*δ₁*δ₂*δ₃^2*μ₂^2*η^3*k₁ + 52*β₃*δ₁*δ₂*δ₃*μ₁*μ₂^2*η^3*k₁ + 48*β₃*δ₁*δ₂*δ₃*μ₂^3*η^3*k₁ - 3*β₃*δ₁*δ₂*μ₁^4*η^3*k₁ + 3*β₃*δ₁*δ₂*μ₁^2*μ₂^2*η^3*k₁ - 38*β₃*δ₁*δ₂*μ₁*μ₂^3*η^3*k₁ - 12*β₃*δ₁*δ₂*μ₂^4*η^3*k₁ + 205*β₃*δ₁*δ₃^4*η^4 - 180*β₃*δ₁*δ₃^3*μ₁*η^4 - 180*β₃*δ₁*δ₃^3*μ₂*η^4 + 12*β₃*δ₁*δ₃^2*μ₁^2*η^4 + 147*β₃*δ₁*δ₃^2*μ₁*μ₂*η^4 - 99*β₃*δ₁*δ₃^2*μ₂^2*η^4 - 4*β₃*δ₁*δ₃*μ₁^3*η^4 + 70*β₃*δ₁*δ₃*μ₁*μ₂^2*η^4 + 74*β₃*δ₁*δ₃*μ₂^3*η^4 + 2*β₃*δ₁*μ₁^4*η^4 - 2*β₃*δ₁*μ₁^3*μ₂*η^4 - 6*β₃*δ₁*μ₁^2*μ₂^2*η^4 - 39*β₃*δ₁*μ₁*μ₂^3*η^4 + 4*δ₁^5*δ₂^3*δ₃*μ₂*k₂*k₃^3 + 4*δ₁^5*δ₂^2*δ₃^2*μ₂*k₂^2*k₃^2 - 8*δ₁^5*δ₂^2*δ₃*μ₂^2*k₂^2*k₃^2 - 2*δ₁^4*δ₂^4*δ₃*μ₁*k₁*k₃^3 + 2*δ₁^4*δ₂^3*δ₃^2*η*k₃^3 - 2*δ₁^4*δ₂^3*δ₃*μ₁*η*k₃^3 - 2*δ₁^4*δ₂^3*δ₃*μ₂*η*k₃^3 - 5*δ₁^4*δ₂^3*μ₁*μ₂*η*k₃^3 + 7*δ₁^4*δ₂^3*μ₂^2*η*k₃^3 - 4*δ₁^4*δ₂^2*δ₃^2*μ₁*η*k₂*k₃^2 - 9*δ₁^4*δ₂^2*δ₃^2*μ₂*η*k₂*k₃^2 + 4*δ₁^4*δ₂^2*δ₃*μ₁^2*η*k₂*k₃^2 + 8*δ₁^4*δ₂^2*δ₃*μ₁*μ₂*η*k₂*k₃^2 + 16*δ₁^4*δ₂^2*δ₃*μ₂^2*η*k₂*k₃^2 + 3*δ₁^4*δ₂^2*μ₁*μ₂^2*η*k₂*k₃^2 - 29*δ₁^4*δ₂^2*μ₂^3*η*k₂*k₃^2 + 16*δ₁^3*δ₂^3*δ₃*μ₁^2*η*k₁*k₃^2 + 4*δ₁^3*δ₂^3*δ₃*μ₂^2*η*k₁*k₃^2 - 8*δ₁^3*δ₂^3*μ₁*μ₂^2*η*k₁*k₃^2 + 12*δ₁^3*δ₂^3*μ₂^3*η*k₁*k₃^2 - 2*δ₁^3*δ₂^2*δ₃^3*η^2*k₃^2 + 15*δ₁^3*δ₂^2*δ₃^2*μ₁*η^2*k₃^2 + 4*δ₁^3*δ₂^2*δ₃^2*μ₂*η^2*k₃^2 - 17*δ₁^3*δ₂^2*δ₃*μ₁^2*η^2*k₃^2 - 9*δ₁^3*δ₂^2*δ₃*μ₁*μ₂*η^2*k₃^2 + 8*δ₁^3*δ₂^2*δ₃*μ₂^3*η*k₁*k₂*k₃ - 6*δ₁^3*δ₂^2*δ₃*μ₂^2*η^2*k₃^2 + 4*δ₁^3*δ₂^2*μ₁^3*η^2*k₃^2 - 59*δ₁^3*δ₂^2*μ₁^2*μ₂*η^2*k₃^2 + 42*δ₁^3*δ₂^2*μ₁*μ₂^2*η^2*k₃^2 - 4*δ₁^3*δ₂^2*μ₂^4*η*k₁*k₂*k₃ + 28*δ₁^3*δ₂^2*μ₂^3*η^2*k₃^2 - 8*δ₁^3*δ₂*δ₃^4*η^2*k₂*k₃ + 20*δ₁^3*δ₂*δ₃^3*μ₁*η^2*k₂*k₃ - 16*δ₁^3*δ₂*δ₃^2*μ₁^2*η^2*k₂*k₃ + 2*δ₁^3*δ₂*δ₃^2*μ₂^2*η^2*k₂*k₃ + 4*δ₁^3*δ₂*δ₃*μ₁^3*η^2*k₂*k₃ - 4*δ₁^3*δ₂*δ₃*μ₁^2*μ₂*η^2*k₂*k₃ + 10*δ₁^3*δ₂*δ₃*μ₂^3*η^2*k₂*k₃ - 6*δ₁^3*δ₂*μ₁^3*μ₂*η^2*k₂*k₃ + 20*δ₁^3*δ₂*μ₁^2*μ₂^2*η^2*k₂*k₃ - 24*δ₁^3*δ₂*μ₁*μ₂^3*η^2*k₂*k₃ - 4*δ₁^3*δ₂*μ₂^4*η^2*k₂*k₃ - 4*δ₁^3*δ₃^4*μ₂*η^2*k₂^2 + 8*δ₁^2*δ₂^2*δ₃^4*η^2*k₁*k₃ + 8*δ₁^2*δ₂^2*δ₃^3*μ₂*η^2*k₁*k₃ + 4*δ₁^2*δ₂^2*δ₃^2*μ₁^2*η^2*k₁*k₃ - 32*δ₁^2*δ₂^2*δ₃^2*μ₁*μ₂*η^2*k₁*k₃ - 8*δ₁^2*δ₂^2*δ₃^2*μ₂^2*η^2*k₁*k₃ + 24*δ₁^2*δ₂^2*δ₃*μ₁^2*μ₂*η^2*k₁*k₃ + 40*δ₁^2*δ₂^2*δ₃*μ₁*μ₂^2*η^2*k₁*k₃ - 8*δ₁^2*δ₂^2*δ₃*μ₂^3*η^2*k₁*k₃ - 28*δ₁^2*δ₂^2*μ₁^2*μ₂^2*η^2*k₁*k₃ + 4*δ₁^2*δ₂^2*μ₁*μ₂^3*η^2*k₁*k₃ + 12*δ₁^2*δ₂^2*μ₂^4*η^2*k₁*k₃ + 4*δ₁^2*δ₂*δ₃^5*η^2*k₁*k₂ - 6*δ₁^2*δ₂*δ₃^4*η^3*k₃ - 61*δ₁^2*δ₂*δ₃^3*μ₁*η^3*k₃ + 28*δ₁^2*δ₂*δ₃^3*μ₂*η^3*k₃ + 162*δ₁^2*δ₂*δ₃^2*μ₁^2*η^3*k₃ + 13*δ₁^2*δ₂*δ₃^2*μ₁*μ₂*η^3*k₃ - 22*δ₁^2*δ₂*δ₃^2*μ₂^2*η^3*k₃ - 4*δ₁^2*δ₂*δ₃*μ₁^4*η^2*k₁*k₂ - 95*δ₁^2*δ₂*δ₃*μ₁^3*η^3*k₃ - 167*δ₁^2*δ₂*δ₃*μ₁^2*μ₂*η^3*k₃ + 111*δ₁^2*δ₂*δ₃*μ₁*μ₂^2*η^3*k₃ - 32*δ₁^2*δ₂*δ₃*μ₂^3*η^3*k₃ + 280*δ₁^2*δ₂*μ₁^3*μ₂*η^3*k₃ - 130*δ₁^2*δ₂*μ₁^2*μ₂^2*η^3*k₃ - 81*δ₁^2*δ₂*μ₁*μ₂^3*η^3*k₃ + 4*δ₁^2*δ₃^5*η^3*k₂ - 4*δ₁^2*δ₃^4*μ₁*η^3*k₂ + 37*δ₁^2*δ₃^4*μ₂*η^3*k₂ - 4*δ₁^2*δ₃^3*μ₂^2*η^3*k₂ - 37*δ₁^2*δ₃^2*μ₂^3*η^3*k₂ - 2*δ₁^2*δ₃*μ₁^3*μ₂*η^3*k₂ + 4*δ₁^2*δ₃*μ₁^2*μ₂^2*η^3*k₂ + 2*δ₁^2*δ₃*μ₁*μ₂^3*η^3*k₂ - δ₁*δ₂*δ₃^5*η^3*k₁ + 16*δ₁*δ₂*δ₃^4*μ₂*η^3*k₁ + δ₁*δ₂*δ₃^3*μ₂^2*η^3*k₁ - 26*δ₁*δ₂*δ₃^2*μ₁*μ₂^2*η^3*k₁ - 24*δ₁*δ₂*δ₃^2*μ₂^3*η^3*k₁ + 3*δ₁*δ₂*δ₃*μ₁^4*η^3*k₁ - 3*δ₁*δ₂*δ₃*μ₁^2*μ₂^2*η^3*k₁ + 38*δ₁*δ₂*δ₃*μ₁*μ₂^3*η^3*k₁ + 12*δ₁*δ₂*δ₃*μ₂^4*η^3*k₁ - 2*δ₁*δ₂*μ₁^5*η^3*k₁ - 18*δ₁*δ₂*μ₁^4*μ₂*η^3*k₁ + 13*δ₁*δ₂*μ₁^3*μ₂^2*η^3*k₁ - δ₁*δ₂*μ₁^2*μ₂^3*η^3*k₁ - 4*δ₁*δ₂*μ₁*μ₂^4*η^3*k₁ - 4*δ₁*δ₂*μ₂^5*η^3*k₁ - 41*δ₁*δ₃^5*η^4 + 45*δ₁*δ₃^4*μ₁*η^4 + 45*δ₁*δ₃^4*μ₂*η^4 - 4*δ₁*δ₃^3*μ₁^2*η^4 - 49*δ₁*δ₃^3*μ₁*μ₂*η^4 + 33*δ₁*δ₃^3*μ₂^2*η^4 + 2*δ₁*δ₃^2*μ₁^3*η^4 - 35*δ₁*δ₃^2*μ₁*μ₂^2*η^4 - 37*δ₁*δ₃^2*μ₂^3*η^4 - 2*δ₁*δ₃*μ₁^4*η^4 + 2*δ₁*δ₃*μ₁^3*μ₂*η^4 + 6*δ₁*δ₃*μ₁^2*μ₂^2*η^4 + 39*δ₁*δ₃*μ₁*μ₂^3*η^4 + 2*δ₁*μ₁^4*μ₂*η^4 - 4*δ₁*μ₁^3*μ₂^2*η^4 - 2*δ₁*μ₁^2*μ₂^3*η^4
+ -4*β₂^2*β₃*δ₁^5*μ₁*μ₂^2*k₃^4 - 2*β₂^2*δ₁^5*δ₃^3*μ₂*k₃^4 + 4*β₂^2*δ₁^5*δ₃^2*μ₁*μ₂*k₃^4 - 2*β₂^2*δ₁^5*δ₃*μ₁*μ₂^2*k₃^4 + 6*β₂*β₃*δ₁^5*δ₂*δ₃^2*μ₂*k₃^4 - 6*β₂*β₃*δ₁^5*δ₂*δ₃*μ₁*μ₂*k₃^4 + 2*β₂*β₃*δ₁^5*δ₂*δ₃*μ₂^2*k₃^4 + 2*β₂*β₃*δ₁^5*δ₂*μ₁*μ₂^2*k₃^4 - 16*β₂*β₃*δ₁^4*δ₃^2*μ₁*μ₂*η*k₃^3 + 2*β₂*β₃*δ₁^4*δ₃^2*μ₂^2*η*k₃^3 + 10*β₂*β₃*δ₁^4*δ₃*μ₁^2*μ₂*η*k₃^3 + 9*β₂*β₃*δ₁^4*δ₃*μ₁*μ₂^2*η*k₃^3 - 10*β₂*β₃*δ₁^4*μ₁^2*μ₂^2*η*k₃^3 - 5*β₂*β₃*δ₁^4*μ₁*μ₂^3*η*k₃^3 + 4*β₂*β₃*δ₁^3*δ₃^2*μ₁*μ₂^2*η*k₁*k₃^2 + 8*β₂*β₃*δ₁^3*δ₃*μ₁*μ₂^3*η*k₁*k₃^2 - β₂*β₃*δ₁^3*μ₁*μ₂^4*η*k₁*k₃^2 + 2*β₂*β₃*δ₁^2*δ₃*μ₁*μ₂^4*η*k₁^2*k₃ - β₂*β₃*δ₁^2*μ₁*μ₂^5*η*k₁^2*k₃ - 2*β₂*δ₁^5*δ₂*δ₃^2*μ₂^2*k₃^4 + 2*β₂*δ₁^5*δ₂*δ₃*μ₁*μ₂^2*k₃^4 + 2*β₂*δ₁^5*δ₂*δ₃*μ₂^3*k₃^4 - 2*β₂*δ₁^5*δ₂*μ₁*μ₂^3*k₃^4 + 8*β₂*δ₁^4*δ₃^3*μ₁*μ₂*η*k₃^3 - 2*β₂*δ₁^4*δ₃^3*μ₂^2*η*k₃^3 - 12*β₂*δ₁^4*δ₃^2*μ₁^2*μ₂*η*k₃^3 - 6*β₂*δ₁^4*δ₃^2*μ₁*μ₂^2*η*k₃^3 + 16*β₂*δ₁^4*δ₃*μ₁^2*μ₂^2*η*k₃^3 + 2*β₂*δ₁^4*δ₃*μ₁*μ₂^3*η*k₃^3 - 6*β₂*δ₁^4*μ₁^2*μ₂^3*η*k₃^3 - 4*β₂*δ₁^3*δ₃^3*μ₁*μ₂^2*η*k₁*k₃^2 - 5*β₂*δ₁^3*δ₃^2*μ₁^3*μ₂*η*k₁*k₃^2 - 4*β₂*δ₁^3*δ₃^2*μ₁^2*μ₂^2*η*k₁*k₃^2 - 2*β₂*δ₁^3*δ₃^2*μ₁*μ₂^3*η*k₁*k₃^2 - 2*β₂*δ₁^3*δ₃*μ₁^4*μ₂*η*k₁*k₃^2 + 3*β₂*δ₁^3*δ₃*μ₁^3*μ₂^2*η*k₁*k₃^2 + 11*β₂*δ₁^3*δ₃*μ₁^2*μ₂^3*η*k₁*k₃^2 - 2*β₂*δ₁^3*μ₁^4*μ₂^2*η*k₁*k₃^2 + 2*β₂*δ₁^3*μ₁^3*μ₂^3*η*k₁*k₃^2 + 3*β₂*δ₁^3*μ₁^2*μ₂^4*η*k₁*k₃^2 - 2*β₂*δ₁^2*δ₃^2*μ₁*μ₂^4*η*k₁^2*k₃ - 6*β₂*δ₁^2*δ₃*μ₁^3*μ₂^3*η*k₁^2*k₃ + 7*β₂*δ₁^2*δ₃*μ₁^2*μ₂^4*η*k₁^2*k₃ + 5*β₂*δ₁^2*μ₁^3*μ₂^4*η*k₁^2*k₃ - 4*β₂*δ₁^2*μ₁^2*μ₂^5*η*k₁^2*k₃ - 2*β₃^5*δ₁^2*δ₃*μ₂*η^2*k₁*k₃ - 2*β₃^5*δ₁^2*μ₂^2*η^2*k₁*k₃ - 4*β₃^4*δ₁^3*δ₂*δ₃*μ₂*η*k₁*k₃^2 - 4*β₃^4*δ₁^3*δ₂*μ₂^2*η*k₁*k₃^2 - 2*β₃^4*δ₁^3*δ₃*μ₂^2*η*k₁*k₂*k₃ + 6*β₃^4*δ₁^3*δ₃*μ₂*η^2*k₃^2 - 2*β₃^4*δ₁^3*μ₂^3*η*k₁*k₂*k₃ + 10*β₃^4*δ₁^3*μ₂^2*η^2*k₃^2 + 10*β₃^4*δ₁^2*δ₃^2*μ₂*η^2*k₁*k₃ - 2*β₃^4*δ₁^2*δ₃*μ₁*μ₂*η^2*k₁*k₃ + 10*β₃^4*δ₁^2*δ₃*μ₂^2*η^2*k₁*k₃ - 2*β₃^4*δ₁^2*μ₁*μ₂^2*η^2*k₁*k₃ - 6*β₃^4*δ₁^2*μ₂^3*η^2*k₁*k₃ + 10*β₃^3*δ₁^4*δ₂*δ₃*μ₂*η*k₃^3 + 18*β₃^3*δ₁^4*δ₂*μ₂^2*η*k₃^3 + 6*β₃^3*δ₁^4*δ₃*μ₂^2*η*k₂*k₃^2 + 10*β₃^3*δ₁^4*μ₂^3*η*k₂*k₃^2 + 12*β₃^3*δ₁^3*δ₂*δ₃^2*μ₂*η*k₁*k₃^2 + 20*β₃^3*δ₁^3*δ₂*δ₃*μ₂^2*η*k₁*k₃^2 - 4*β₃^3*δ₁^3*δ₂*μ₂^3*η*k₁*k₃^2 + 8*β₃^3*δ₁^3*δ₃^2*μ₂^2*η*k₁*k₂*k₃ - 23*β₃^3*δ₁^3*δ₃^2*μ₂*η^2*k₃^2 + 6*β₃^3*δ₁^3*δ₃*μ₁*μ₂*η^2*k₃^2 + 10*β₃^3*δ₁^3*δ₃*μ₂^3*η*k₁*k₂*k₃ - 30*β₃^3*δ₁^3*δ₃*μ₂^2*η^2*k₃^2 + 10*β₃^3*δ₁^3*μ₁*μ₂^2*η^2*k₃^2 - 4*β₃^3*δ₁^3*μ₂^4*η*k₁*k₂*k₃ + 21*β₃^3*δ₁^3*μ₂^3*η^2*k₃^2 - 20*β₃^3*δ₁^2*δ₃^3*μ₂*η^2*k₁*k₃ + 8*β₃^3*δ₁^2*δ₃^2*μ₁*μ₂*η^2*k₁*k₃ - 20*β₃^3*δ₁^2*δ₃^2*μ₂^2*η^2*k₁*k₃ + 8*β₃^3*δ₁^2*δ₃*μ₁*μ₂^2*η^2*k₁*k₃ + 30*β₃^3*δ₁^2*δ₃*μ₂^3*η^2*k₁*k₃ - 6*β₃^3*δ₁^2*μ₁*μ₂^3*η^2*k₁*k₃ - 6*β₃^3*δ₁^2*μ₂^4*η^2*k₁*k₃ - 2*β₃^2*δ₁^5*δ₂^2*δ₃*μ₂*k₃^4 - 2*β₃^2*δ₁^5*δ₂^2*μ₂^2*k₃^4 - 20*β₃^2*δ₁^4*δ₂*δ₃^2*μ₂*η*k₃^3 - 4*β₃^2*δ₁^4*δ₂*δ₃*μ₁*μ₂*η*k₃^3 - 40*β₃^2*δ₁^4*δ₂*δ₃*μ₂^2*η*k₃^3 + 4*β₃^2*δ₁^4*δ₂*μ₁*μ₂^2*η*k₃^3 - 2*β₃^2*δ₁^4*δ₂*μ₂^3*η*k₃^3 - 17*β₃^2*δ₁^4*δ₃^2*μ₂^2*η*k₂*k₃^2 - 26*β₃^2*δ₁^4*δ₃*μ₂^3*η*k₂*k₃^2 + 11*β₃^2*δ₁^4*μ₂^4*η*k₂*k₃^2 - 12*β₃^2*δ₁^3*δ₂*δ₃^3*μ₂*η*k₁*k₃^2 - 9*β₃^2*δ₁^3*δ₂*δ₃^2*μ₁*μ₂*η*k₁*k₃^2 - 28*β₃^2*δ₁^3*δ₂*δ₃^2*μ₂^2*η*k₁*k₃^2 + 8*β₃^2*δ₁^3*δ₂*δ₃*μ₁*μ₂^2*η*k₁*k₃^2 + 12*β₃^2*δ₁^3*δ₂*δ₃*μ₂^3*η*k₁*k₃^2 - 11*β₃^2*δ₁^3*δ₂*μ₁*μ₂^3*η*k₁*k₃^2 + 4*β₃^2*δ₁^3*δ₂*μ₂^4*η*k₁*k₃^2 - 12*β₃^2*δ₁^3*δ₃^3*μ₂^2*η*k₁*k₂*k₃ + 33*β₃^2*δ₁^3*δ₃^3*μ₂*η^2*k₃^2 - 18*β₃^2*δ₁^3*δ₃^2*μ₁*μ₂*η^2*k₃^2 - 18*β₃^2*δ₁^3*δ₃^2*μ₂^3*η*k₁*k₂*k₃ + 31*β₃^2*δ₁^3*δ₃^2*μ₂^2*η^2*k₃^2 - 18*β₃^2*δ₁^3*δ₃*μ₁*μ₂^2*η^2*k₃^2 + 16*β₃^2*δ₁^3*δ₃*μ₂^4*η*k₁*k₂*k₃ - 59*β₃^2*δ₁^3*δ₃*μ₂^3*η^2*k₃^2 + 20*β₃^2*δ₁^3*μ₁*μ₂^3*η^2*k₃^2 - 2*β₃^2*δ₁^3*μ₂^5*η*k₁*k₂*k₃ + 11*β₃^2*δ₁^3*μ₂^4*η^2*k₃^2 + 6*β₃^2*δ₁^2*δ₂*δ₃*μ₁*μ₂^3*η*k₁^2*k₃ - 2*β₃^2*δ₁^2*δ₂*μ₁*μ₂^4*η*k₁^2*k₃ + 20*β₃^2*δ₁^2*δ₃^4*μ₂*η^2*k₁*k₃ - 12*β₃^2*δ₁^2*δ₃^3*μ₁*μ₂*η^2*k₁*k₃ + 20*β₃^2*δ₁^2*δ₃^3*μ₂^2*η^2*k₁*k₃ - 12*β₃^2*δ₁^2*δ₃^2*μ₁*μ₂^2*η^2*k₁*k₃ - 54*β₃^2*δ₁^2*δ₃^2*μ₂^3*η^2*k₁*k₃ - 3*β₃^2*δ₁^2*δ₃*μ₁^2*μ₂^2*η^2*k₁*k₃ + 28*β₃^2*δ₁^2*δ₃*μ₁*μ₂^3*η^2*k₁*k₃ + 22*β₃^2*δ₁^2*δ₃*μ₂^4*η^2*k₁*k₃ + 3*β₃^2*δ₁^2*μ₁^2*μ₂^3*η^2*k₁*k₃ - 10*β₃^2*δ₁^2*μ₁*μ₂^4*η^2*k₁*k₃ - 2*β₃^2*δ₁^2*μ₂^5*η^2*k₁*k₃ + β₃^2*δ₁*μ₁^2*μ₂^4*η^2*k₁^2 - β₃^2*δ₁*μ₁*μ₂^5*η^2*k₁^2 - 2*β₃*δ₁^5*δ₂^2*δ₃^2*μ₂*k₃^4 + 2*β₃*δ₁^5*δ₂^2*δ₃*μ₁*μ₂*k₃^4 + 2*β₃*δ₁^5*δ₂^2*δ₃*μ₂^2*k₃^4 - 2*β₃*δ₁^5*δ₂^2*μ₁*μ₂^2*k₃^4 + 2*β₃*δ₁^5*δ₂*μ₂^4*k₂*k₃^3 + 10*β₃*δ₁^4*δ₂*δ₃^3*μ₂*η*k₃^3 + 14*β₃*δ₁^4*δ₂*δ₃^2*μ₁*μ₂*η*k₃^3 + 22*β₃*δ₁^4*δ₂*δ₃^2*μ₂^2*η*k₃^3 - 21*β₃*δ₁^4*δ₂*δ₃*μ₁*μ₂^2*η*k₃^3 - 10*β₃*δ₁^4*δ₂*δ₃*μ₂^3*η*k₃^3 + 4*β₃*δ₁^4*δ₂*μ₁^2*μ₂^2*η*k₃^3 + 11*β₃*δ₁^4*δ₂*μ₁*μ₂^3*η*k₃^3 - 20*β₃*δ₁^4*δ₂*μ₂^4*η*k₃^3 + 16*β₃*δ₁^4*δ₃^3*μ₂^2*η*k₂*k₃^2 - β₃*δ₁^4*δ₃^2*μ₁*μ₂^2*η*k₂*k₃^2 + 22*β₃*δ₁^4*δ₃^2*μ₂^3*η*k₂*k₃^2 + 2*β₃*δ₁^4*δ₃*μ₁*μ₂^3*η*k₂*k₃^2 - 22*β₃*δ₁^4*δ₃*μ₂^4*η*k₂*k₃^2 - β₃*δ₁^4*μ₁*μ₂^4*η*k₂*k₃^2 + 4*β₃*δ₁^3*δ₂*δ₃^4*μ₂*η*k₁*k₃^2 + 18*β₃*δ₁^3*δ₂*δ₃^3*μ₁*μ₂*η*k₁*k₃^2 + 12*β₃*δ₁^3*δ₂*δ₃^3*μ₂^2*η*k₁*k₃^2 - 2*β₃*δ₁^3*δ₂*δ₃^2*μ₁^2*μ₂*η*k₁*k₃^2 - 12*β₃*δ₁^3*δ₂*δ₃^2*μ₁*μ₂^2*η*k₁*k₃^2 - 8*β₃*δ₁^3*δ₂*δ₃^2*μ₂^3*η*k₁*k₃^2 - 2*β₃*δ₁^3*δ₂*δ₃*μ₁^2*μ₂^2*η*k₁*k₃^2 + 10*β₃*δ₁^3*δ₂*δ₃*μ₁*μ₂^3*η*k₁*k₃^2 - 12*β₃*δ₁^3*δ₂*δ₃*μ₂^4*η*k₁*k₃^2 - 10*β₃*δ₁^3*δ₂*μ₁^2*μ₂^3*η*k₁*k₃^2 - 13*β₃*δ₁^3*δ₂*μ₁*μ₂^4*η*k₁*k₃^2 + 4*β₃*δ₁^3*δ₂*μ₂^5*η*k₁*k₃^2 + 8*β₃*δ₁^3*δ₃^4*μ₂^2*η*k₁*k₂*k₃ - 21*β₃*δ₁^3*δ₃^4*μ₂*η^2*k₃^2 + 18*β₃*δ₁^3*δ₃^3*μ₁*μ₂*η^2*k₃^2 + 14*β₃*δ₁^3*δ₃^3*μ₂^3*η*k₁*k₂*k₃ - 12*β₃*δ₁^3*δ₃^3*μ₂^2*η^2*k₃^2 - β₃*δ₁^3*δ₃^2*μ₁^2*μ₂*η^2*k₃^2 + 6*β₃*δ₁^3*δ₃^2*μ₁*μ₂^2*η^2*k₃^2 - 20*β₃*δ₁^3*δ₃^2*μ₂^4*η*k₁*k₂*k₃ + 55*β₃*δ₁^3*δ₃^2*μ₂^3*η^2*k₃^2 - 3*β₃*δ₁^3*δ₃*μ₁^2*μ₂^3*η*k₁*k₂*k₃ + 2*β₃*δ₁^3*δ₃*μ₁^2*μ₂^2*η^2*k₃^2 + 4*β₃*δ₁^3*δ₃*μ₁*μ₂^4*η*k₁*k₂*k₃ - 34*β₃*δ₁^3*δ₃*μ₁*μ₂^3*η^2*k₃^2 + 4*β₃*δ₁^3*δ₃*μ₂^5*η*k₁*k₂*k₃ - 22*β₃*δ₁^3*δ₃*μ₂^4*η^2*k₃^2 + 3*β₃*δ₁^3*μ₁^2*μ₂^4*η*k₁*k₂*k₃ - β₃*δ₁^3*μ₁^2*μ₂^3*η^2*k₃^2 - 4*β₃*δ₁^3*μ₁*μ₂^5*η*k₁*k₂*k₃ + 10*β₃*δ₁^3*μ₁*μ₂^4*η^2*k₃^2 - 12*β₃*δ₁^2*δ₂*δ₃^2*μ₁*μ₂^3*η*k₁^2*k₃ + 12*β₃*δ₁^2*δ₂*δ₃*μ₁^2*μ₂^3*η*k₁^2*k₃ + 2*β₃*δ₁^2*δ₂*δ₃*μ₁*μ₂^4*η*k₁^2*k₃ - 6*β₃*δ₁^2*δ₂*μ₁^2*μ₂^4*η*k₁^2*k₃ + 3*β₃*δ₁^2*δ₂*μ₁*μ₂^5*η*k₁^2*k₃ - 10*β₃*δ₁^2*δ₃^5*μ₂*η^2*k₁*k₃ + 8*β₃*δ₁^2*δ₃^4*μ₁*μ₂*η^2*k₁*k₃ - 10*β₃*δ₁^2*δ₃^4*μ₂^2*η^2*k₁*k₃ + 8*β₃*δ₁^2*δ₃^3*μ₁*μ₂^2*η^2*k₁*k₃ + 42*β₃*δ₁^2*δ₃^3*μ₂^3*η^2*k₁*k₃ + 6*β₃*δ₁^2*δ₃^2*μ₁^2*μ₂^2*η^2*k₁*k₃ - 38*β₃*δ₁^2*δ₃^2*μ₁*μ₂^3*η^2*k₁*k₃ - 26*β₃*δ₁^2*δ₃^2*μ₂^4*η^2*k₁*k₃ - 3*β₃*δ₁^2*δ₃*μ₁^3*μ₂^2*η^2*k₁*k₃ - 5*β₃*δ₁^2*δ₃*μ₁^2*μ₂^3*η^2*k₁*k₃ + 28*β₃*δ₁^2*δ₃*μ₁*μ₂^4*η^2*k₁*k₃ + 4*β₃*δ₁^2*δ₃*μ₂^5*η^2*k₁*k₃ + 3*β₃*δ₁^2*μ₁^3*μ₂^3*η^2*k₁*k₃ + β₃*δ₁^2*μ₁^2*μ₂^5*η*k₁^2*k₂ - β₃*δ₁^2*μ₁^2*μ₂^4*η^2*k₁*k₃ - β₃*δ₁^2*μ₁*μ₂^6*η*k₁^2*k₂ - 6*β₃*δ₁^2*μ₁*μ₂^5*η^2*k₁*k₃ - 2*β₃*δ₁*δ₃*μ₁^2*μ₂^4*η^2*k₁^2 + 2*β₃*δ₁*δ₃*μ₁*μ₂^5*η^2*k₁^2 + β₃*δ₁*μ₁^3*μ₂^4*η^2*k₁^2 - β₃*δ₁*μ₁*μ₂^6*η^2*k₁^2 - 2*δ₁^5*δ₂^2*μ₁*μ₂^3*k₃^4 + 2*δ₁^5*δ₂^2*μ₂^4*k₃^4 + 2*δ₁^5*δ₂*δ₃^3*μ₂^2*k₂*k₃^3 - 6*δ₁^5*δ₂*δ₃^2*μ₂^3*k₂*k₃^3 + 4*δ₁^5*δ₂*δ₃*μ₂^4*k₂*k₃^3 - 2*δ₁^4*δ₂*δ₃^3*μ₁*μ₂*η*k₃^3 + 2*δ₁^4*δ₂*δ₃^2*μ₁^2*μ₂*η*k₃^3 + 4*δ₁^4*δ₂*δ₃^2*μ₁*μ₂^2*η*k₃^3 - 8*δ₁^4*δ₂*δ₃*μ₁*μ₂^3*η*k₃^3 + 2*δ₁^4*δ₂*δ₃*μ₂^4*η*k₃^3 + 2*δ₁^4*δ₂*μ₁*μ₂^4*η*k₃^3 - 5*δ₁^4*δ₃^4*μ₂^2*η*k₂*k₃^2 + δ₁^4*δ₃^3*μ₁*μ₂^2*η*k₂*k₃^2 - 6*δ₁^4*δ₃^3*μ₂^3*η*k₂*k₃^2 - 2*δ₁^4*δ₃^2*μ₁*μ₂^3*η*k₂*k₃^2 + 11*δ₁^4*δ₃^2*μ₂^4*η*k₂*k₃^2 + δ₁^4*δ₃*μ₁*μ₂^4*η*k₂*k₃^2 - 9*δ₁^3*δ₂*δ₃^4*μ₁*μ₂*η*k₁*k₃^2 + 2*δ₁^3*δ₂*δ₃^3*μ₁^2*μ₂*η*k₁*k₃^2 + 4*δ₁^3*δ₂*δ₃^3*μ₁*μ₂^2*η*k₁*k₃^2 + 5*δ₁^3*δ₂*δ₃^2*μ₁^3*μ₂*η*k₁*k₃^2 + 4*δ₁^3*δ₂*δ₃^2*μ₁^2*μ₂^2*η*k₁*k₃^2 + 12*δ₁^3*δ₂*δ₃^2*μ₁*μ₂^3*η*k₁*k₃^2 + 2*δ₁^3*δ₂*δ₃*μ₁^4*μ₂*η*k₁*k₃^2 - 3*δ₁^3*δ₂*δ₃*μ₁^3*μ₂^2*η*k₁*k₃^2 - 3*δ₁^3*δ₂*δ₃*μ₁^2*μ₂^3*η*k₁*k₃^2 + 2*δ₁^3*δ₂*δ₃*μ₁*μ₂^4*η*k₁*k₃^2 + 2*δ₁^3*δ₂*μ₁^4*μ₂^2*η*k₁*k₃^2 - 2*δ₁^3*δ₂*μ₁^3*μ₂^3*η*k₁*k₃^2 - 13*δ₁^3*δ₂*μ₁^2*μ₂^4*η*k₁*k₃^2 - 3*δ₁^3*δ₂*μ₁*μ₂^5*η*k₁*k₃^2 - 2*δ₁^3*δ₃^5*μ₂^2*η*k₁*k₂*k₃ + 5*δ₁^3*δ₃^5*μ₂*η^2*k₃^2 - 6*δ₁^3*δ₃^4*μ₁*μ₂*η^2*k₃^2 - 4*δ₁^3*δ₃^4*μ₂^3*η*k₁*k₂*k₃ + δ₁^3*δ₃^4*μ₂^2*η^2*k₃^2 + δ₁^3*δ₃^3*μ₁^2*μ₂*η^2*k₃^2 + 2*δ₁^3*δ₃^3*μ₁*μ₂^2*η^2*k₃^2 + 8*δ₁^3*δ₃^3*μ₂^4*η*k₁*k₂*k₃ - 17*δ₁^3*δ₃^3*μ₂^3*η^2*k₃^2 + 3*δ₁^3*δ₃^2*μ₁^2*μ₂^3*η*k₁*k₂*k₃ - 3*δ₁^3*δ₃^2*μ₁^2*μ₂^2*η^2*k₃^2 - 4*δ₁^3*δ₃^2*μ₁*μ₂^4*η*k₁*k₂*k₃ + 14*δ₁^3*δ₃^2*μ₁*μ₂^3*η^2*k₃^2 - 2*δ₁^3*δ₃^2*μ₂^5*η*k₁*k₂*k₃ + 11*δ₁^3*δ₃^2*μ₂^4*η^2*k₃^2 - 3*δ₁^3*δ₃*μ₁^2*μ₂^4*η*k₁*k₂*k₃ + 3*δ₁^3*δ₃*μ₁^2*μ₂^3*η^2*k₃^2 + 4*δ₁^3*δ₃*μ₁*μ₂^5*η*k₁*k₂*k₃ - 10*δ₁^3*δ₃*μ₁*μ₂^4*η^2*k₃^2 - δ₁^3*μ₁^2*μ₂^4*η^2*k₃^2 + 6*δ₁^2*δ₂*δ₃^3*μ₁*μ₂^3*η*k₁^2*k₃ - 12*δ₁^2*δ₂*δ₃^2*μ₁^2*μ₂^3*η*k₁^2*k₃ + 6*δ₁^2*δ₂*δ₃*μ₁^3*μ₂^3*η*k₁^2*k₃ + 11*δ₁^2*δ₂*δ₃*μ₁^2*μ₂^4*η*k₁^2*k₃ - 8*δ₁^2*δ₂*δ₃*μ₁*μ₂^5*η*k₁^2*k₃ - 5*δ₁^2*δ₂*μ₁^3*μ₂^4*η*k₁^2*k₃ - 2*δ₁^2*δ₂*μ₁^2*μ₂^5*η*k₁^2*k₃ + 4*δ₁^2*δ₂*μ₁*μ₂^6*η*k₁^2*k₃ + 2*δ₁^2*δ₃^6*μ₂*η^2*k₁*k₃ - 2*δ₁^2*δ₃^5*μ₁*μ₂*η^2*k₁*k₃ + 2*δ₁^2*δ₃^5*μ₂^2*η^2*k₁*k₃ - 2*δ₁^2*δ₃^4*μ₁*μ₂^2*η^2*k₁*k₃ - 12*δ₁^2*δ₃^4*μ₂^3*η^2*k₁*k₃ - 3*δ₁^2*δ₃^3*μ₁^2*μ₂^2*η^2*k₁*k₃ + 16*δ₁^2*δ₃^3*μ₁*μ₂^3*η^2*k₁*k₃ + 10*δ₁^2*δ₃^3*μ₂^4*η^2*k₁*k₃ + 3*δ₁^2*δ₃^2*μ₁^3*μ₂^2*η^2*k₁*k₃ + 2*δ₁^2*δ₃^2*μ₁^2*μ₂^3*η^2*k₁*k₃ - 18*δ₁^2*δ₃^2*μ₁*μ₂^4*η^2*k₁*k₃ - 2*δ₁^2*δ₃^2*μ₂^5*η^2*k₁*k₃ - 6*δ₁^2*δ₃*μ₁^3*μ₂^3*η^2*k₁*k₃ - δ₁^2*δ₃*μ₁^2*μ₂^5*η*k₁^2*k₂ + 5*δ₁^2*δ₃*μ₁^2*μ₂^4*η^2*k₁*k₃ + δ₁^2*δ₃*μ₁*μ₂^6*η*k₁^2*k₂ + 6*δ₁^2*δ₃*μ₁*μ₂^5*η^2*k₁*k₃ + 3*δ₁^2*μ₁^3*μ₂^4*η^2*k₁*k₃ - 4*δ₁^2*μ₁^2*μ₂^5*η^2*k₁*k₃ + δ₁*δ₃^2*μ₁^2*μ₂^4*η^2*k₁^2 - δ₁*δ₃^2*μ₁*μ₂^5*η^2*k₁^2 - δ₁*δ₃*μ₁^3*μ₂^4*η^2*k₁^2 + δ₁*δ₃*μ₁*μ₂^6*η^2*k₁^2 + δ₁*μ₁^3*μ₂^5*η^2*k₁^2 - δ₁*μ₁^2*μ₂^6*η^2*k₁^2
+ 4*β₂^3*β₃*δ₁^5*δ₃*μ₁*k₃^4 - 4*β₂^2*β₃^2*δ₁^5*δ₂*δ₃*k₃^4 - 4*β₂^2*β₃*δ₁^5*δ₂*δ₃^2*k₃^4 - 4*β₂^2*β₃*δ₁^5*δ₂*δ₃*μ₁*k₃^4 - 4*β₂^2*β₃*δ₁^5*δ₂*δ₃*μ₂*k₃^4 - 2*β₂^2*β₃*δ₁^4*δ₃*μ₂^2*η*k₃^3 - 18*β₂^2*β₃*δ₁^4*μ₁*μ₂^2*η*k₃^3 + 4*β₂^2*β₃*δ₁^4*μ₂^3*η*k₃^3 + 2*β₂^2*β₃*δ₁^3*δ₃^2*μ₂^2*η*k₁*k₃^2 - 2*β₂^2*β₃*δ₁^3*δ₃*μ₂^3*η*k₁*k₃^2 + 4*β₂^2*δ₁^5*δ₂*δ₃^2*μ₂*k₃^4 - 8*β₂^2*δ₁^5*δ₂*δ₃*μ₁*μ₂*k₃^4 + 4*β₂^2*δ₁^5*δ₂*μ₁*μ₂^2*k₃^4 - 4*β₂^2*δ₁^4*δ₃^4*η*k₃^3 + 18*β₂^2*δ₁^4*δ₃^3*μ₁*η*k₃^3 - 4*β₂^2*δ₁^4*δ₃^3*μ₂*η*k₃^3 + 68*β₂^2*δ₁^4*δ₃^2*μ₁^2*η*k₃^3 + 3*β₂^2*δ₁^4*δ₃^2*μ₁*μ₂*η*k₃^3 + 6*β₂^2*δ₁^4*δ₃^2*μ₂^2*η*k₃^3 - 184*β₂^2*δ₁^4*δ₃*μ₁^3*η*k₃^3 + 24*β₂^2*δ₁^4*δ₃*μ₁^2*μ₂*η*k₃^3 - 20*β₂^2*δ₁^4*δ₃*μ₁*μ₂^2*η*k₃^3 + 92*β₂^2*δ₁^4*μ₁^3*μ₂*η*k₃^3 - 5*β₂^2*δ₁^4*μ₁^2*μ₂^2*η*k₃^3 + 6*β₂^2*δ₁^4*μ₁*μ₂^3*η*k₃^3 - 2*β₂^2*δ₁^3*δ₃^3*μ₂^2*η*k₁*k₃^2 + 2*β₂^2*δ₁^3*δ₃^2*μ₂^3*η*k₁*k₃^2 - 10*β₂^2*δ₁^3*δ₃*μ₁*μ₂^3*η*k₁*k₃^2 + 2*β₂^2*δ₁^3*μ₁*μ₂^4*η*k₁*k₃^2 + 8*β₂*β₃^2*δ₁^5*δ₂^2*δ₃*k₃^4 + 8*β₂*β₃*δ₁^5*δ₂^2*δ₃^2*k₃^4 - 4*β₂*β₃*δ₁^5*δ₂^2*δ₃*μ₁*k₃^4 + 8*β₂*β₃*δ₁^5*δ₂^2*δ₃*μ₂*k₃^4 - 48*β₂*β₃*δ₁^4*δ₂*δ₃^2*μ₁*η*k₃^3 + 60*β₂*β₃*δ₁^4*δ₂*δ₃^2*μ₂*η*k₃^3 - 120*β₂*β₃*δ₁^4*δ₂*δ₃*μ₁*μ₂*η*k₃^3 + 38*β₂*β₃*δ₁^4*δ₂*δ₃*μ₂^2*η*k₃^3 + 184*β₂*β₃*δ₁^4*δ₂*μ₁^3*η*k₃^3 + 6*β₂*β₃*δ₁^4*δ₂*μ₁*μ₂^2*η*k₃^3 + 2*β₂*β₃*δ₁^4*δ₂*μ₂^3*η*k₃^3 + 2*β₂*β₃*δ₁^3*δ₂*δ₃^2*μ₂^2*η*k₁*k₃^2 - 6*β₂*β₃*δ₁^3*δ₂*δ₃*μ₂^3*η*k₁*k₃^2 + 4*β₂*β₃*δ₁^3*δ₂*μ₂^4*η*k₁*k₃^2 - 4*β₂*β₃*δ₁^3*δ₃^3*μ₁*η^2*k₃^2 + 4*β₂*β₃*δ₁^3*δ₃^3*μ₂*η^2*k₃^2 + 26*β₂*β₃*δ₁^3*δ₃^2*μ₁^2*η^2*k₃^2 - 20*β₂*β₃*δ₁^3*δ₃^2*μ₁*μ₂*η^2*k₃^2 + 4*β₂*β₃*δ₁^3*δ₃^2*μ₂^2*η^2*k₃^2 + 56*β₂*β₃*δ₁^3*δ₃*μ₁^3*η^2*k₃^2 - 88*β₂*β₃*δ₁^3*δ₃*μ₁^2*μ₂*η^2*k₃^2 + 16*β₂*β₃*δ₁^3*δ₃*μ₁*μ₂^2*η^2*k₃^2 - 4*β₂*β₃*δ₁^3*δ₃*μ₂^3*η^2*k₃^2 - 48*β₂*β₃*δ₁^3*μ₁^3*μ₂*η^2*k₃^2 - 110*β₂*β₃*δ₁^3*μ₁^2*μ₂^2*η^2*k₃^2 - 57*β₂*β₃*δ₁^3*μ₁*μ₂^3*η^2*k₃^2 - 4*β₂*β₃*δ₁^3*μ₂^4*η^2*k₃^2 + 12*β₂*β₃*δ₁^2*δ₃*μ₁*μ₂^3*η^2*k₁*k₃ + 23*β₂*β₃*δ₁^2*μ₁*μ₂^4*η^2*k₁*k₃ - 8*β₂*δ₁^5*δ₂^2*δ₃^2*μ₂*k₃^4 + 16*β₂*δ₁^5*δ₂^2*δ₃*μ₁*μ₂*k₃^4 - 4*β₂*δ₁^5*δ₂^2*μ₁*μ₂^2*k₃^4 - 4*β₂*δ₁^5*δ₂^2*μ₂^3*k₃^4 + 8*β₂*δ₁^4*δ₂*δ₃^4*η*k₃^3 + 10*β₂*δ₁^4*δ₂*δ₃^3*μ₁*η*k₃^3 - 36*β₂*δ₁^4*δ₂*δ₃^3*μ₂*η*k₃^3 - 136*β₂*δ₁^4*δ₂*δ₃^2*μ₁^2*η*k₃^3 + 101*β₂*δ₁^4*δ₂*δ₃^2*μ₁*μ₂*η*k₃^3 - 2*β₂*δ₁^4*δ₂*δ₃^2*μ₂^2*η*k₃^3 + 184*β₂*δ₁^4*δ₂*δ₃*μ₁^3*η*k₃^3 - 34*β₂*δ₁^4*δ₂*δ₃*μ₁^2*μ₂*η*k₃^3 - 34*β₂*δ₁^4*δ₂*δ₃*μ₁*μ₂^2*η*k₃^3 + 4*β₂*δ₁^4*δ₂*δ₃*μ₂^3*η*k₃^3 - 68*β₂*δ₁^4*δ₂*μ₁^2*μ₂^2*η*k₃^3 + 9*β₂*δ₁^4*δ₂*μ₁*μ₂^3*η*k₃^3 - 6*β₂*δ₁^4*δ₂*μ₂^4*η*k₃^3 + 14*β₂*δ₁^4*μ₁*μ₂^4*η*k₂*k₃^2 - 2*β₂*δ₁^3*δ₂*δ₃^3*μ₂^2*η*k₁*k₃^2 + 2*β₂*δ₁^3*δ₂*δ₃^2*μ₂^3*η*k₁*k₃^2 + 2*β₂*δ₁^3*δ₂*δ₃*μ₂^4*η*k₁*k₃^2 - 2*β₂*δ₁^3*δ₂*μ₂^5*η*k₁*k₃^2 + 4*β₂*δ₁^3*δ₃^4*μ₁*η^2*k₃^2 - 4*β₂*δ₁^3*δ₃^4*μ₂*η^2*k₃^2 - 26*β₂*δ₁^3*δ₃^3*μ₁^2*η^2*k₃^2 + 16*β₂*δ₁^3*δ₃^3*μ₁*μ₂*η^2*k₃^2 - 4*β₂*δ₁^3*δ₃^3*μ₂^2*η^2*k₃^2 - 56*β₂*δ₁^3*δ₃^2*μ₁^3*η^2*k₃^2 + 105*β₂*δ₁^3*δ₃^2*μ₁^2*μ₂*η^2*k₃^2 - 107*β₂*δ₁^3*δ₃^2*μ₁*μ₂^2*η^2*k₃^2 + 4*β₂*δ₁^3*δ₃^2*μ₂^3*η^2*k₃^2 + 130*β₂*δ₁^3*δ₃*μ₁^3*μ₂*η^2*k₃^2 + 44*β₂*δ₁^3*δ₃*μ₁^2*μ₂^2*η^2*k₃^2 - 28*β₂*δ₁^3*δ₃*μ₁*μ₂^3*η^2*k₃^2 + 4*β₂*δ₁^3*δ₃*μ₂^4*η^2*k₃^2 - 92*β₂*δ₁^3*μ₁^4*μ₂*η^2*k₃^2 + 109*β₂*δ₁^3*μ₁^3*μ₂^2*η^2*k₃^2 - 95*β₂*δ₁^3*μ₁^2*μ₂^3*η^2*k₃^2 + 2*β₂*δ₁^3*μ₁*μ₂^5*η*k₁*k₂*k₃ - 4*β₂*δ₁^3*μ₁*μ₂^4*η^2*k₃^2 + 8*β₂*δ₁^2*δ₃^2*μ₁^2*μ₂^2*η^2*k₁*k₃ - 12*β₂*δ₁^2*δ₃^2*μ₁*μ₂^3*η^2*k₁*k₃ - 8*β₂*δ₁^2*δ₃*μ₁^4*μ₂*η^2*k₁*k₃ - 61*β₂*δ₁^2*δ₃*μ₁^3*μ₂^2*η^2*k₁*k₃ + 66*β₂*δ₁^2*δ₃*μ₁^2*μ₂^3*η^2*k₁*k₃ + 2*β₂*δ₁^2*δ₃*μ₁*μ₂^4*η^2*k₁*k₃ + 20*β₂*δ₁^2*μ₁^5*μ₂*η^2*k₁*k₃ - 8*β₂*δ₁^2*μ₁^4*μ₂^2*η^2*k₁*k₃ - 121*β₂*δ₁^2*μ₁^3*μ₂^3*η^2*k₁*k₃ + 114*β₂*δ₁^2*μ₁^2*μ₂^4*η^2*k₁*k₃ + 15*β₂*δ₁*μ₁^3*μ₂^4*η^2*k₁^2 - 15*β₂*δ₁*μ₁^2*μ₂^5*η^2*k₁^2 - 4*β₃^6*δ₁*δ₃*η^3*k₁ - 16*β₃^6*δ₁*μ₂*η^3*k₁ - 12*β₃^5*δ₁^2*δ₂*δ₃*η^2*k₁*k₃ - 36*β₃^5*δ₁^2*δ₂*μ₂*η^2*k₁*k₃ - 4*β₃^5*δ₁^2*δ₃*μ₂*η^2*k₁*k₂ + 12*β₃^5*δ₁^2*δ₃*η^3*k₃ - 16*β₃^5*δ₁^2*μ₂^2*η^2*k₁*k₂ + 72*β₃^5*δ₁^2*μ₂*η^3*k₃ + 24*β₃^5*δ₁*δ₃^2*η^3*k₁ - 4*β₃^5*δ₁*δ₃*μ₁*η^3*k₁ + 88*β₃^5*δ₁*δ₃*μ₂*η^3*k₁ - 16*β₃^5*δ₁*μ₁*μ₂*η^3*k₁ - 52*β₃^5*δ₁*μ₂^2*η^3*k₁ - 4*β₃^4*δ₁^3*δ₂^2*δ₃*η*k₁*k₃^2 - 4*β₃^4*δ₁^3*δ₂^2*μ₂*η*k₁*k₃^2 + 28*β₃^4*δ₁^3*δ₂*δ₃*η^2*k₃^2 + 148*β₃^4*δ₁^3*δ₂*μ₂*η^2*k₃^2 + 12*β₃^4*δ₁^3*δ₃*μ₂*η^2*k₂*k₃ + 72*β₃^4*δ₁^3*μ₂^2*η^2*k₂*k₃ + 52*β₃^4*δ₁^2*δ₂*δ₃^2*η^2*k₁*k₃ + 148*β₃^4*δ₁^2*δ₂*δ₃*μ₂*η^2*k₁*k₃ - 48*β₃^4*δ₁^2*δ₂*μ₂^2*η^2*k₁*k₃ + 20*β₃^4*δ₁^2*δ₃^2*μ₂*η^2*k₁*k₂ - 44*β₃^4*δ₁^2*δ₃^2*η^3*k₃ + 12*β₃^4*δ₁^2*δ₃*μ₁*η^3*k₃ + 76*β₃^4*δ₁^2*δ₃*μ₂^2*η^2*k₁*k₂ - 276*β₃^4*δ₁^2*δ₃*μ₂*η^3*k₃ + 72*β₃^4*δ₁^2*μ₁*μ₂*η^3*k₃ - 36*β₃^4*δ₁^2*μ₂^3*η^2*k₁*k₂ + 268*β₃^4*δ₁^2*μ₂^2*η^3*k₃ - 60*β₃^4*δ₁*δ₃^3*η^3*k₁ + 20*β₃^4*δ₁*δ₃^2*μ₁*η^3*k₁ - 200*β₃^4*δ₁*δ₃^2*μ₂*η^3*k₁ + 72*β₃^4*δ₁*δ₃*μ₁*μ₂*η^3*k₁ + 256*β₃^4*δ₁*δ₃*μ₂^2*η^3*k₁ - 52*β₃^4*δ₁*μ₁*μ₂^2*η^3*k₁ - 70*β₃^4*δ₁*μ₂^3*η^3*k₁ + 12*β₃^3*δ₁^3*δ₂^2*δ₃^2*η*k₁*k₃^2 + 16*β₃^3*δ₁^3*δ₂^2*δ₃*μ₂*η*k₁*k₃^2 - 4*β₃^3*δ₁^3*δ₂^2*μ₂^2*η*k₁*k₃^2 - 48*β₃^3*δ₁^3*δ₂*δ₃^2*η^2*k₃^2 - 80*β₃^3*δ₁^3*δ₂*δ₃*μ₁*η^2*k₃^2 - 364*β₃^3*δ₁^3*δ₂*δ₃*μ₂*η^2*k₃^2 + 184*β₃^3*δ₁^3*δ₂*μ₁^2*η^2*k₃^2 - 20*β₃^3*δ₁^3*δ₂*μ₁*μ₂*η^2*k₃^2 + 256*β₃^3*δ₁^3*δ₂*μ₂^2*η^2*k₃^2 - 32*β₃^3*δ₁^3*δ₃^2*μ₂*η^2*k₂*k₃ - 216*β₃^3*δ₁^3*δ₃*μ₂^2*η^2*k₂*k₃ + 196*β₃^3*δ₁^3*μ₂^3*η^2*k₂*k₃ - 88*β₃^3*δ₁^2*δ₂*δ₃^3*η^2*k₁*k₃ - 232*β₃^3*δ₁^2*δ₂*δ₃^2*μ₂*η^2*k₁*k₃ + 160*β₃^3*δ₁^2*δ₂*δ₃*μ₂^2*η^2*k₁*k₃ + 4*β₃^3*δ₁^2*δ₂*μ₂^3*η^2*k₁*k₃ - 40*β₃^3*δ₁^2*δ₃^3*μ₂*η^2*k₁*k₂ + 56*β₃^3*δ₁^2*δ₃^3*η^3*k₃ - 32*β₃^3*δ₁^2*δ₃^2*μ₁*η^3*k₃ - 144*β₃^3*δ₁^2*δ₃^2*μ₂^2*η^2*k₁*k₂ + 416*β₃^3*δ₁^2*δ₃^2*μ₂*η^3*k₃ - 204*β₃^3*δ₁^2*δ₃*μ₁*μ₂*η^3*k₃ + 144*β₃^3*δ₁^2*δ₃*μ₂^3*η^2*k₁*k₂ - 943*β₃^3*δ₁^2*δ₃*μ₂^2*η^3*k₃ + 268*β₃^3*δ₁^2*μ₁*μ₂^2*η^3*k₃ - 34*β₃^3*δ₁^2*μ₂^4*η^2*k₁*k₂ + 322*β₃^3*δ₁^2*μ₂^3*η^3*k₃ + 80*β₃^3*δ₁*δ₃^4*η^3*k₁ - 40*β₃^3*δ₁*δ₃^3*μ₁*η^3*k₁ + 240*β₃^3*δ₁*δ₃^3*μ₂*η^3*k₁ - 128*β₃^3*δ₁*δ₃^2*μ₁*μ₂*η^3*k₁ - 504*β₃^3*δ₁*δ₃^2*μ₂^2*η^3*k₁ + 204*β₃^3*δ₁*δ₃*μ₁*μ₂^2*η^3*k₁ + 280*β₃^3*δ₁*δ₃*μ₂^3*η^3*k₁ - 70*β₃^3*δ₁*μ₁*μ₂^3*η^3*k₁ - 47*β₃^3*δ₁*μ₂^4*η^3*k₁ - 4*β₃^2*δ₁^5*δ₂^3*δ₃*k₃^4 - 4*β₃^2*δ₁^5*δ₂^3*μ₂*k₃^4 + 4*β₃^2*δ₁^4*δ₂^2*δ₃^2*η*k₃^3 - 40*β₃^2*δ₁^4*δ₂^2*δ₃*μ₂*η*k₃^3 - 12*β₃^2*δ₁^3*δ₂^2*δ₃^3*η*k₁*k₃^2 - 20*β₃^2*δ₁^3*δ₂^2*δ₃^2*μ₂*η*k₁*k₃^2 + 8*β₃^2*δ₁^3*δ₂^2*δ₃*μ₂^2*η*k₁*k₃^2 + 8*β₃^2*δ₁^3*δ₂^2*μ₂^3*η*k₁*k₃^2 + 4*β₃^2*δ₁^3*δ₂*δ₃^3*η^2*k₃^2 + 228*β₃^2*δ₁^3*δ₂*δ₃^2*μ₁*η^2*k₃^2 + 308*β₃^2*δ₁^3*δ₂*δ₃^2*μ₂*η^2*k₃^2 - 684*β₃^2*δ₁^3*δ₂*δ₃*μ₁^2*η^2*k₃^2 - 30*β₃^2*δ₁^3*δ₂*δ₃*μ₁*μ₂*η^2*k₃^2 - 618*β₃^2*δ₁^3*δ₂*δ₃*μ₂^2*η^2*k₃^2 + 368*β₃^2*δ₁^3*δ₂*μ₁^3*η^2*k₃^2 + 204*β₃^2*δ₁^3*δ₂*μ₁^2*μ₂*η^2*k₃^2 - 29*β₃^2*δ₁^3*δ₂*μ₁*μ₂^2*η^2*k₃^2 - 146*β₃^2*δ₁^3*δ₂*μ₂^3*η^2*k₃^2 + 24*β₃^2*δ₁^3*δ₃^3*μ₂*η^2*k₂*k₃ + 232*β₃^2*δ₁^3*δ₃^2*μ₂^2*η^2*k₂*k₃ - 531*β₃^2*δ₁^3*δ₃*μ₂^3*η^2*k₂*k₃ + 126*β₃^2*δ₁^3*μ₂^4*η^2*k₂*k₃ + 72*β₃^2*δ₁^2*δ₂*δ₃^4*η^2*k₁*k₃ + 168*β₃^2*δ₁^2*δ₂*δ₃^3*μ₂*η^2*k₁*k₃ - 8*β₃^2*δ₁^2*δ₂*δ₃^2*μ₁*μ₂*η^2*k₁*k₃ - 184*β₃^2*δ₁^2*δ₂*δ₃^2*μ₂^2*η^2*k₁*k₃ - 89*β₃^2*δ₁^2*δ₂*δ₃*μ₁*μ₂^2*η^2*k₁*k₃ - 8*β₃^2*δ₁^2*δ₂*δ₃*μ₂^3*η^2*k₁*k₃ - 95*β₃^2*δ₁^2*δ₂*μ₁*μ₂^3*η^2*k₁*k₃ + 42*β₃^2*δ₁^2*δ₂*μ₂^4*η^2*k₁*k₃ + 40*β₃^2*δ₁^2*δ₃^4*μ₂*η^2*k₁*k₂ - 24*β₃^2*δ₁^2*δ₃^4*η^3*k₃ + 24*β₃^2*δ₁^2*δ₃^3*μ₁*η^3*k₃ + 136*β₃^2*δ₁^2*δ₃^3*μ₂^2*η^2*k₁*k₂ - 312*β₃^2*δ₁^2*δ₃^3*μ₂*η^3*k₃ + 212*β₃^2*δ₁^2*δ₃^2*μ₁*μ₂*η^3*k₃ - 216*β₃^2*δ₁^2*δ₃^2*μ₂^3*η^2*k₁*k₂ + 1237*β₃^2*δ₁^2*δ₃^2*μ₂^2*η^3*k₃ + β₃^2*δ₁^2*δ₃*μ₁^2*μ₂*η^3*k₃ - 677*β₃^2*δ₁^2*δ₃*μ₁*μ₂^2*η^3*k₃ + 102*β₃^2*δ₁^2*δ₃*μ₂^4*η^2*k₁*k₂ - 909*β₃^2*δ₁^2*δ₃*μ₂^3*η^3*k₃ + β₃^2*δ₁^2*μ₁^2*μ₂^2*η^3*k₃ + 321*β₃^2*δ₁^2*μ₁*μ₂^3*η^3*k₃ - 13*β₃^2*δ₁^2*μ₂^5*η^2*k₁*k₂ + 126*β₃^2*δ₁^2*μ₂^4*η^3*k₃ + 23*β₃^2*δ₁*δ₂*μ₁*μ₂^4*η^2*k₁^2 - 60*β₃^2*δ₁*δ₃^5*η^3*k₁ + 40*β₃^2*δ₁*δ₃^4*μ₁*η^3*k₁ - 160*β₃^2*δ₁*δ₃^4*μ₂*η^3*k₁ + 112*β₃^2*δ₁*δ₃^3*μ₁*μ₂*η^3*k₁ + 496*β₃^2*δ₁*δ₃^3*μ₂^2*η^3*k₁ - 300*β₃^2*δ₁*δ₃^2*μ₁*μ₂^2*η^3*k₁ - 420*β₃^2*δ₁*δ₃^2*μ₂^3*η^3*k₁ + 210*β₃^2*δ₁*δ₃*μ₁*μ₂^3*η^3*k₁ + 141*β₃^2*δ₁*δ₃*μ₂^4*η^3*k₁ + β₃^2*δ₁*μ₁^2*μ₂^3*η^3*k₁ - 47*β₃^2*δ₁*μ₁*μ₂^4*η^3*k₁ - 13*β₃^2*δ₁*μ₂^5*η^3*k₁ - 4*β₃*δ₁^5*δ₂^3*δ₃^2*k₃^4 + 4*β₃*δ₁^5*δ₂^3*δ₃*μ₁*k₃^4 + 4*β₃*δ₁^5*δ₂^3*δ₃*μ₂*k₃^4 - 8*β₃*δ₁^5*δ₂^3*μ₁*μ₂*k₃^4 - 8*β₃*δ₁^4*δ₂^2*δ₃^3*η*k₃^3 + 24*β₃*δ₁^4*δ₂^2*δ₃^2*μ₁*η*k₃^3 + 20*β₃*δ₁^4*δ₂^2*δ₃^2*μ₂*η*k₃^3 + 64*β₃*δ₁^4*δ₂^2*δ₃*μ₁^2*η*k₃^3 - 24*β₃*δ₁^4*δ₂^2*δ₃*μ₁*μ₂*η*k₃^3 - 36*β₃*δ₁^4*δ₂^2*δ₃*μ₂^2*η*k₃^3 - 184*β₃*δ₁^4*δ₂^2*μ₁^3*η*k₃^3 + 64*β₃*δ₁^4*δ₂^2*μ₁^2*μ₂*η*k₃^3 - 20*β₃*δ₁^4*δ₂^2*μ₁*μ₂^2*η*k₃^3 - 6*β₃*δ₁^4*δ₂^2*μ₂^3*η*k₃^3 + 4*β₃*δ₁^3*δ₂^2*δ₃^4*η*k₁*k₃^2 + 8*β₃*δ₁^3*δ₂^2*δ₃^3*μ₂*η*k₁*k₃^2 + 16*β₃*δ₁^3*δ₂^2*δ₃^2*μ₁^2*η*k₁*k₃^2 - 4*β₃*δ₁^3*δ₂^2*δ₃^2*μ₂^2*η*k₁*k₃^2 - 24*β₃*δ₁^3*δ₂^2*δ₃*μ₁*μ₂^2*η*k₁*k₃^2 - 8*β₃*δ₁^3*δ₂^2*δ₃*μ₂^3*η*k₁*k₃^2 + 16*β₃*δ₁^3*δ₂^2*μ₁^2*μ₂^2*η*k₁*k₃^2 - 8*β₃*δ₁^3*δ₂^2*μ₁*μ₂^3*η*k₁*k₃^2 + 24*β₃*δ₁^3*δ₂*δ₃^4*η^2*k₃^2 - 216*β₃*δ₁^3*δ₂*δ₃^3*μ₁*η^2*k₃^2 - 120*β₃*δ₁^3*δ₂*δ₃^3*μ₂*η^2*k₃^2 + 812*β₃*δ₁^3*δ₂*δ₃^2*μ₁^2*η^2*k₃^2 + 90*β₃*δ₁^3*δ₂*δ₃^2*μ₁*μ₂*η^2*k₃^2 + 386*β₃*δ₁^3*δ₂*δ₃^2*μ₂^2*η^2*k₃^2 - 804*β₃*δ₁^3*δ₂*δ₃*μ₁^3*η^2*k₃^2 - 583*β₃*δ₁^3*δ₂*δ₃*μ₁^2*μ₂*η^2*k₃^2 + 228*β₃*δ₁^3*δ₂*δ₃*μ₁*μ₂^2*η^2*k₃^2 - 8*β₃*δ₁^3*δ₂*δ₃*μ₂^3*η^2*k₃^2 + 184*β₃*δ₁^3*δ₂*μ₁^4*η^2*k₃^2 + 476*β₃*δ₁^3*δ₂*μ₁^3*μ₂*η^2*k₃^2 - 157*β₃*δ₁^3*δ₂*μ₁^2*μ₂^2*η^2*k₃^2 + 167*β₃*δ₁^3*δ₂*μ₁*μ₂^3*η^2*k₃^2 - 250*β₃*δ₁^3*δ₂*μ₂^4*η^2*k₃^2 - 104*β₃*δ₁^3*δ₃^3*μ₂^2*η^2*k₂*k₃ + 474*β₃*δ₁^3*δ₃^2*μ₂^3*η^2*k₂*k₃ + β₃*δ₁^3*δ₃*μ₁^2*μ₂^2*η^2*k₂*k₃ - 2*β₃*δ₁^3*δ₃*μ₁*μ₂^3*η^2*k₂*k₃ - 252*β₃*δ₁^3*δ₃*μ₂^4*η^2*k₂*k₃ + β₃*δ₁^3*μ₁^2*μ₂^3*η^2*k₂*k₃ - β₃*δ₁^3*μ₁*μ₂^4*η^2*k₂*k₃ - 28*β₃*δ₁^2*δ₂*δ₃^5*η^2*k₁*k₃ - 52*β₃*δ₁^2*δ₂*δ₃^4*μ₂*η^2*k₁*k₃ + 16*β₃*δ₁^2*δ₂*δ₃^3*μ₁*μ₂*η^2*k₁*k₃ + 80*β₃*δ₁^2*δ₂*δ₃^3*μ₂^2*η^2*k₁*k₃ - 4*β₃*δ₁^2*δ₂*δ₃^2*μ₁^3*η^2*k₁*k₃ - 12*β₃*δ₁^2*δ₂*δ₃^2*μ₁^2*μ₂*η^2*k₁*k₃ + 162*β₃*δ₁^2*δ₂*δ₃^2*μ₁*μ₂^2*η^2*k₁*k₃ + 4*β₃*δ₁^2*δ₂*δ₃^2*μ₂^3*η^2*k₁*k₃ + 8*β₃*δ₁^2*δ₂*δ₃*μ₁^4*η^2*k₁*k₃ - 20*β₃*δ₁^2*δ₂*δ₃*μ₁^2*μ₂^2*η^2*k₁*k₃ + 44*β₃*δ₁^2*δ₂*δ₃*μ₁*μ₂^3*η^2*k₁*k₃ - 42*β₃*δ₁^2*δ₂*δ₃*μ₂^4*η^2*k₁*k₃ + 17*β₃*δ₁^2*δ₂*μ₁^2*μ₂^3*η^2*k₁*k₃ - 234*β₃*δ₁^2*δ₂*μ₁*μ₂^4*η^2*k₁*k₃ + 26*β₃*δ₁^2*δ₂*μ₂^5*η^2*k₁*k₃ - 20*β₃*δ₁^2*δ₃^5*μ₂*η^2*k₁*k₂ - 4*β₃*δ₁^2*δ₃^5*η^3*k₃ - 64*β₃*δ₁^2*δ₃^4*μ₂^2*η^2*k₁*k₂ + 120*β₃*δ₁^2*δ₃^4*μ₂*η^3*k₃ - 100*β₃*δ₁^2*δ₃^3*μ₁*μ₂*η^3*k₃ + 144*β₃*δ₁^2*δ₃^3*μ₂^3*η^2*k₁*k₂ - 717*β₃*δ₁^2*δ₃^3*μ₂^2*η^3*k₃ - 2*β₃*δ₁^2*δ₃^2*μ₁^2*μ₂*η^3*k₃ + 566*β₃*δ₁^2*δ₃^2*μ₁*μ₂^2*η^3*k₃ - 102*β₃*δ₁^2*δ₃^2*μ₂^4*η^2*k₁*k₂ + 852*β₃*δ₁^2*δ₃^2*μ₂^3*η^3*k₃ + β₃*δ₁^2*δ₃*μ₁^3*μ₂*η^3*k₃ - 3*β₃*δ₁^2*δ₃*μ₁^2*μ₂^2*η^3*k₃ - 587*β₃*δ₁^2*δ₃*μ₁*μ₂^3*η^3*k₃ + 26*β₃*δ₁^2*δ₃*μ₂^5*η^2*k₁*k₂ - 252*β₃*δ₁^2*δ₃*μ₂^4*η^3*k₃ + β₃*δ₁^2*μ₁^3*μ₂^2*η^3*k₃ + β₃*δ₁^2*μ₁^2*μ₂^4*η^2*k₁*k₂ + 125*β₃*δ₁^2*μ₁*μ₂^4*η^3*k₃ - 46*β₃*δ₁*δ₂*δ₃*μ₁*μ₂^4*η^2*k₁^2 + 8*β₃*δ₁*δ₂*μ₁^2*μ₂^4*η^2*k₁^2 + 38*β₃*δ₁*δ₂*μ₁*μ₂^5*η^2*k₁^2 + 24*β₃*δ₁*δ₃^6*η^3*k₁ - 20*β₃*δ₁*δ₃^5*μ₁*η^3*k₁ + 56*β₃*δ₁*δ₃^5*μ₂*η^3*k₁ - 48*β₃*δ₁*δ₃^4*μ₁*μ₂*η^3*k₁ - 244*β₃*δ₁*δ₃^4*μ₂^2*η^3*k₁ + 196*β₃*δ₁*δ₃^3*μ₁*μ₂^2*η^3*k₁ + 280*β₃*δ₁*δ₃^3*μ₂^3*η^3*k₁ - 210*β₃*δ₁*δ₃^2*μ₁*μ₂^3*η^3*k₁ - 141*β₃*δ₁*δ₃^2*μ₂^4*η^3*k₁ - 2*β₃*δ₁*δ₃*μ₁^2*μ₂^3*η^3*k₁ + 94*β₃*δ₁*δ₃*μ₁*μ₂^4*η^3*k₁ + 26*β₃*δ₁*δ₃*μ₂^5*η^3*k₁ + β₃*δ₁*μ₁^3*μ₂^3*η^3*k₁ + β₃*δ₁*μ₁^2*μ₂^4*η^3*k₁ - 13*β₃*δ₁*μ₁*μ₂^5*η^3*k₁ - 8*δ₁^5*δ₂^3*μ₁*μ₂^2*k₃^4 + 8*δ₁^5*δ₂^3*μ₂^3*k₃^4 + 4*δ₁^5*δ₂^2*δ₃^3*μ₂*k₂*k₃^3 - 12*δ₁^5*δ₂^2*δ₃^2*μ₂^2*k₂*k₃^3 + 12*δ₁^5*δ₂^2*δ₃*μ₂^3*k₂*k₃^3 - 4*δ₁^5*δ₂^2*μ₂^4*k₂*k₃^3 - 4*δ₁^4*δ₂^2*δ₃^3*μ₁*η*k₃^3 + 4*δ₁^4*δ₂^2*δ₃^2*μ₁^2*η*k₃^3 + 16*δ₁^4*δ₂^2*δ₃^2*μ₁*μ₂*η*k₃^3 - 8*δ₁^4*δ₂^2*δ₃^2*μ₂^2*η*k₃^3 + 10*δ₁^4*δ₂^2*δ₃*μ₁^2*μ₂*η*k₃^3 - 58*δ₁^4*δ₂^2*δ₃*μ₁*μ₂^2*η*k₃^3 + 36*δ₁^4*δ₂^2*δ₃*μ₂^3*η*k₃^3 - 92*δ₁^4*δ₂^2*μ₁^3*μ₂*η*k₃^3 + 137*δ₁^4*δ₂^2*μ₁^2*μ₂^2*η*k₃^3 - 47*δ₁^4*δ₂^2*μ₁*μ₂^3*η*k₃^3 + 6*δ₁^4*δ₂^2*μ₂^4*η*k₃^3 - 4*δ₁^4*δ₂*δ₃^2*μ₂^3*η*k₂*k₃^2 - 4*δ₁^4*δ₂*δ₃*μ₁*μ₂^3*η*k₂*k₃^2 + 6*δ₁^4*δ₂*δ₃*μ₂^4*η*k₂*k₃^2 - 10*δ₁^4*δ₂*μ₁*μ₂^4*η*k₂*k₃^2 - 2*δ₁^4*δ₂*μ₂^5*η*k₂*k₃^2 - 16*δ₁^3*δ₂^2*δ₃^3*μ₁^2*η*k₁*k₃^2 + 16*δ₁^3*δ₂^2*δ₃^2*μ₁^2*μ₂*η*k₁*k₃^2 + 24*δ₁^3*δ₂^2*δ₃^2*μ₁*μ₂^2*η*k₁*k₃^2 - 16*δ₁^3*δ₂^2*δ₃*μ₁^2*μ₂^2*η*k₁*k₃^2 - 6*δ₁^3*δ₂^2*δ₃*μ₁*μ₂^3*η*k₁*k₃^2 + 2*δ₁^3*δ₂^2*δ₃*μ₂^4*η*k₁*k₃^2 + 16*δ₁^3*δ₂^2*μ₁^2*μ₂^3*η*k₁*k₃^2 - 10*δ₁^3*δ₂^2*μ₁*μ₂^4*η*k₁*k₃^2 - 2*δ₁^3*δ₂^2*μ₂^5*η*k₁*k₃^2 - 8*δ₁^3*δ₂*δ₃^5*η^2*k₃^2 + 68*δ₁^3*δ₂*δ₃^4*μ₁*η^2*k₃^2 + 28*δ₁^3*δ₂*δ₃^4*μ₂*η^2*k₃^2 - 312*δ₁^3*δ₂*δ₃^3*μ₁^2*η^2*k₃^2 - 40*δ₁^3*δ₂*δ₃^3*μ₁*μ₂*η^2*k₃^2 - 52*δ₁^3*δ₂*δ₃^3*μ₂^2*η^2*k₃^2 + 436*δ₁^3*δ₂*δ₃^2*μ₁^3*η^2*k₃^2 + 384*δ₁^3*δ₂*δ₃^2*μ₁^2*μ₂*η^2*k₃^2 - 146*δ₁^3*δ₂*δ₃^2*μ₁*μ₂^2*η^2*k₃^2 + 36*δ₁^3*δ₂*δ₃^2*μ₂^3*η^2*k₃^2 - 184*δ₁^3*δ₂*δ₃*μ₁^4*η^2*k₃^2 - 570*δ₁^3*δ₂*δ₃*μ₁^3*μ₂*η^2*k₃^2 + 92*δ₁^3*δ₂*δ₃*μ₁^2*μ₂^2*η^2*k₃^2 + 114*δ₁^3*δ₂*δ₃*μ₁*μ₂^3*η^2*k₃^2 + 2*δ₁^3*δ₂*δ₃*μ₂^5*η*k₁*k₂*k₃ - 4*δ₁^3*δ₂*δ₃*μ₂^4*η^2*k₃^2 + 276*δ₁^3*δ₂*μ₁^4*μ₂*η^2*k₃^2 - 49*δ₁^3*δ₂*μ₁^3*μ₂^2*η^2*k₃^2 - 192*δ₁^3*δ₂*μ₁^2*μ₂^3*η^2*k₃^2 + 123*δ₁^3*δ₂*μ₁*μ₂^4*η^2*k₃^2 - 2*δ₁^3*δ₂*μ₂^6*η*k₁*k₂*k₃ - 4*δ₁^3*δ₃^5*μ₂*η^2*k₂*k₃ + 16*δ₁^3*δ₃^4*μ₂^2*η^2*k₂*k₃ - 139*δ₁^3*δ₃^3*μ₂^3*η^2*k₂*k₃ - δ₁^3*δ₃^2*μ₁^2*μ₂^2*η^2*k₂*k₃ + 2*δ₁^3*δ₃^2*μ₁*μ₂^3*η^2*k₂*k₃ + 126*δ₁^3*δ₃^2*μ₂^4*η^2*k₂*k₃ - δ₁^3*δ₃*μ₁^2*μ₂^3*η^2*k₂*k₃ + δ₁^3*δ₃*μ₁*μ₂^4*η^2*k₂*k₃ + 4*δ₁^2*δ₂*δ₃^6*η^2*k₁*k₃ + 4*δ₁^2*δ₂*δ₃^5*μ₂*η^2*k₁*k₃ - 8*δ₁^2*δ₂*δ₃^4*μ₁*μ₂*η^2*k₁*k₃ - 8*δ₁^2*δ₂*δ₃^4*μ₂^2*η^2*k₁*k₃ + 4*δ₁^2*δ₂*δ₃^3*μ₁^3*η^2*k₁*k₃ + 12*δ₁^2*δ₂*δ₃^3*μ₁^2*μ₂*η^2*k₁*k₃ - 73*δ₁^2*δ₂*δ₃^3*μ₁*μ₂^2*η^2*k₁*k₃ - 8*δ₁^2*δ₂*δ₃^2*μ₁^4*η^2*k₁*k₃ - 4*δ₁^2*δ₂*δ₃^2*μ₁^3*μ₂*η^2*k₁*k₃ + 43*δ₁^2*δ₂*δ₃^2*μ₁*μ₂^3*η^2*k₁*k₃ + 16*δ₁^2*δ₂*δ₃*μ₁^4*μ₂*η^2*k₁*k₃ + 61*δ₁^2*δ₂*δ₃*μ₁^3*μ₂^2*η^2*k₁*k₃ - 103*δ₁^2*δ₂*δ₃*μ₁^2*μ₂^3*η^2*k₁*k₃ + 164*δ₁^2*δ₂*δ₃*μ₁*μ₂^4*η^2*k₁*k₃ - 20*δ₁^2*δ₂*μ₁^5*μ₂*η^2*k₁*k₃ + 8*δ₁^2*δ₂*μ₁^4*μ₂^2*η^2*k₁*k₃ + 121*δ₁^2*δ₂*μ₁^3*μ₂^3*η^2*k₁*k₃ - 97*δ₁^2*δ₂*μ₁^2*μ₂^4*η^2*k₁*k₃ - 116*δ₁^2*δ₂*μ₁*μ₂^5*η^2*k₁*k₃ + 4*δ₁^2*δ₃^6*μ₂*η^2*k₁*k₂ + 4*δ₁^2*δ₃^6*η^3*k₃ - 4*δ₁^2*δ₃^5*μ₁*η^3*k₃ + 12*δ₁^2*δ₃^5*μ₂^2*η^2*k₁*k₂ - 20*δ₁^2*δ₃^5*μ₂*η^3*k₃ + 20*δ₁^2*δ₃^4*μ₁*μ₂*η^3*k₃ - 36*δ₁^2*δ₃^4*μ₂^3*η^2*k₁*k₂ + 155*δ₁^2*δ₃^4*μ₂^2*η^3*k₃ + δ₁^2*δ₃^3*μ₁^2*μ₂*η^3*k₃ - 157*δ₁^2*δ₃^3*μ₁*μ₂^2*η^3*k₃ + 34*δ₁^2*δ₃^3*μ₂^4*η^2*k₁*k₂ - 265*δ₁^2*δ₃^3*μ₂^3*η^3*k₃ - δ₁^2*δ₃^2*μ₁^3*μ₂*η^3*k₃ + 2*δ₁^2*δ₃^2*μ₁^2*μ₂^2*η^3*k₃ + 266*δ₁^2*δ₃^2*μ₁*μ₂^3*η^3*k₃ - 13*δ₁^2*δ₃^2*μ₂^5*η^2*k₁*k₂ + 126*δ₁^2*δ₃^2*μ₂^4*η^3*k₃ - δ₁^2*δ₃*μ₁^2*μ₂^4*η^2*k₁*k₂ - 2*δ₁^2*δ₃*μ₁^2*μ₂^3*η^3*k₃ - 125*δ₁^2*δ₃*μ₁*μ₂^4*η^3*k₃ + δ₁^2*μ₁^3*μ₂^3*η^3*k₃ - δ₁^2*μ₁^2*μ₂^4*η^3*k₃ + 23*δ₁*δ₂*δ₃^2*μ₁*μ₂^4*η^2*k₁^2 - 8*δ₁*δ₂*δ₃*μ₁^2*μ₂^4*η^2*k₁^2 - 38*δ₁*δ₂*δ₃*μ₁*μ₂^5*η^2*k₁^2 - 15*δ₁*δ₂*μ₁^3*μ₂^4*η^2*k₁^2 + 23*δ₁*δ₂*μ₁^2*μ₂^5*η^2*k₁^2 + 15*δ₁*δ₂*μ₁*μ₂^6*η^2*k₁^2 - 4*δ₁*δ₃^7*η^3*k₁ + 4*δ₁*δ₃^6*μ₁*η^3*k₁ - 8*δ₁*δ₃^6*μ₂*η^3*k₁ + 8*δ₁*δ₃^5*μ₁*μ₂*η^3*k₁ + 48*δ₁*δ₃^5*μ₂^2*η^3*k₁ - 48*δ₁*δ₃^4*μ₁*μ₂^2*η^3*k₁ - 70*δ₁*δ₃^4*μ₂^3*η^3*k₁ + 70*δ₁*δ₃^3*μ₁*μ₂^3*η^3*k₁ + 47*δ₁*δ₃^3*μ₂^4*η^3*k₁ + δ₁*δ₃^2*μ₁^2*μ₂^3*η^3*k₁ - 47*δ₁*δ₃^2*μ₁*μ₂^4*η^3*k₁ - 13*δ₁*δ₃^2*μ₂^5*η^3*k₁ - δ₁*δ₃*μ₁^3*μ₂^3*η^3*k₁ - δ₁*δ₃*μ₁^2*μ₂^4*η^3*k₁ + 13*δ₁*δ₃*μ₁*μ₂^5*η^3*k₁ + δ₁*μ₁^3*μ₂^4*η^3*k₁
+ 15*β₂^4*δ₁^2*δ₂*μ₁*η^2*k₁^3*k₂ - 9*β₂^4*δ₁^2*μ₁*η^3*k₁^2*k₂ + 13*β₂^4*δ₁*δ₂*μ₁*η^3*k₁^3 - 11*β₂^4*δ₁*μ₁*η^4*k₁^2 - 12*β₂^3*β₃*δ₁^4*δ₂*η*k₁^2*k₂^3 - 3*β₂^3*β₃*δ₁^4*η^2*k₁*k₂^3 - 46*β₂^3*β₃*δ₁^3*δ₂*η^2*k₁^2*k₂^2 + 7*β₂^3*β₃*δ₁^3*η^3*k₁*k₂^2 - 32*β₂^3*β₃*δ₁^2*δ₂^2*η^2*k₁^3*k₂ - 87*β₂^3*β₃*δ₁^2*δ₂*η^3*k₁^2*k₂ + 10*β₂^3*β₃*δ₁^2*η^4*k₁*k₂ - 44*β₂^3*β₃*δ₁*δ₂^2*η^3*k₁^3 - 91*β₂^3*β₃*δ₁*δ₂*η^4*k₁^2 - 6*β₂^3*δ₁^5*μ₁*η*k₁*k₂^4 + 12*β₂^3*δ₁^4*δ₂*δ₃*η*k₁^2*k₂^3 + 3*β₂^3*δ₁^4*δ₃*η^2*k₁*k₂^3 + 12*β₂^3*δ₁^4*μ₁*η^2*k₁*k₂^3 + 46*β₂^3*δ₁^3*δ₂*δ₃*η^2*k₁^2*k₂^2 + 25*β₂^3*δ₁^3*δ₂*μ₁*η^2*k₁^2*k₂^2 - 27*β₂^3*δ₁^3*δ₂*μ₂*η^2*k₁^2*k₂^2 - 7*β₂^3*δ₁^3*δ₃*η^3*k₁*k₂^2 + 27*β₂^3*δ₁^3*μ₁*η^3*k₁*k₂^2 + 32*β₂^3*δ₁^2*δ₂^2*δ₃*η^2*k₁^3*k₂ - 124*β₂^3*δ₁^2*δ₂^2*μ₁*η^2*k₁^3*k₂ + 12*β₂^3*δ₁^2*δ₂^2*μ₂*η^2*k₁^3*k₂ + 87*β₂^3*δ₁^2*δ₂*δ₃*η^3*k₁^2*k₂ - 16*β₂^3*δ₁^2*δ₂*μ₁*η^3*k₁^2*k₂ - 16*β₂^3*δ₁^2*δ₂*μ₂*η^3*k₁^2*k₂ - 10*β₂^3*δ₁^2*δ₃*η^4*k₁*k₂ - 5*β₂^3*δ₁^2*μ₁*η^4*k₁*k₂ + 44*β₂^3*δ₁*δ₂^2*δ₃*η^3*k₁^3 - 156*β₂^3*δ₁*δ₂^2*μ₁*η^3*k₁^3 + 12*β₂^3*δ₁*δ₂^2*μ₂*η^3*k₁^3 + 91*β₂^3*δ₁*δ₂*δ₃*η^4*k₁^2 - 124*β₂^3*δ₁*δ₂*μ₁*η^4*k₁^2 + 11*β₂^3*δ₁*δ₂*μ₂*η^4*k₁^2 + 24*β₂^2*β₃*δ₁^4*δ₂^2*η*k₁^2*k₂^3 + 10*β₂^2*β₃*δ₁^4*δ₂*η^2*k₁*k₂^3 - 4*β₂^2*β₃*δ₁^4*η^3*k₂^3 + 88*β₂^2*β₃*δ₁^3*δ₂^2*η^2*k₁^2*k₂^2 + 3*β₂^2*β₃*δ₁^3*δ₂*η^3*k₁*k₂^2 - 4*β₂^2*β₃*δ₁^3*η^4*k₂^2 + 64*β₂^2*β₃*δ₁^2*δ₂^3*η^2*k₁^3*k₂ + 181*β₂^2*β₃*δ₁^2*δ₂^2*η^3*k₁^2*k₂ + 25*β₂^2*β₃*δ₁^2*δ₂*η^4*k₁*k₂ + 68*β₂^2*β₃*δ₁*δ₂^3*η^3*k₁^3 + 141*β₂^2*β₃*δ₁*δ₂^2*η^4*k₁^2 + 10*β₂^2*δ₁^5*δ₂*μ₁*η*k₁*k₂^4 + 4*β₂^2*δ₁^5*δ₂*μ₂*η*k₁*k₂^4 - 24*β₂^2*δ₁^4*δ₂^2*δ₃*η*k₁^2*k₂^3 - 4*β₂^2*δ₁^4*δ₂^2*μ₂*η*k₁^2*k₂^3 - 10*β₂^2*δ₁^4*δ₂*δ₃*η^2*k₁*k₂^3 - 4*β₂^2*δ₁^4*δ₂*μ₁*η^2*k₁*k₂^3 - β₂^2*δ₁^4*δ₂*μ₂*η^2*k₁*k₂^3 + 4*β₂^2*δ₁^4*δ₃*η^3*k₂^3 - 6*β₂^2*δ₁^4*μ₁*η^3*k₂^3 - 88*β₂^2*δ₁^3*δ₂^2*δ₃*η^2*k₁^2*k₂^2 - 85*β₂^2*δ₁^3*δ₂^2*μ₁*η^2*k₁^2*k₂^2 + 47*β₂^2*δ₁^3*δ₂^2*μ₂*η^2*k₁^2*k₂^2 - 3*β₂^2*δ₁^3*δ₂*δ₃*η^3*k₁*k₂^2 + β₂^2*δ₁^3*δ₂*μ₁*η^3*k₁*k₂^2 - 43*β₂^2*δ₁^3*δ₂*μ₂*η^3*k₁*k₂^2 + 4*β₂^2*δ₁^3*δ₃*η^4*k₂^2 - 8*β₂^2*δ₁^3*μ₁*η^4*k₂^2 - 64*β₂^2*δ₁^2*δ₂^3*δ₃*η^2*k₁^3*k₂ + 202*β₂^2*δ₁^2*δ₂^3*μ₁*η^2*k₁^3*k₂ - 4*β₂^2*δ₁^2*δ₂^3*μ₂*η^2*k₁^3*k₂ - 181*β₂^2*δ₁^2*δ₂^2*δ₃*η^3*k₁^2*k₂ - 50*β₂^2*δ₁^2*δ₂^2*μ₁*η^3*k₁^2*k₂ + 92*β₂^2*δ₁^2*δ₂^2*μ₂*η^3*k₁^2*k₂ - 25*β₂^2*δ₁^2*δ₂*δ₃*η^4*k₁*k₂ + 55*β₂^2*δ₁^2*δ₂*μ₁*η^4*k₁*k₂ - 51*β₂^2*δ₁^2*δ₂*μ₂*η^4*k₁*k₂ - 68*β₂^2*δ₁*δ₂^3*δ₃*η^3*k₁^3 + 262*β₂^2*δ₁*δ₂^3*μ₁*η^3*k₁^3 + 28*β₂^2*δ₁*δ₂^3*μ₂*η^3*k₁^3 - 141*β₂^2*δ₁*δ₂^2*δ₃*η^4*k₁^2 + 174*β₂^2*δ₁*δ₂^2*μ₁*η^4*k₁^2 + 99*β₂^2*δ₁*δ₂^2*μ₂*η^4*k₁^2 - 12*β₂*β₃*δ₁^4*δ₂^3*η*k₁^2*k₂^3 - 11*β₂*β₃*δ₁^4*δ₂^2*η^2*k₁*k₂^3 + 8*β₂*β₃*δ₁^4*δ₂*η^3*k₂^3 - 38*β₂*β₃*δ₁^3*δ₂^3*η^2*k₁^2*k₂^2 - 27*β₂*β₃*δ₁^3*δ₂^2*η^3*k₁*k₂^2 + 8*β₂*β₃*δ₁^3*δ₂*η^4*k₂^2 - 32*β₂*β₃*δ₁^2*δ₂^4*η^2*k₁^3*k₂ - 101*β₂*β₃*δ₁^2*δ₂^3*η^3*k₁^2*k₂ - 80*β₂*β₃*δ₁^2*δ₂^2*η^4*k₁*k₂ - 4*β₂*β₃*δ₁*δ₂^4*η^3*k₁^3 - 9*β₂*β₃*δ₁*δ₂^3*η^4*k₁^2 + 4*β₂*δ₁^6*δ₂^2*μ₂*k₁*k₂^5 - 4*β₂*δ₁^5*δ₂^2*μ₁*η*k₁*k₂^4 - 16*β₂*δ₁^5*δ₂^2*μ₂*η*k₁*k₂^4 + 12*β₂*δ₁^4*δ₂^3*δ₃*η*k₁^2*k₂^3 + 32*β₂*δ₁^4*δ₂^3*μ₂*η*k₁^2*k₂^3 + 11*β₂*δ₁^4*δ₂^2*δ₃*η^2*k₁*k₂^3 - 20*β₂*δ₁^4*δ₂^2*μ₁*η^2*k₁*k₂^3 - 22*β₂*δ₁^4*δ₂^2*μ₂*η^2*k₁*k₂^3 - 8*β₂*δ₁^4*δ₂*δ₃*η^3*k₂^3 + 10*β₂*δ₁^4*δ₂*μ₁*η^3*k₂^3 + 38*β₂*δ₁^3*δ₂^3*δ₃*η^2*k₁^2*k₂^2 + 79*β₂*δ₁^3*δ₂^3*μ₁*η^2*k₁^2*k₂^2 + 35*β₂*δ₁^3*δ₂^3*μ₂*η^2*k₁^2*k₂^2 + 27*β₂*δ₁^3*δ₂^2*δ₃*η^3*k₁*k₂^2 - 59*β₂*δ₁^3*δ₂^2*μ₁*η^3*k₁*k₂^2 + 70*β₂*δ₁^3*δ₂^2*μ₂*η^3*k₁*k₂^2 - 8*β₂*δ₁^3*δ₂*δ₃*η^4*k₂^2 + 12*β₂*δ₁^3*δ₂*μ₁*η^4*k₂^2 + 4*β₂*δ₁^3*δ₂*μ₂*η^4*k₂^2 + 32*β₂*δ₁^2*δ₂^4*δ₃*η^2*k₁^3*k₂ - 92*β₂*δ₁^2*δ₂^4*μ₁*η^2*k₁^3*k₂ - 28*β₂*δ₁^2*δ₂^4*μ₂*η^2*k₁^3*k₂ + 101*β₂*δ₁^2*δ₂^3*δ₃*η^3*k₁^2*k₂ + 152*β₂*δ₁^2*δ₂^3*μ₁*η^3*k₁^2*k₂ - 104*β₂*δ₁^2*δ₂^3*μ₂*η^3*k₁^2*k₂ + 80*β₂*δ₁^2*δ₂^2*δ₃*η^4*k₁*k₂ - 95*β₂*δ₁^2*δ₂^2*μ₁*η^4*k₁*k₂ + 102*β₂*δ₁^2*δ₂^2*μ₂*η^4*k₁*k₂ + 4*β₂*δ₁*δ₂^4*δ₃*η^3*k₁^3 - 108*β₂*δ₁*δ₂^4*μ₁*η^3*k₁^3 - 92*β₂*δ₁*δ₂^4*μ₂*η^3*k₁^3 + 9*β₂*δ₁*δ₂^3*δ₃*η^4*k₁^2 + 68*β₂*δ₁*δ₂^3*μ₁*η^4*k₁^2 - 231*β₂*δ₁*δ₂^3*μ₂*η^4*k₁^2 + 4*β₃*δ₁^4*δ₂^3*η^2*k₁*k₂^3 - 4*β₃*δ₁^4*δ₂^2*η^3*k₂^3 - 4*β₃*δ₁^3*δ₂^4*η^2*k₁^2*k₂^2 + 17*β₃*δ₁^3*δ₂^3*η^3*k₁*k₂^2 - 4*β₃*δ₁^3*δ₂^2*η^4*k₂^2 + 7*β₃*δ₁^2*δ₂^4*η^3*k₁^2*k₂ + 45*β₃*δ₁^2*δ₂^3*η^4*k₁*k₂ - 20*β₃*δ₁*δ₂^5*η^3*k₁^3 - 41*β₃*δ₁*δ₂^4*η^4*k₁^2 - 4*δ₁^5*δ₂^3*μ₂*η*k₁*k₂^4 + 4*δ₁^5*δ₂^2*μ₂*η^2*k₂^4 + 4*δ₁^4*δ₂^4*μ₂*η*k₁^2*k₂^3 - 4*δ₁^4*δ₂^3*δ₃*η^2*k₁*k₂^3 + 12*δ₁^4*δ₂^3*μ₁*η^2*k₁*k₂^3 - 25*δ₁^4*δ₂^3*μ₂*η^2*k₁*k₂^3 + 4*δ₁^4*δ₂^2*δ₃*η^3*k₂^3 - 4*δ₁^4*δ₂^2*μ₁*η^3*k₂^3 + 8*δ₁^4*δ₂^2*μ₂*η^3*k₂^3 + 4*δ₁^3*δ₂^4*δ₃*η^2*k₁^2*k₂^2 - 19*δ₁^3*δ₂^4*μ₁*η^2*k₁^2*k₂^2 + 9*δ₁^3*δ₂^4*μ₂*η^2*k₁^2*k₂^2 - 17*δ₁^3*δ₂^3*δ₃*η^3*k₁*k₂^2 + 31*δ₁^3*δ₂^3*μ₁*η^3*k₁*k₂^2 - 27*δ₁^3*δ₂^3*μ₂*η^3*k₁*k₂^2 + 4*δ₁^3*δ₂^2*δ₃*η^4*k₂^2 - 4*δ₁^3*δ₂^2*μ₁*η^4*k₂^2 - 4*δ₁^3*δ₂^2*μ₂*η^4*k₂^2 - δ₁^2*δ₂^5*μ₁*η^2*k₁^3*k₂ + 20*δ₁^2*δ₂^5*μ₂*η^2*k₁^3*k₂ - 7*δ₁^2*δ₂^4*δ₃*η^3*k₁^2*k₂ - 77*δ₁^2*δ₂^4*μ₁*η^3*k₁^2*k₂ + 28*δ₁^2*δ₂^4*μ₂*η^3*k₁^2*k₂ - 45*δ₁^2*δ₂^3*δ₃*η^4*k₁*k₂ + 45*δ₁^2*δ₂^3*μ₁*η^4*k₁*k₂ - 51*δ₁^2*δ₂^3*μ₂*η^4*k₁*k₂ + 20*δ₁*δ₂^5*δ₃*η^3*k₁^3 - 11*δ₁*δ₂^5*μ₁*η^3*k₁^3 + 52*δ₁*δ₂^5*μ₂*η^3*k₁^3 + 41*δ₁*δ₂^4*δ₃*η^4*k₁^2 - 107*δ₁*δ₂^4*μ₁*η^4*k₁^2 + 121*δ₁*δ₂^4*μ₂*η^4*k₁^2
+ -β₂^4*δ₁^2*δ₂*μ₁*η^2*k₁^3*k₂ - β₂^4*δ₁^2*μ₁*η^3*k₁^2*k₂ - 3*β₂^4*δ₁*δ₂*μ₁*η^3*k₁^3 - 3*β₂^4*δ₁*μ₁*η^4*k₁^2 + β₂^3*β₃*δ₁^4*η^2*k₁*k₂^3 - 2*β₂^3*β₃*δ₁^3*δ₂*η^2*k₁^2*k₂^2 - β₂^3*β₃*δ₁^3*η^3*k₁*k₂^2 - 7*β₂^3*β₃*δ₁^2*δ₂*η^3*k₁^2*k₂ - 2*β₂^3*β₃*δ₁^2*η^4*k₁*k₂ + 4*β₂^3*β₃*δ₁*δ₂^2*η^3*k₁^3 - 3*β₂^3*β₃*δ₁*δ₂*η^4*k₁^2 - 2*β₂^3*δ₁^5*μ₁*η*k₁*k₂^4 - β₂^3*δ₁^4*δ₃*η^2*k₁*k₂^3 + 4*β₂^3*δ₁^4*μ₁*η^2*k₁*k₂^3 + 2*β₂^3*δ₁^3*δ₂*δ₃*η^2*k₁^2*k₂^2 + 5*β₂^3*δ₁^3*δ₂*μ₁*η^2*k₁^2*k₂^2 + 5*β₂^3*δ₁^3*δ₂*μ₂*η^2*k₁^2*k₂^2 + β₂^3*δ₁^3*δ₃*η^3*k₁*k₂^2 + 11*β₂^3*δ₁^3*μ₁*η^3*k₁*k₂^2 - 12*β₂^3*δ₁^2*δ₂^2*μ₁*η^2*k₁^3*k₂ - 4*β₂^3*δ₁^2*δ₂^2*μ₂*η^2*k₁^3*k₂ + 7*β₂^3*δ₁^2*δ₂*δ₃*η^3*k₁^2*k₂ - 16*β₂^3*δ₁^2*δ₂*μ₁*η^3*k₁^2*k₂ + 8*β₂^3*δ₁^2*δ₂*μ₂*η^3*k₁^2*k₂ + 2*β₂^3*δ₁^2*δ₃*η^4*k₁*k₂ - 9*β₂^3*δ₁^2*μ₁*η^4*k₁*k₂ - 4*β₂^3*δ₁*δ₂^2*δ₃*η^3*k₁^3 + 4*β₂^3*δ₁*δ₂^2*μ₁*η^3*k₁^3 - 4*β₂^3*δ₁*δ₂^2*μ₂*η^3*k₁^3 + 3*β₂^3*δ₁*δ₂*δ₃*η^4*k₁^2 + 4*β₂^3*δ₁*δ₂*μ₁*η^4*k₁^2 + 3*β₂^3*δ₁*δ₂*μ₂*η^4*k₁^2 - 2*β₂^2*β₃*δ₁^4*δ₂*η^2*k₁*k₂^3 + 4*β₂^2*β₃*δ₁^3*δ₂^2*η^2*k₁^2*k₂^2 - β₂^2*β₃*δ₁^3*δ₂*η^3*k₁*k₂^2 + 21*β₂^2*β₃*δ₁^2*δ₂^2*η^3*k₁^2*k₂ + 5*β₂^2*β₃*δ₁^2*δ₂*η^4*k₁*k₂ - 12*β₂^2*β₃*δ₁*δ₂^3*η^3*k₁^3 + 5*β₂^2*β₃*δ₁*δ₂^2*η^4*k₁^2 + 4*β₂^2*δ₁^6*δ₂*μ₂*k₁*k₂^5 + 2*β₂^2*δ₁^5*δ₂*μ₁*η*k₁*k₂^4 - 8*β₂^2*δ₁^5*δ₂*μ₂*η*k₁*k₂^4 + 24*β₂^2*δ₁^4*δ₂^2*μ₂*η*k₁^2*k₂^3 + 2*β₂^2*δ₁^4*δ₂*δ₃*η^2*k₁*k₂^3 - 21*β₂^2*δ₁^4*δ₂*μ₂*η^2*k₁*k₂^3 - 2*β₂^2*δ₁^4*μ₁*η^3*k₂^3 - 4*β₂^2*δ₁^3*δ₂^2*δ₃*η^2*k₁^2*k₂^2 - 25*β₂^2*δ₁^3*δ₂^2*μ₁*η^2*k₁^2*k₂^2 + 31*β₂^2*δ₁^3*δ₂^2*μ₂*η^2*k₁^2*k₂^2 + β₂^2*δ₁^3*δ₂*δ₃*η^3*k₁*k₂^2 + β₂^2*δ₁^3*δ₂*μ₁*η^3*k₁*k₂^2 - 7*β₂^2*δ₁^3*δ₂*μ₂*η^3*k₁*k₂^2 - 4*β₂^2*δ₁^3*μ₁*η^4*k₂^2 + 26*β₂^2*δ₁^2*δ₂^3*μ₁*η^2*k₁^3*k₂ + 12*β₂^2*δ₁^2*δ₂^3*μ₂*η^2*k₁^3*k₂ - 21*β₂^2*δ₁^2*δ₂^2*δ₃*η^3*k₁^2*k₂ - 2*β₂^2*δ₁^2*δ₂^2*μ₁*η^3*k₁^2*k₂ + 4*β₂^2*δ₁^2*δ₂^2*μ₂*η^3*k₁^2*k₂ - 5*β₂^2*δ₁^2*δ₂*δ₃*η^4*k₁*k₂ + 19*β₂^2*δ₁^2*δ₂*μ₁*η^4*k₁*k₂ + 5*β₂^2*δ₁^2*δ₂*μ₂*η^4*k₁*k₂ + 12*β₂^2*δ₁*δ₂^3*δ₃*η^3*k₁^3 + 6*β₂^2*δ₁*δ₂^3*μ₁*η^3*k₁^3 + 12*β₂^2*δ₁*δ₂^3*μ₂*η^3*k₁^3 - 5*β₂^2*δ₁*δ₂^2*δ₃*η^4*k₁^2 - 2*β₂^2*δ₁*δ₂^2*μ₁*η^4*k₁^2 - 5*β₂^2*δ₁*δ₂^2*μ₂*η^4*k₁^2 + β₂*β₃*δ₁^4*δ₂^2*η^2*k₁*k₂^3 - 2*β₂*β₃*δ₁^3*δ₂^3*η^2*k₁^2*k₂^2 + 5*β₂*β₃*δ₁^3*δ₂^2*η^3*k₁*k₂^2 - 21*β₂*β₃*δ₁^2*δ₂^3*η^3*k₁^2*k₂ - 4*β₂*β₃*δ₁^2*δ₂^2*η^4*k₁*k₂ + 12*β₂*β₃*δ₁*δ₂^4*η^3*k₁^3 - β₂*β₃*δ₁*δ₂^3*η^4*k₁^2 - 8*β₂*δ₁^5*δ₂^2*μ₂*η*k₁*k₂^4 + 4*β₂*δ₁^5*δ₂*μ₂*η^2*k₂^4 + 8*β₂*δ₁^4*δ₂^3*μ₂*η*k₁^2*k₂^3 - β₂*δ₁^4*δ₂^2*δ₃*η^2*k₁*k₂^3 - 4*β₂*δ₁^4*δ₂^2*μ₁*η^2*k₁*k₂^3 - 30*β₂*δ₁^4*δ₂^2*μ₂*η^2*k₁*k₂^3 + 2*β₂*δ₁^4*δ₂*μ₁*η^3*k₂^3 + 8*β₂*δ₁^4*δ₂*μ₂*η^3*k₂^3 + 2*β₂*δ₁^3*δ₂^3*δ₃*η^2*k₁^2*k₂^2 + 19*β₂*δ₁^3*δ₂^3*μ₁*η^2*k₁^2*k₂^2 + 35*β₂*δ₁^3*δ₂^3*μ₂*η^2*k₁^2*k₂^2 - 5*β₂*δ₁^3*δ₂^2*δ₃*η^3*k₁*k₂^2 - 11*β₂*δ₁^3*δ₂^2*μ₁*η^3*k₁*k₂^2 - 2*β₂*δ₁^3*δ₂^2*μ₂*η^3*k₁*k₂^2 + 4*β₂*δ₁^3*δ₂*μ₁*η^4*k₂^2 + 4*β₂*δ₁^3*δ₂*μ₂*η^4*k₂^2 - 12*β₂*δ₁^2*δ₂^4*μ₁*η^2*k₁^3*k₂ - 12*β₂*δ₁^2*δ₂^4*μ₂*η^2*k₁^3*k₂ + 21*β₂*δ₁^2*δ₂^3*δ₃*η^3*k₁^2*k₂ + 24*β₂*δ₁^2*δ₂^3*μ₁*η^3*k₁^2*k₂ + 4*β₂*δ₁^2*δ₂^2*δ₃*η^4*k₁*k₂ - 11*β₂*δ₁^2*δ₂^2*μ₁*η^4*k₁*k₂ - 10*β₂*δ₁^2*δ₂^2*μ₂*η^4*k₁*k₂ - 12*β₂*δ₁*δ₂^4*δ₃*η^3*k₁^3 - 12*β₂*δ₁*δ₂^4*μ₁*η^3*k₁^3 - 12*β₂*δ₁*δ₂^4*μ₂*η^3*k₁^3 + β₂*δ₁*δ₂^3*δ₃*η^4*k₁^2 + 4*β₂*δ₁*δ₂^3*μ₁*η^4*k₁^2 + β₂*δ₁*δ₂^3*μ₂*η^4*k₁^2 - 3*β₃*δ₁^3*δ₂^3*η^3*k₁*k₂^2 + 7*β₃*δ₁^2*δ₂^4*η^3*k₁^2*k₂ + β₃*δ₁^2*δ₂^3*η^4*k₁*k₂ - 4*β₃*δ₁*δ₂^5*η^3*k₁^3 - β₃*δ₁*δ₂^4*η^4*k₁^2 + 3*δ₁^4*δ₂^3*μ₂*η^2*k₁*k₂^3 + δ₁^3*δ₂^4*μ₁*η^2*k₁^2*k₂^2 - 7*δ₁^3*δ₂^4*μ₂*η^2*k₁^2*k₂^2 + 3*δ₁^3*δ₂^3*δ₃*η^3*k₁*k₂^2 - δ₁^3*δ₂^3*μ₁*η^3*k₁*k₂^2 + 9*δ₁^3*δ₂^3*μ₂*η^3*k₁*k₂^2 - 4*δ₁^3*δ₂^2*μ₂*η^4*k₂^2 - δ₁^2*δ₂^5*μ₁*η^2*k₁^3*k₂ + 4*δ₁^2*δ₂^5*μ₂*η^2*k₁^3*k₂ - 7*δ₁^2*δ₂^4*δ₃*η^3*k₁^2*k₂ - 5*δ₁^2*δ₂^4*μ₁*η^3*k₁^2*k₂ - 12*δ₁^2*δ₂^4*μ₂*η^3*k₁^2*k₂ - δ₁^2*δ₂^3*δ₃*η^4*k₁*k₂ + δ₁^2*δ₂^3*μ₁*η^4*k₁*k₂ + 5*δ₁^2*δ₂^3*μ₂*η^4*k₁*k₂ + 4*δ₁*δ₂^5*δ₃*η^3*k₁^3 + 5*δ₁*δ₂^5*μ₁*η^3*k₁^3 + 4*δ₁*δ₂^5*μ₂*η^3*k₁^3 + δ₁*δ₂^4*δ₃*η^4*k₁^2 - 3*δ₁*δ₂^4*μ₁*η^4*k₁^2 + δ₁*δ₂^4*μ₂*η^4*k₁^2
+ β₂^6*δ₁^4*δ₂*η^2*k₁^2*k₂^3 - β₂^6*δ₁^3*δ₂^2*η^2*k₁^3*k₂^2 + 2*β₂^6*δ₁^3*δ₂*η^3*k₁^2*k₂^2 - 2*β₂^6*δ₁^2*δ₂^2*η^3*k₁^3*k₂ + β₂^6*δ₁^2*δ₂*η^4*k₁^2*k₂ - β₂^6*δ₁*δ₂^2*η^4*k₁^3 + β₂^5*δ₁^7*δ₂*k₁*k₂^6 - 2*β₂^5*δ₁^6*δ₂*η*k₁*k₂^5 + 6*β₂^5*δ₁^5*δ₂^2*η*k₁^2*k₂^4 - 5*β₂^5*δ₁^5*δ₂*η^2*k₁*k₂^4 + 6*β₂^5*δ₁^4*δ₂^2*η^2*k₁^2*k₂^3 + 5*β₂^5*δ₁^3*δ₂^3*η^2*k₁^3*k₂^2 - 6*β₂^5*δ₁^3*δ₂^2*η^3*k₁^2*k₂^2 + 2*β₂^5*δ₁^3*δ₂*η^4*k₁*k₂^2 + 10*β₂^5*δ₁^2*δ₂^3*η^3*k₁^3*k₂ - 7*β₂^5*δ₁^2*δ₂^2*η^4*k₁^2*k₂ + 6*β₂^5*δ₁*δ₂^3*η^4*k₁^3 - 2*β₂^4*δ₁^7*δ₂^2*k₁*k₂^6 + 2*β₂^4*δ₁^6*δ₂^2*η*k₁*k₂^5 + β₂^4*δ₁^6*δ₂*η^2*k₂^5 - 10*β₂^4*δ₁^5*δ₂^3*η*k₁^2*k₂^4 + 2*β₂^4*δ₁^5*δ₂^2*η^2*k₁*k₂^4 + 2*β₂^4*δ₁^5*δ₂*η^3*k₂^4 - 6*β₂^4*δ₁^4*δ₂^3*η^2*k₁^2*k₂^3 - 4*β₂^4*δ₁^4*δ₂^2*η^3*k₁*k₂^3 + β₂^4*δ₁^4*δ₂*η^4*k₂^3 - 10*β₂^4*δ₁^3*δ₂^4*η^2*k₁^3*k₂^2 + 12*β₂^4*δ₁^3*δ₂^3*η^3*k₁^2*k₂^2 - 9*β₂^4*δ₁^3*δ₂^2*η^4*k₁*k₂^2 - 20*β₂^4*δ₁^2*δ₂^4*η^3*k₁^3*k₂ + 20*β₂^4*δ₁^2*δ₂^3*η^4*k₁^2*k₂ - 15*β₂^4*δ₁*δ₂^4*η^4*k₁^3 + β₂^3*δ₁^7*δ₂^3*k₁*k₂^6 + 2*β₂^3*δ₁^6*δ₂^3*η*k₁*k₂^5 - 2*β₂^3*δ₁^6*δ₂^2*η^2*k₂^5 + 2*β₂^3*δ₁^5*δ₂^4*η*k₁^2*k₂^4 + 12*β₂^3*δ₁^5*δ₂^3*η^2*k₁*k₂^4 - 4*β₂^3*δ₁^5*δ₂^2*η^3*k₂^4 - 12*β₂^3*δ₁^4*δ₂^4*η^2*k₁^2*k₂^3 + 12*β₂^3*δ₁^4*δ₂^3*η^3*k₁*k₂^3 - 3*β₂^3*δ₁^4*δ₂^2*η^4*k₂^3 + 10*β₂^3*δ₁^3*δ₂^5*η^2*k₁^3*k₂^2 - 20*β₂^3*δ₁^3*δ₂^4*η^3*k₁^2*k₂^2 + 16*β₂^3*δ₁^3*δ₂^3*η^4*k₁*k₂^2 + 20*β₂^3*δ₁^2*δ₂^5*η^3*k₁^3*k₂ - 30*β₂^3*δ₁^2*δ₂^4*η^4*k₁^2*k₂ + 20*β₂^3*δ₁*δ₂^5*η^4*k₁^3 - 2*β₂^2*δ₁^6*δ₂^4*η*k₁*k₂^5 + β₂^2*δ₁^6*δ₂^3*η^2*k₂^5 + 2*β₂^2*δ₁^5*δ₂^5*η*k₁^2*k₂^4 - 10*β₂^2*δ₁^5*δ₂^4*η^2*k₁*k₂^4 + 2*β₂^2*δ₁^5*δ₂^3*η^3*k₂^4 + 13*β₂^2*δ₁^4*δ₂^5*η^2*k₁^2*k₂^3 - 12*β₂^2*δ₁^4*δ₂^4*η^3*k₁*k₂^3 + 3*β₂^2*δ₁^4*δ₂^3*η^4*k₂^3 - 5*β₂^2*δ₁^3*δ₂^6*η^2*k₁^3*k₂^2 + 18*β₂^2*δ₁^3*δ₂^5*η^3*k₁^2*k₂^2 - 14*β₂^2*δ₁^3*δ₂^4*η^4*k₁*k₂^2 - 10*β₂^2*δ₁^2*δ₂^6*η^3*k₁^3*k₂ + 25*β₂^2*δ₁^2*δ₂^5*η^4*k₁^2*k₂ - 15*β₂^2*δ₁*δ₂^6*η^4*k₁^3 + β₂*δ₁^5*δ₂^5*η^2*k₁*k₂^4 - 2*β₂*δ₁^4*δ₂^6*η^2*k₁^2*k₂^3 + 4*β₂*δ₁^4*δ₂^5*η^3*k₁*k₂^3 - β₂*δ₁^4*δ₂^4*η^4*k₂^3 + β₂*δ₁^3*δ₂^7*η^2*k₁^3*k₂^2 - 6*β₂*δ₁^3*δ₂^6*η^3*k₁^2*k₂^2 + 6*β₂*δ₁^3*δ₂^5*η^4*k₁*k₂^2 + 2*β₂*δ₁^2*δ₂^7*η^3*k₁^3*k₂ - 11*β₂*δ₁^2*δ₂^6*η^4*k₁^2*k₂ + 6*β₂*δ₁*δ₂^7*η^4*k₁^3 - δ₁^3*δ₂^6*η^4*k₁*k₂^2 + 2*δ₁^2*δ₂^7*η^4*k₁^2*k₂ - δ₁*δ₂^8*η^4*k₁^3</code></pre>
+</div>
+</div>
+<p>Every TFPV <span class="math inline">\(\pi^\star\)</span> lies in <span class="math inline">\(\mathcal{V}(G)\)</span>. As <span class="math inline">\(G\)</span> is a relatively large generating set without simple polynomials, characterising general TFPVs is not trivial for this model.</p>
+<p>We can check whether <span class="math inline">\(\langle G \rangle\)</span> contains any monomial, which is the case if and only if</p>
+<p><span class="math display">\[
+  \langle G \rangle : \langle \pi_1 \dots \pi_m \rangle ^\infty = \mathbb{R}[\pi_1, \cdots, \pi_m].
+\]</span></p>
+<p>To do so, we have to consider <span class="math inline">\(\langle G \rangle\)</span> in the ring <span class="math inline">\(\mathbb{R}[\pi_1,\dots,\pi_m]\)</span>.</p>
+<div id="14" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get polynomial ring ℝ[x,π]</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> <span class="fu">parent</span>(β₂)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># construct ℝ[π] and a ring homomorphism</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>S, v <span class="op">=</span> <span class="fu">polynomial_ring</span>(QQ, <span class="st">"_"</span> <span class="op">.*</span> p)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> <span class="fu">hom</span>(S, R, <span class="fu">system_parameters</span>(problem))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>Ring homomorphism
+  from multivariate polynomial ring in 11 variables over QQ
+  to multivariate polynomial ring in 14 variables over QQ
+defined by
+  _β₂ -&gt; β₂
+  _β₃ -&gt; β₃
+  _δ₁ -&gt; δ₁
+  _δ₂ -&gt; δ₂
+  _δ₃ -&gt; δ₃
+  _μ₁ -&gt; μ₁
+  _μ₂ -&gt; μ₂
+  _η -&gt; η
+  _k₁ -&gt; k₁
+  _k₂ -&gt; k₂
+  _k₃ -&gt; k₃</code></pre>
+</div>
+</div>
+<div id="16" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the ideal generated by G in the ring S</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>I <span class="op">=</span> <span class="fu">preimage</span>(h, <span class="fu">ideal</span>(G))</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># compute the saturation I:⟨π₁⋯πₘ⟩^∞</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>I_sat <span class="op">=</span> <span class="fu">saturation</span>(I, <span class="fu">ideal</span>(<span class="fu">prod</span>(v)))</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># check if I_sat = ℝ[π] = ⟨1⟩</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">is_one</span>(I_sat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>false</code></pre>
+</div>
+</div>
+<p>Thus, <span class="math inline">\(G\)</span> does not contain any monomials.</p>
+<p>But we find for instance that <span class="math inline">\(\tilde\pi=(\varepsilon\beta_2, \beta_3,
+\varepsilon\delta_1, \varepsilon\delta_2, \delta_3, \mu_1,
+\varepsilon(\mu_1-\mu_2), \varepsilon\eta)\)</span> is a critical parameter. However, this is just a special case of reduction 21.1 with <span class="math inline">\(\mu_1=\mu_2\)</span>.</p>
+<div id="18" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># critical parameter</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>p̃ <span class="op">=</span> <span class="fu">R</span>.([<span class="fl">0</span>, β₃, <span class="fl">0</span>, <span class="fl">0</span>, δ₃, μ₁, μ₁, <span class="fl">0</span>])</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># check if all g∈G vanish for π = p̃</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">all</span>([<span class="fu">evaluate</span>(g, problem.p_sf, p̃) for g <span class="kw">in</span> G] <span class="op">.==</span> <span class="fl">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>true</code></pre>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
